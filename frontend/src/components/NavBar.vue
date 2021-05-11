@@ -21,7 +21,7 @@
             >
                 <v-list
                         nav
-                        rounded
+
                         dense
                 >
                     <v-list-item-group

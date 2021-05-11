@@ -10,7 +10,7 @@
               v-model="First_name"
               :rules="rules"
               counter="25"
-              hint="Example:Jhon"
+              hint="Example: John"
               label="First name"
           ></v-text-field>
         </v-col>
@@ -24,7 +24,7 @@
               :rules="rules"
               counter
               maxlength="25"
-              hint="Example:Paker"
+              hint="Example: Parker"
               label="Last name"
           ></v-text-field>
         </v-col>
@@ -37,7 +37,7 @@
               v-model="contact"
               :rules="wordsRules"
               counter="10"
-              hint="Example:0412345678"
+              hint="Example: 0412345678"
               label="Contact number"
               :counter-value="v => v.trim().split(' ').length"
           ></v-text-field>
@@ -51,7 +51,7 @@
               v-model="email"
               :rules="wordsRules"
               counter="20"
-              hint="Example:12345@1243.com"
+              hint="Example: user@example.com"
               label="Email"
           >
           </v-text-field>
@@ -68,7 +68,7 @@
           num="12345678"
           name="input-10-1"
           label="Password"
-          hint="Characters between 8 - 20"
+          hint="Type between 8 - 20 characters"
           counter = "20"
           @click:append="show1 = !show1"
           >
@@ -81,11 +81,11 @@
           <v-text-field
               v-model="confirm_password"
               :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              :rules="[(password === Confirm_password) || 'Password must match']"
+              :rules="[(password === confirm_password) || 'Passwords must match']"
               :type="show1 ? 'text' : 'password'"
               name="input-10-1"
-              label="Confirm_password"
-              hint="Characters between 8 - 20"
+              label="Confirm password"
+              hint="Type between 8 - 20 characters"
               counter = "20"
               @click:append="show1 = !show1"
           >
@@ -97,10 +97,10 @@
         >
         <v-select
             v-model="Gender"
-            :items="Gender"
+            :items="Genders"
             label="Gender"
             data-vv-name="Gender"
-            :rules="wordsRules"
+
         ></v-select>
         </v-col>
 
@@ -109,13 +109,13 @@
             sm="12"
         >
           <v-text-field
-              label="Address#"
+              label="Address #1"
               :rules="addressRules"
               hide-details="auto"
               counter
           ></v-text-field>
           <v-text-field
-              label="Address#2(optional)"
+              label="Address #2 (optional)"
               hide-details="auto">
               counter
           </v-text-field>
@@ -201,7 +201,7 @@
 
             <v-card>
               <v-card-title class="green">
-                Congratulation!
+                Congratulations!
               </v-card-title>
               <v-card-text>
                 All done!
@@ -229,23 +229,30 @@ export default {
     data () {
       return {
         show1: false,
-        First_name: 'Example:Jhon',
-        Last_name: 'Example:Paker',
-        contact: 'Example:0412345678',
-        email: 'Example:123456@fhgdh.com',
-        password:'12345678',
-        Gender:[
+        First_name: '',
+        Last_name: '',
+        contact: '',
+        email: '',
+        password:'',
+        confirm_password: '',
+        Gender: '',
+        Genders:[
             'Male',
             'Female',
             'Secret',
         ],
         check:false,
+        Suburb: '',
+        Postcode: '',
+        Year: '',
+        Month: '',
+        Day: '',
 
         rules: [v => v.length <= 25 || 'Max 25 characters'],
-        contactRules:[v => v.length <= 15|| 'No more 15 characters'],
-        wordsRules: [v => v.length <= 20 || 'No more 20 characters'],
-        passwordRules:[v => v.length >= 8 || 'characters >= 8',],
-        addressRules:[v => (v && v.length >= 1) || 'Must be done',],
+        contactRules:[v => v.length <= 15|| 'No more than 15 characters'],
+        wordsRules: [v => v.length <= 20 || 'No more than 20 characters'],
+        passwordRules:[v => v.length >= 8 || 'Must type more than 8 characters',],
+        addressRules:[v => (v && v.length >= 1) || 'Address must not be empty',],
       }
     },
 }
