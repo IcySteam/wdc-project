@@ -224,7 +224,7 @@
 
 <script>
 export default {
-  name: 'RegistrationForm',
+  name: 'SignUpComponent',
   data() {
     return {
       show1: false,

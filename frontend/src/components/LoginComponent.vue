@@ -5,8 +5,9 @@
         <v-layout align-center justify-center>
           <v-flex sm10 xs20 md8>
             <v-card
-              style="height: 100%">
-              <v-toolbar color="#8659">
+              style="height: 100%"
+            >
+              <v-toolbar color="#4D4540" dark>
                 <v-toolbar-title>
                   Login</v-toolbar-title>
               </v-toolbar>
@@ -18,8 +19,8 @@
                   >
                     <v-text-field
                       v-model="Username"
-                      label="User name"
-                      data-vv-name="User name"
+                      label="Username"
+                      data-vv-name="Username"
                       :rules="wordsRules"
                     />
                   </v-col>
@@ -67,7 +68,7 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: 'LoginComponent',
   props: {
     // eslint-disable-next-line vue/require-default-prop
     source: String,
@@ -78,6 +79,10 @@ export default {
     passwordRules: [v => v.length >= 8 || 'Must type more than 8 characters'],
     // eslint-disable-next-line vue/require-default-prop
     wordsRules: [v => v.length <= 20 || 'No more than 20 characters']
-  }
+  },
+  data: () => ({
+    Username: '',
+    Password: ''
+  })
 }
 </script>
