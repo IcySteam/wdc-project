@@ -1,21 +1,21 @@
 <template>
   <v-container>
-    <NavBar/>
-    <registration_from/>
+    <NavBar />
+    <registration_from />
   </v-container>
 
 </template>
 
 <script>
-  import NavBar from '../components/NavBar'
-  import registration_from from '../components/registration_form'
+import NavBar from '../components/NavBar'
+import registration_from from '../components/registration_form'
 
 export default {
-  name: "new_users",
+  name: 'NewUsers',
   components: {
     NavBar,
-    registration_from,
-  },
+    registration_from
+  }
 }
 </script>
 
