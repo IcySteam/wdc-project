@@ -1,29 +1,29 @@
 <template>
-      <v-container>
-      <body>
-          <div class="main">
-              <h1>Venue Information</h1>
-              <div class="users">
-                  <h3>User History</h3>
-                  <div class="view_users"></div>
-              </div>
-              <div class="check_in">
-                  <h3>List Of Check-In History</h3>
-                  <div class="view_check_in"></div>
-              </div>
-              <div class="hotspot">
-                  <h3>Hotspot History</h3>
-                  <div class="view_hotspot"></div>
-              </div>
-          </div>
-      </body>
-      </v-container>
+  <v-container>
+    <body>
+      <div class="main">
+        <h1>Venue Information</h1>
+        <div class="users">
+          <h3>User History</h3>
+          <div class="view_users" />
+        </div>
+        <div class="check_in">
+          <h3>List Of Check-In History</h3>
+          <div class="view_check_in" />
+        </div>
+        <div class="hotspot">
+          <h3>Hotspot History</h3>
+          <div class="view_hotspot" />
+        </div>
+      </div>
+    </body>
+  </v-container>
 </template>
 
 <script>
-  export default {
-    name: "VenueStats"
-  }
+export default {
+  name: 'VenueStats'
+}
 </script>
 
 <style scoped>

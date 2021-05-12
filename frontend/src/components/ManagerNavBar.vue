@@ -1,32 +1,32 @@
 <template>
   <v-container
-      fluid
+    fluid
   >
     <v-app-bar
-        color="#4D4540"
-        dark
-        app
-        hide-on-scroll
+      color="#4D4540"
+      dark
+      app
+      hide-on-scroll
     >
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = true" />
       <v-toolbar-title>NavBar</v-toolbar-title>
     </v-app-bar>
 
     <v-navigation-drawer
-        app
-        v-model="drawer"
-        temporary
-        color="#4D4540"
-        dark
+      v-model="drawer"
+      app
+      temporary
+      color="#4D4540"
+      dark
     >
       <v-list
-          nav
-          rounded
-          dense
+        nav
+        rounded
+        dense
       >
         <v-list-item-group
-            v-model="group"
-            color="teal accent-3"
+          v-model="group"
+          color="teal accent-3"
         >
           <v-list-item>
             <v-list-item-icon>
@@ -47,13 +47,13 @@
 </template>
 
 <script>
-    export default {
-      name: "ManagerNavBar",
-      data: () => ({
-        drawer: false,
-        group: null,
-      }),
-    }
+export default {
+  name: 'ManagerNavBar',
+  data: () => ({
+    drawer: false,
+    group: null
+  })
+}
 </script>
 
 <style scoped>

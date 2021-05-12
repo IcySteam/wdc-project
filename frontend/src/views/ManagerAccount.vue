@@ -1,22 +1,22 @@
 <template>
-    <v-container>
-        <ManagerNavBar />
-        <VenueDetails />
-    </v-container>
+  <v-container>
+    <ManagerNavBar />
+    <VenueDetails />
+  </v-container>
 </template>
 
 <script>
-    import VenueDetails from '../components/VenueDetails'
-    import ManagerNavBar from '../components/ManagerNavBar'
+import VenueDetails from '../components/VenueDetails'
+import ManagerNavBar from '../components/ManagerNavBar'
 
-    export default {
-      name: "ManagerHome",
+export default {
+  name: 'ManagerHome',
 
-    components: {
-        ManagerNavBar,
-        VenueDetails,
-    },
-    }
+  components: {
+    ManagerNavBar,
+    VenueDetails
+  }
+}
 </script>
 
 <style scoped>
