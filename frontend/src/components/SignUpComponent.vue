@@ -1,233 +1,298 @@
 <template>
-  <v-form>
-    <v-container>
-      <v-row>
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="First_name"
-            :rules="rules"
-            counter="25"
-            hint="Example: John"
-            label="First name"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="Last_name"
-            :rules="rules"
-            counter
-            maxlength="25"
-            hint="Example: Parker"
-            label="Last name"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="contact"
-            :rules="wordsRules"
-            counter="10"
-            hint="Example: 0412345678"
-            label="Contact number"
-            :counter-value="v => v.trim().split(' ').length"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="email"
-            :rules="wordsRules"
-            counter="20"
-            hint="Example: user@example.com"
-            label="Email"
-          />
-        </v-col>
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="password"
-            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="passwordRules"
-            :type="show1 ? 'text' : 'password'"
-            num="12345678"
-            name="input-10-1"
-            label="Password"
-            hint="Type between 8 - 20 characters"
-            counter="20"
-            @click:append="show1 = !show1"
-          />
-        </v-col>
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-text-field
-            v-model="confirm_password"
-            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[(password === confirm_password) || 'Passwords must match']"
-            :type="show1 ? 'text' : 'password'"
-            name="input-10-1"
-            label="Confirm password"
-            hint="Type between 8 - 20 characters"
-            counter="20"
-            @click:append="show1 = !show1"
-          />
-        </v-col>
-        <v-col
-          cols="12"
-          sm="6"
-        >
-          <v-select
-            v-model="Gender"
-            :items="Genders"
-            label="Gender"
-            data-vv-name="Gender"
-          />
-        </v-col>
-
-        <v-col
-          cols="24"
-          sm="12"
-        >
-          <v-text-field
-            label="Address #1"
-            :rules="addressRules"
-            hide-details="auto"
-            counter
-          />
-          <v-text-field
-            label="Address #2 (optional)"
-            hide-details="auto"
+  <v-container>
+    <ConsistentMargins>
+      <h1 class="pb-6">
+        Sign Up
+      </h1>
+      <v-form
+        ref="form"
+        v-model="validated"
+        lazy-validation
+      >
+        <v-row>
+          <v-col
+            cols="12"
+            sm="6"
           >
-            counter
-          </v-text-field>
-        </v-col>
+            <v-text-field
+              v-model="First_name"
+              :rules="genericRules"
+              :counter="100"
+              hint="Example: John"
+              label="First name"
+              color="teal accent-3"
+              outlined
+              required
+            />
+          </v-col>
 
-        <v-col
-          cols="6"
-          sm="3"
-        >
-          <v-text-field
-            v-model="Suburb"
-            label="Suburb"
-            data-vv-name="Suburb"
-            :rules="wordsRules"
-          />
-        </v-col>
-
-        <v-col
-          cols="4"
-          sm="2"
-        >
-          <v-text-field
-            v-model="Postcode"
-            label="Postcode"
-            data-vv-name="Postcode"
-            :rules="wordsRules"
-          />
-        </v-col>
-
-        <v-col
-          cols="4"
-          sm="2"
-        >
-          <v-text-field
-            v-model="Year"
-            label="Year"
-            data-vv-name="Year"
-            :rules="wordsRules"
-          />
-        </v-col>
-
-        <v-col
-          cols="4"
-          sm="2"
-        >
-          <v-text-field
-            v-model="Month"
-            label="Month"
-            data-vv-name="Month"
-            :rules="wordsRules"
-          />
-        </v-col>
-
-        <v-col
-          cols="4"
-          sm="2"
-        >
-          <v-text-field
-            v-model="Day"
-            label="Day"
-            data-vv-name="Day"
-            :rules="wordsRules"
-          />
-        </v-col>
-
-        <div
-          class="text-center"
-        >
-          <v-dialog
-            v-model="check"
-            width="500"
+          <v-col
+            cols="12"
+            sm="6"
           >
-            <template
-              v-slot:activator="{ on, attrs}"
+            <v-text-field
+              v-model="Last_name"
+              :rules="genericRules"
+              :counter="100"
+              hint="Example: Parker"
+              label="Last name"
+              color="teal accent-3"
+              outlined
+              required
+            />
+          </v-col>
+
+          <v-col
+            cols="12"
+            sm="6"
+          >
+            <v-text-field
+              v-model="contact"
+              :rules="contactNumberRules"
+              :counter="10"
+              hint="Example: 0412345678"
+              label="Contact number"
+              color="teal accent-3"
+              outlined
+              required
+            />
+          </v-col>
+
+          <v-col
+            cols="12"
+            sm="6"
+          >
+            <v-text-field
+              v-model="email"
+              :rules="emailRules"
+              :counter="100"
+              hint="Example: user@example.com"
+              label="Email"
+              color="teal accent-3"
+              outlined
+              required
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="6"
+          >
+            <v-text-field
+              v-model="password"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :rules="passwordRules"
+              :type="showPassword ? 'text' : 'password'"
+              label="Password"
+              hint="Type between 8 - 100 characters"
+              :counter="100"
+              color="teal accent-3"
+              outlined
+              required
+              @click:append="showPassword = !showPassword"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="6"
+          >
+            <v-text-field
+              v-model="confirm_password"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :rules="[(password === confirm_password) || 'Passwords must match']"
+              :type="showPassword ? 'text' : 'password'"
+              label="Confirm password"
+              hint="Type your password again"
+              :counter="100"
+              color="teal accent-3"
+              outlined
+              required
+              @click:append="showPassword = !showPassword"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="6"
+          >
+            <v-select
+              v-model="Gender"
+              :items="Genders"
+              label="Gender"
+              data-vv-name="Gender"
+              item-color="teal accent-3"
+              color="teal accent-3"
+              outlined
+              required
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="6"
+          >
+            <v-menu
+              ref="picker"
+              v-model="datePickerMenu"
+              :close-on-content-click="false"
+              :return-value.sync="DOB"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
             >
-              <v-btn
-                dark
-                color="grey"
-                v-bind="attrs"
-                v-on="on"
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="DOB"
+                  label="Date of birth"
+                  append-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  outlined
+                  color="teal accent-3"
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker
+                v-model="DOB"
+                color="teal accent-3"
+                no-title
+                scrollable
+                :day-format="date => new Date(date).getDate()"
+                :max="new Date().toISOString().substr(0, 10)"
               >
-                Submit
-              </v-btn>
-            </template>
-
-            <v-card>
-              <v-card-title class="green">
-                Congratulations!
-              </v-card-title>
-              <v-card-text>
-                All done!
-              </v-card-text>
-              <v-card-actions>
+                <v-spacer />
                 <v-btn
-                  color="red"
                   text
-                  @click="check = false"
+                  class="brown"
+                  @click="datePickerMenu = false"
                 >
-                  Close
+                  Cancel
                 </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </div>
-      </v-row>
-    </v-container>
-  </v-form>
+                <v-btn
+                  text
+                  class="brown"
+                  @click="$refs.picker.save(DOB)"
+                >
+                  OK
+                </v-btn>
+              </v-date-picker>
+            </v-menu>
+          </v-col>
+          <v-col
+            cols="24"
+            sm="12"
+          >
+            <v-text-field
+              label="Address #1"
+              :rules="genericRules"
+              hide-details="auto"
+              color="teal accent-3"
+              :counter="100"
+              outlined
+              required
+            />
+            <v-text-field
+              label="Address #2 (optional)"
+              hide-details="auto"
+              color="teal accent-3"
+              outlined
+              counter
+            >
+              counter
+            </v-text-field>
+          </v-col>
+
+          <v-col
+            cols="12"
+            sm="6"
+          >
+            <v-text-field
+              v-model="Suburb"
+              label="Suburb"
+              data-vv-name="Suburb"
+              :rules="genericRules"
+              color="teal accent-3"
+              :counter="100"
+              outlined
+              required
+            />
+          </v-col>
+
+          <v-col
+            cols="12"
+            sm="6"
+          >
+            <v-text-field
+              v-model="Postcode"
+              label="Postcode"
+              data-vv-name="Postcode"
+              :rules="postcodeRules"
+              color="teal accent-3"
+              :counter="4"
+              outlined
+              required
+            />
+          </v-col>
+          <v-col
+            cols="24"
+            sm="12"
+          >
+            <v-dialog
+              v-model="submitPopup"
+              width="500"
+            >
+              <template
+                v-slot:activator="{ on, attrs}"
+              >
+                <v-btn
+                  color="brown"
+                  v-bind="attrs"
+                  class="mt-0 bigButton"
+                  :disabled="!validated"
+                  large
+                  v-on="on"
+                >
+                  Submit
+                </v-btn>
+              </template>
+
+              <v-card class="pb-3">
+                <v-card-title class="brown">
+                  Congratulations!
+                </v-card-title>
+                <v-card-text class="mt-6">
+                  All done!
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    class="brown mt-n2 ml-1"
+                    text
+                    @click="submitPopup = false"
+                  >
+                    Close
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-col>
+
+        </v-row>
+      </v-form>
+      <ConsistentMargins />
+
+    </consistentmargins>
+  </v-container>
 </template>
 
 <script>
+import ConsistentMargins from './UX/ConsistentMargins'
 export default {
   name: 'SignUpComponent',
+  components: {
+    ConsistentMargins
+  },
   data() {
     return {
-      show1: false,
+      validated: false,
+      showPassword: false,
       First_name: '',
       Last_name: '',
       contact: '',
@@ -240,19 +305,37 @@ export default {
         'Female',
         'Secret'
       ],
-      check: false,
+      submitPopup: false,
       Suburb: '',
       Postcode: '',
-      Year: '',
-      Month: '',
-      Day: '',
-
-      rules: [v => v.length <= 25 || 'Max 25 characters'],
-      contactRules: [v => v.length <= 15 || 'No more than 15 characters'],
-      wordsRules: [v => v.length <= 20 || 'No more than 20 characters'],
-      passwordRules: [v => v.length >= 8 || 'Must type more than 8 characters'],
-      addressRules: [v => (v && v.length >= 1) || 'Address must not be empty']
+      DOB: new Date().toISOString().substr(0, 10),
+      datePickerMenu: false,
+      genericRules: [
+        v => !!v || 'Field is required',
+        v => (v && v.length <= 100) || 'Max 100 characters'
+      ],
+      contactNumberRules: [v => /^[0]\d{9}$/.test(v) || 'Enter a valid 10-digit Australian phone number'],
+      emailRules: [v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(v) || 'Enter a valid email address'],
+      passwordRules: [v => (v.length >= 8 && v.length <= 100) || 'Type between 8 - 100 characters'],
+      postcodeRules: [v => /\d{4}/.test(v) || 'Enter a valid 4-digit Australian postcode']
+    }
+  },
+  methods: {
+    validate() {
+      this.$refs.form.validate()
+    },
+    reset() {
+      this.$refs.form.reset()
     }
   }
 }
 </script>
+
+<style scoped>
+  .bigButton {
+    width: 100%;
+    margin-top: 3vh;
+    padding: 5px;
+  }
+
+</style>

@@ -52,7 +52,10 @@ export default {
   name: 'App',
 
   data: () => ({
-    //
+    // darkTheme: {
+    //   background: '#111111',
+    //   color: 'white'
+    // }
   })
 }
 </script>
