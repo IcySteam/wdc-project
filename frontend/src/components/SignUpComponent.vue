@@ -231,12 +231,8 @@
             />
           </v-col>
           <v-col
-            cols="12"
-            sm="6"
-          />
-          <v-col
-            cols="12"
-            sm="6"
+            cols="24"
+            sm="12"
           >
             <v-dialog
               v-model="submitPopup"

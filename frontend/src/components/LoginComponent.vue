@@ -7,7 +7,7 @@
             <v-card
               style="height: 100%"
             >
-              <v-toolbar color="#4D4540" dark>
+              <v-toolbar color="brown" dark>
                 <v-toolbar-title>
                   Login</v-toolbar-title>
               </v-toolbar>
