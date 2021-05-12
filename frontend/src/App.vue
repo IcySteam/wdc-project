@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :style="darkTheme">
 
     <!--      Default topbar removed-->
 
@@ -52,7 +52,10 @@ export default {
   name: 'App',
 
   data: () => ({
-    //
+    darkTheme: {
+      background: '#111111',
+      color: 'white'
+    }
   })
 }
 </script>

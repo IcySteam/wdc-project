@@ -2,8 +2,9 @@
   <v-container
     fluid
   >
+    <!--    System76 brown: #4D4540-->
     <v-app-bar
-      color="#4D4540"
+      color="brown"
       dark
       app
       hide-on-scroll
@@ -16,7 +17,7 @@
       v-model="drawer"
       app
       temporary
-      color="#4D4540"
+      class="brown"
       dark
     >
       <v-list
