@@ -1,20 +1,20 @@
 <template>
-    <v-container>
-        <NavBar />
-        <LoremIpsum />
-    </v-container>
+  <v-container>
+    <NavBar />
+    <LoremIpsum />
+  </v-container>
 </template>
 
 <script>
-    import NavBar from '../components/NavBar'
-    import LoremIpsum from '../components/LoremIpsum'
+import NavBar from '../components/NavBar'
+import LoremIpsum from '../components/LoremIpsum'
 
-    export default {
-    name: 'User',
+export default {
+  name: 'User',
 
-    components: {
-        NavBar,
-        LoremIpsum,
-    },
-    }
+  components: {
+    NavBar,
+    LoremIpsum
+  }
+}
 </script>
