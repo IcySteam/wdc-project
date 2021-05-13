@@ -4,23 +4,23 @@
     <v-simple-table>
       <template v-slot:default>
         <thead>
-        <tr>
-          <th class="text-left">
-            Account Details
-          </th>
-          <th class="text-left">
-            Information
-          </th>
-        </tr>
+          <tr>
+            <th class="text-left">
+              Account Details
+            </th>
+            <th class="text-left">
+              Information
+            </th>
+          </tr>
         </thead>
         <tbody>
-        <tr
+          <tr
             v-for="item in data"
             :key="item.type"
-        >
-          <td>{{ item.type }}: </td>
-          <td>{{ item.info }}</td>
-        </tr>
+          >
+            <td>{{ item.type }}: </td>
+            <td>{{ item.info }}</td>
+          </tr>
         </tbody>
       </template>
     </v-simple-table>
