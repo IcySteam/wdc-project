@@ -299,7 +299,7 @@
               class="m-auto p-auto"
               width="100%"
               plain
-              href="Login"
+              @click="$router.push('Login')"
             >
               Sign In Instead
             </v-btn>
