@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <ConsistentMargins>
+    <ConsistentMP>
       <h1 class="pb-6">
         Sign Up
       </h1>
@@ -15,7 +15,7 @@
             sm="6"
           >
             <v-text-field
-              v-model="First_name"
+              v-model="first_name"
               :rules="genericRules"
               :counter="100"
               hint="Example: John"
@@ -23,6 +23,7 @@
               color="teal accent-3"
               outlined
               required
+              clearable
             />
           </v-col>
 
@@ -31,7 +32,7 @@
             sm="6"
           >
             <v-text-field
-              v-model="Last_name"
+              v-model="last_name"
               :rules="genericRules"
               :counter="100"
               hint="Example: Parker"
@@ -39,6 +40,7 @@
               color="teal accent-3"
               outlined
               required
+              clearable
             />
           </v-col>
 
@@ -47,14 +49,16 @@
             sm="6"
           >
             <v-text-field
-              v-model="contact"
-              :rules="contactNumberRules"
+              v-model="phoneNumber"
+              :rules="phoneNumberRules"
               :counter="10"
               hint="Example: 0412345678"
-              label="Contact number"
+              label="Phone number"
               color="teal accent-3"
               outlined
               required
+              type="number"
+              clearable
             />
           </v-col>
 
@@ -71,6 +75,7 @@
               color="teal accent-3"
               outlined
               required
+              clearable
             />
           </v-col>
           <v-col
@@ -88,6 +93,7 @@
               color="teal accent-3"
               outlined
               required
+              clearable
               @click:append="showPassword = !showPassword"
             />
           </v-col>
@@ -96,9 +102,9 @@
             sm="6"
           >
             <v-text-field
-              v-model="confirm_password"
+              v-model="confirmPassword"
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-              :rules="[(password === confirm_password) || 'Passwords must match']"
+              :rules="[(password === confirmPassword) || 'Passwords must match']"
               :type="showPassword ? 'text' : 'password'"
               label="Confirm password"
               hint="Type your password again"
@@ -106,6 +112,7 @@
               color="teal accent-3"
               outlined
               required
+              clearable
               @click:append="showPassword = !showPassword"
             />
           </v-col>
@@ -114,14 +121,15 @@
             sm="6"
           >
             <v-select
-              v-model="Gender"
-              :items="Genders"
+              v-model="gender"
+              :items="genders"
               label="Gender"
               data-vv-name="Gender"
               item-color="teal accent-3"
               color="teal accent-3"
               outlined
               required
+              :rules="genericRules"
             />
           </v-col>
           <v-col
@@ -132,14 +140,15 @@
               ref="picker"
               v-model="datePickerMenu"
               :close-on-content-click="false"
-              :return-value.sync="DOB"
+              :return-value.sync="dob"
               transition="scale-transition"
               offset-y
               min-width="auto"
+              :rules="genericRules"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="DOB"
+                  v-model="dob"
                   label="Date of birth"
                   append-icon="mdi-calendar"
                   readonly
@@ -150,7 +159,7 @@
                 />
               </template>
               <v-date-picker
-                v-model="DOB"
+                v-model="dob"
                 color="teal accent-3"
                 no-title
                 scrollable
@@ -168,7 +177,7 @@
                 <v-btn
                   text
                   class="brown"
-                  @click="$refs.picker.save(DOB)"
+                  @click="$refs.picker.save(dob)"
                 >
                   OK
                 </v-btn>
@@ -176,7 +185,7 @@
             </v-menu>
           </v-col>
           <v-col
-            cols="24"
+            cols="12"
             sm="12"
           >
             <v-text-field
@@ -187,6 +196,7 @@
               :counter="100"
               outlined
               required
+              clearable
             />
             <v-text-field
               label="Address #2 (optional)"
@@ -194,6 +204,7 @@
               color="teal accent-3"
               outlined
               counter
+              clearable
             >
               counter
             </v-text-field>
@@ -204,7 +215,7 @@
             sm="6"
           >
             <v-text-field
-              v-model="Suburb"
+              v-model="suburb"
               label="Suburb"
               data-vv-name="Suburb"
               :rules="genericRules"
@@ -212,6 +223,7 @@
               :counter="100"
               outlined
               required
+              clearable
             />
           </v-col>
 
@@ -220,7 +232,7 @@
             sm="6"
           >
             <v-text-field
-              v-model="Postcode"
+              v-model="postcode"
               label="Postcode"
               data-vv-name="Postcode"
               :rules="postcodeRules"
@@ -228,23 +240,28 @@
               :counter="4"
               outlined
               required
+              type="number"
+              clearable
             />
           </v-col>
           <v-col
-            cols="24"
+            cols="12"
             sm="12"
           >
             <v-dialog
               v-model="submitPopup"
-              width="500"
+              width="480"
+              max-width="80vw"
+              max-height="50vh"
             >
               <template
-                v-slot:activator="{ on, attrs}"
+                v-slot:activator="{ on, attrs }"
               >
                 <v-btn
                   color="brown"
                   v-bind="attrs"
-                  class="mt-0 bigButton"
+                  class="m-auto p-auto"
+                  width="100%"
                   :disabled="!validated"
                   large
                   v-on="on"
@@ -263,7 +280,7 @@
                 <v-card-actions>
                   <v-spacer />
                   <v-btn
-                    class="brown mt-n2 ml-1"
+                    class="brown mt-n2"
                     text
                     @click="submitPopup = false"
                   >
@@ -276,45 +293,45 @@
 
         </v-row>
       </v-form>
-      <ConsistentMargins />
+      <ConsistentMP />
 
-    </consistentmargins>
+    </ConsistentMP>
   </v-container>
 </template>
 
 <script>
-import ConsistentMargins from './UX/ConsistentMargins'
+import ConsistentMP from './UX/ConsistentMP'
 export default {
   name: 'SignUpComponent',
   components: {
-    ConsistentMargins
+    ConsistentMP
   },
   data() {
     return {
       validated: false,
       showPassword: false,
-      First_name: '',
-      Last_name: '',
-      contact: '',
+      first_name: '',
+      last_name: '',
+      phoneNumber: '',
       email: '',
       password: '',
-      confirm_password: '',
-      Gender: '',
-      Genders: [
+      confirmPassword: '',
+      gender: '',
+      genders: [
         'Male',
         'Female',
         'Secret'
       ],
       submitPopup: false,
-      Suburb: '',
-      Postcode: '',
-      DOB: new Date().toISOString().substr(0, 10),
+      suburb: '',
+      postcode: '',
+      dob: new Date().toISOString().substr(0, 10),
       datePickerMenu: false,
       genericRules: [
         v => !!v || 'Field is required',
         v => (v && v.length <= 100) || 'Max 100 characters'
       ],
-      contactNumberRules: [v => /^[0]\d{9}$/.test(v) || 'Enter a valid 10-digit Australian phone number'],
+      phoneNumberRules: [v => /^[0]\d{9}$/.test(v) || 'Enter a valid 10-digit Australian phone number'],
       emailRules: [v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(v) || 'Enter a valid email address'],
       passwordRules: [v => (v.length >= 8 && v.length <= 100) || 'Type between 8 - 100 characters'],
       postcodeRules: [v => /\d{4}/.test(v) || 'Enter a valid 4-digit Australian postcode']
@@ -332,10 +349,4 @@ export default {
 </script>
 
 <style scoped>
-  .bigButton {
-    width: 100%;
-    margin-top: 3vh;
-    padding: 5px;
-  }
-
 </style>

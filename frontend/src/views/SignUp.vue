@@ -4,19 +4,24 @@
     <v-row>
       <v-col
         cols="12"
-        xl="8"
         lg="8"
-        class="d-none d-sm-none d-md-none d-lg-flex"
+        xl="8"
+        class="d-none d-xs-none d-sm-none d-md-none d-lg-flex d-xl-flex"
+        align-self="center"
       >
         <v-img
-          class="mx-auto white--text align-end"
+          class="m-auto p-auto"
           src="../assets/form_filling.jpg"
-          height="1080px"
-          style="margin-top: 0vh"
+          min-height="80vh"
         />
       </v-col>
 
-      <v-col cols="0" xl="4" lg="4" class="signUpForm">
+      <v-col
+        lg="4"
+        xl="4"
+        class="m-auto p-auto d-flex"
+        align-self="center"
+      >
         <SignUpComponent />
 
       </v-col>
@@ -39,7 +44,4 @@ export default {
 </script>
 
 <style scoped>
-  .signUpForm {
-    padding-top: 0vh;
-  }
 </style>
