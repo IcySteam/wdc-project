@@ -1,24 +1,20 @@
 <template>
   <v-container>
     <NavBar />
-    <VenueStats />
+    <LoremIpsum />
   </v-container>
 </template>
 
 <script>
 import NavBar from '../components/NavBar'
-import VenueStats from '../components/VenueStats'
+import LoremIpsum from '../components/LoremIpsum'
 
 export default {
-  name: 'ManagerHome',
+  name: 'UserHome',
 
   components: {
     NavBar,
-    VenueStats
+    LoremIpsum
   }
 }
 </script>
-
-<style scoped>
-
-</style>

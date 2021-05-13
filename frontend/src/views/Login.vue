@@ -1,24 +1,21 @@
 <template>
   <v-container>
     <NavBar />
-    <VenueStats />
+    <LoginComponent />
   </v-container>
+
 </template>
 
 <script>
 import NavBar from '../components/NavBar'
-import VenueStats from '../components/VenueStats'
+import LoginComponent from '../components/LoginComponent'
 
 export default {
-  name: 'ManagerHome',
-
+  name: 'Login',
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     NavBar,
-    VenueStats
+    LoginComponent
   }
 }
 </script>
-
-<style scoped>
-
-</style>
