@@ -2,18 +2,18 @@
   <v-container>
     <body>
       <div class="main">
-        <h1>Venue Information</h1>
-        <div class="users">
-          <h3>User History</h3>
-          <div class="view_users" />
+        <h1>{{ venueName }}</h1>
+        <div class="hotspot">
+          <h3>Any Visitor With Hotspot History</h3>
+          <div class="view_hotspot" />
         </div>
         <div class="check_in">
-          <h3>List Of Check-In History</h3>
+          <h3>List Of Check-Ins (Most Recent First)</h3>
           <div class="view_check_in" />
         </div>
-        <div class="hotspot">
-          <h3>Hotspot History</h3>
-          <div class="view_hotspot" />
+        <div class="users">
+          <h3>All Visitors Check-In History</h3>
+          <div class="view_users" />
         </div>
       </div>
     </body>
@@ -22,7 +22,10 @@
 
 <script>
 export default {
-  name: 'VenueStats'
+  name: 'VenueStats',
+  data: () => ({
+    venueName: '@Venue Name'
+  })
 }
 </script>
 
@@ -37,7 +40,7 @@ export default {
   }
 
   .check_in h3 {
-    padding-left: 190px;
+    padding-left: 140px;
     padding-bottom: 5px;
   }
 
@@ -48,35 +51,35 @@ export default {
     border: 3px solid black;
   }
 
-  .hotspot {
+  .users {
     padding-top: 50px;
   }
 
-  .hotspot h3 {
-    padding-left: 230px;
+  .users h3 {
+    padding-left: 180px;
     padding-bottom: 5px;
   }
 
-  .view_hotspot {
+  .view_users {
     height: 350px;
     width: 600px;
     padding: 5px;
     border: 3px solid black;
   }
 
-  .users {
+  .hotspot {
     float: right;
     padding-right: 60px;
-    padding-top: 130px;
+    padding-top: 180px;
   }
 
-  .users h3 {
+  .hotspot h3 {
     text-align: center;
     padding-bottom: 5px;
   }
 
-  .view_users {
-    height: 500px;
+  .view_hotspot {
+    height: 400px;
     width:400px;
     padding: 5px;
     border: 3px solid black;
@@ -84,17 +87,17 @@ export default {
 }
 
 @media only screen and (max-width: 500px) {
-  .users {
+  .hotspot {
     padding-top: 40px;
   }
 
-  .users h3 {
-    padding-left: 120px;
+  .hotspot h3 {
+    padding-left: 40px;
     padding-bottom: 5px;
   }
 
-  .view_users {
-    height: 500px;
+  .view_hotspot {
+    height: 300px;
     width: 350px;
     padding: 5px;
     border: 3px solid black;
@@ -105,7 +108,7 @@ export default {
   }
 
   .check_in h3 {
-    padding-left: 75px;
+    padding-left: 20px;
     padding-bottom: 5px;
   }
 
@@ -116,16 +119,16 @@ export default {
     border: 3px solid black;
   }
 
-  .hotspot {
+  .users {
     padding-top: 40px;
   }
 
-  .hotspot h3 {
-    padding-left: 110px;
+  .users h3 {
+    padding-left: 60px;
     padding-bottom: 5px;
   }
 
-  .view_hotspot {
+  .view_users {
     height: 500px;
     width: 350px;
     padding: 5px;
