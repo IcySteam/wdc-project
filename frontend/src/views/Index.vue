@@ -10,7 +10,7 @@ import NavBar from '../components/NavBar'
 import LoremIpsum from '../components/LoremIpsum'
 
 export default {
-  name: 'User',
+  name: 'Index',
 
   components: {
     NavBar,
