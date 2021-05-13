@@ -1,88 +1,185 @@
 <template>
-  <v-app id="Login">
-    <v-content>
-      <v-container>
-        <v-layout align-center justify-center>
-          <v-flex sm10 xs20 md8>
-            <v-card
-              style="height: 100%"
+  <v-container>
+    <ConsistentMP>
+      <h1 class="pb-6">
+        Sign In
+      </h1>
+      <v-form
+        ref="form"
+        v-model="validated"
+        lazy-validation
+      >
+        <v-row>
+          <v-col
+            cols="12"
+            sm="12"
+          >
+            <v-text-field
+              v-model="login"
+              :rules="loginRules"
+              hint="Enter your email or phone number"
+              label="Login"
+              color="teal accent-3"
+              outlined
+              required
+              clearable
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="10"
+          >
+            <v-text-field
+              v-model="password"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :rules="passwordRules"
+              :type="showPassword ? 'text' : 'password'"
+              label="Password"
+              hint="Type between 8 - 100 characters"
+              :counter="100"
+              color="teal accent-3"
+              outlined
+              required
+              clearable
+              @click:append="showPassword = !showPassword"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="2"
+          >
+            <v-btn
+              color="brown"
+              class="m-auto p-auto"
+              width="100%"
+              height="65%"
+              min-height="2em"
+              plain
             >
-              <v-toolbar color="brown" dark>
-                <v-toolbar-title>
-                  Login</v-toolbar-title>
-              </v-toolbar>
-              <v-card-text>
-                <v-form>
-                  <v-col
-                    cols="24"
-                    sm="12"
-                  >
-                    <v-text-field
-                      v-model="Username"
-                      label="Username"
-                      data-vv-name="Username"
-                      :rules="wordsRules"
-                    />
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                  >
-                    <v-text-field
-                      v-model="Password"
-                      :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                      :rules="passwordRules"
-                      :type="show2 ? 'text' : 'password'"
-                      name="input-10-1"
-                      label="Password"
-                      hint="Type between 8 - 20 characters"
-                      counter="20"
-                      @click:append="show2 = !show2"
-                    />
-                  </v-col>
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
+              {{ recoverButtonText() }}
+            </v-btn>
+          </v-col>
+          <v-col
+            cols="12"
+            sm="12"
+          >
+            <v-checkbox
+              v-model="rememberMe"
+              label="Remember Me"
+              color="teal accent-3"
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="12"
+          >
+            <v-dialog
+              v-model="submitPopup"
+              width="480"
+              max-width="80vw"
+              max-height="50vh"
+            >
+              <template
+                v-slot:activator="{ on, attrs }"
+              >
                 <v-btn
-                  color="blue"
-                  text
-                  @click="check = false"
+                  color="brown"
+                  v-bind="attrs"
+                  class="m-auto p-auto"
+                  width="100%"
+                  :disabled="!validated"
+                  large
+                  v-on="on"
                 >
-                  Log in
+                  Sign In
                 </v-btn>
-                <v-btn
-                  color="blue"
-                  text
-                  @click="check = false"
-                >
-                  sign up
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
-  </v-app>
+              </template>
+
+              <v-card class="pb-3">
+                <v-card-title class="brown">
+                  Congratulations!
+                </v-card-title>
+                <v-card-text class="mt-6">
+                  All done!
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    class="brown mt-n2"
+                    text
+                    @click="submitPopup = false"
+                  >
+                    Close
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-col>
+        </v-row>
+      </v-form>
+      <ConsistentMP />
+
+    </ConsistentMP>
+  </v-container>
 </template>
 
 <script>
+import ConsistentMP from './UX/ConsistentMP'
 export default {
   name: 'LoginComponent',
-  props: {
-    // eslint-disable-next-line vue/require-default-prop
-    source: String,
-    // eslint-disable-next-line vue/require-prop-type-constructor,vue/require-default-prop
-    show2: false,
-
-    // eslint-disable-next-line vue/require-default-prop
-    passwordRules: [v => v.length >= 8 || 'Must type more than 8 characters'],
-    // eslint-disable-next-line vue/require-default-prop
-    wordsRules: [v => v.length <= 20 || 'No more than 20 characters']
+  components: {
+    ConsistentMP
   },
-  data: () => ({
-    Username: '',
-    Password: ''
-  })
+  data() {
+    return {
+      validated: false,
+      showPassword: false,
+      login: '',
+      password: '',
+      submitPopup: false,
+      genericRules: [
+        v => !!v || 'Field is required',
+        v => (v && v.length <= 100) || 'Max 100 characters'
+      ],
+      loginRules: [
+        v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(v) | /^[0]\d{9}$/.test(v) || 'Enter a valid email address or phone number'
+      ],
+      passwordRules: [v => (v.length >= 8 && v.length <= 100) || 'Type between 8 - 100 characters'],
+      window: {
+        width: 0,
+        height: 0
+      },
+      rememberMe: false
+    }
+  },
+  created() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  },
+  methods: {
+    validate() {
+      this.$refs.form.validate()
+    },
+    reset() {
+      this.$refs.form.reset()
+    },
+    recoverButtonText() {
+      if (this.window.width < 600) {
+        return 'Recover Password'
+      } else {
+        return 'Recover'
+      }
+    },
+    handleResize() {
+      this.window.width = window.innerWidth
+      this.window.height = window.innerHeight
+    }
+  }
 }
 </script>
+
+<style scoped>
+</style>

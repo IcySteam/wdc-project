@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'ConsistentMargins',
+  name: 'ConsistentMP',
   data() {
     // Padding and margins
     // https://vuetifyjs.com/en/styles/spacing/#how-it-works
