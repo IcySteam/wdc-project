@@ -3,16 +3,6 @@
     <h1>Account Details</h1>
     <v-simple-table>
       <template v-slot:default>
-        <thead>
-          <tr>
-            <th class="text-left">
-              Account Details
-            </th>
-            <th class="text-left">
-              Information
-            </th>
-          </tr>
-        </thead>
         <tbody>
           <tr
             v-for="item in data"
@@ -24,6 +14,14 @@
         </tbody>
       </template>
     </v-simple-table>
+    <div class="button">
+      <v-btn
+        color="white"
+        elevation="1"
+        outlined
+        small
+      >Edit Details</v-btn>
+    </div>
   </v-container>
 
 </template>
@@ -48,6 +46,10 @@ export default {
 <style scoped>
 h1 {
   padding-bottom: 20px;
+}
+
+.button {
+  padding-top: 15px;
 }
 
 </style>
