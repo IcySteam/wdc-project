@@ -88,7 +88,7 @@
               :rules="passwordRules"
               :type="showPassword ? 'text' : 'password'"
               label="Password"
-              hint="Type between 8 - 100 characters"
+              hint="Type your password"
               :counter="100"
               color="teal accent-3"
               outlined
@@ -290,7 +290,20 @@
               </v-card>
             </v-dialog>
           </v-col>
-
+          <v-col
+            cols="12"
+            sm="12"
+          >
+            <v-btn
+              color="brown"
+              class="m-auto p-auto"
+              width="100%"
+              plain
+              href="Login"
+            >
+              Sign In Instead
+            </v-btn>
+          </v-col>
         </v-row>
       </v-form>
       <ConsistentMP />
@@ -333,7 +346,7 @@ export default {
       ],
       phoneNumberRules: [v => /^[0]\d{9}$/.test(v) || 'Enter a valid 10-digit Australian phone number'],
       emailRules: [v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(v) || 'Enter a valid email address'],
-      passwordRules: [v => (v.length >= 8 && v.length <= 100) || 'Type between 8 - 100 characters'],
+      passwordRules: [v => (v.length >= 8 && v.length <= 100) || 'Type between 8 to 100 characters'],
       postcodeRules: [v => /\d{4}/.test(v) || 'Enter a valid 4-digit Australian postcode']
     }
   },
