@@ -68,6 +68,7 @@ const routes = [
     name: 'AdminAdministration',
     component: () => import(/* webpackChunkName: "about" */ '../views/AdminAdministration.vue')
   }
+
 ]
 
 const router = new VueRouter({
