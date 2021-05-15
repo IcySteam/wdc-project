@@ -4,7 +4,6 @@
     padless
   >
     <v-card
-      flat
       tile
       class="brown darken-4 white--text text-center"
     >
