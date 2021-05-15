@@ -15,7 +15,7 @@
         dark
         color="teal accent-3"
       >
-        <v-tab to="/?goto=cras" @click="goto('cras')">
+        <v-tab to="/?to=cras" @click="goto('cras')">
           Cras
         </v-tab>
         <v-tab to="/">
