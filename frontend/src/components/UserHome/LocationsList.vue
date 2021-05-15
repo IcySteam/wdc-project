@@ -4,7 +4,7 @@
     class="mx-auto"
   >
     <v-toolbar
-      color="#4D4540"
+      color="brown"
       dark
     >
       <!--      <v-app-bar-nav-icon />-->
@@ -52,6 +52,7 @@
 
 <script>
 export default {
+  name: 'LocationsList',
   data() {
     return {
       items: [

@@ -28,6 +28,6 @@
 
 <script>
 export default {
-  name: 'Fakemap'
+  name: 'FakeMap'
 }
 </script>
