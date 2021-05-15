@@ -10,7 +10,25 @@
       hide-on-scroll
     >
       <v-app-bar-nav-icon @click="drawer = true" />
-      <v-toolbar-title>NavBar</v-toolbar-title>
+      <v-tabs
+        fixed-tabs
+        dark
+        color="teal accent-3"
+      >
+        <v-tab to="/?goto=cras" @click="goto('cras')">
+          Cras
+        </v-tab>
+        <v-tab to="/">
+          PLACEHOLDER 2
+        </v-tab>
+        <v-tab to="/">
+          PLACEHOLDER 3
+        </v-tab>
+        <v-tab to="/">
+          PLACEHOLDER 4
+        </v-tab>
+      </v-tabs>
+
       <v-spacer />
       <div class="text-center">
         <v-menu offset-y>
@@ -35,6 +53,7 @@
           </v-list>
         </v-menu>
       </div>
+
     </v-app-bar>
 
     <v-navigation-drawer
@@ -151,6 +170,11 @@ export default {
           }
         ]
       }
+    },
+    goto(id) {
+      this.$nextTick(() => {
+        this.$vuetify.goTo(document.getElementById(id).offsetTop + 100)
+      })
     }
   }
 }
