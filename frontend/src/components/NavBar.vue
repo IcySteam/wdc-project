@@ -4,24 +4,53 @@
   >
     <!--    System76 brown: #4D4540-->
     <v-app-bar
-      color="brown"
+      color="brown darken-4"
       dark
       app
-      hide-on-scroll
+      shrink-on-scroll
+      fade-img-on-scroll
+      prominent
+      src="https://picsum.photos/1920/1080?random"
     >
+      <template v-slot:img="{ props }">
+        <v-img
+          v-bind="props"
+          gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)"
+        />
+      </template>
       <v-app-bar-nav-icon @click="drawer = true" />
-      <v-toolbar-title>NavBar</v-toolbar-title>
+      <v-col cols="3">
+        <v-hover
+          v-slot="{ hover }"
+        >
+          <v-card
+            :elevation="hover ? 0:0"
+            max-width="150px"
+            class="mt-n4 p-auto"
+            :class="smallWidth()? 'px-0' : 'px-10'"
+            color="transparent"
+            @click="$router.push('/')"
+          >
+            <v-img
+              class="m-auto p-auto"
+              width="64px"
+              src="../assets/letter-u-lock-logo.png"
+              contain
+            />
+          </v-card>
+        </v-hover>
+      </v-col>
       <v-spacer />
       <div class="text-center">
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              color="teal accent-3"
+              icon
               dark
               v-bind="attrs"
               v-on="on"
             >
-              Usermode
+              <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
           <v-list>
@@ -35,13 +64,32 @@
           </v-list>
         </v-menu>
       </div>
+      <template v-slot:extension>
+        <v-tabs
+          dark
+          fixed-tabs
+          color="teal accent-3"
+        >
+          <v-tabs-slider />
+          <v-tab to="/?to=cras" @click="goto('cras')">
+            Cras
+          </v-tab>
+          <v-tab to="/">
+            II
+          </v-tab>
+          <v-tab to="/">
+            III
+          </v-tab>
+        </v-tabs>
+      </template>
+
     </v-app-bar>
 
     <v-navigation-drawer
       v-model="drawer"
       app
       temporary
-      class="brown"
+      class="brown darken-4"
       dark
     >
       <v-list
@@ -82,6 +130,7 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
+    <v-card />
   </v-container>
 </template>
 
@@ -102,8 +151,19 @@ export default {
       {
         'title': 'Admin'
       }
-    ]
+    ],
+    window: {
+      width: 0,
+      height: 0
+    }
   }),
+  created() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  },
   methods: {
     getMenuOptions() {
       if (this.usermode === 'User') {
@@ -150,6 +210,22 @@ export default {
             'icon': 'mdi-account-key'
           }
         ]
+      }
+    },
+    goto(id) {
+      this.$nextTick(() => {
+        this.$vuetify.goTo(document.getElementById(id).offsetTop + 100)
+      })
+    },
+    handleResize() {
+      this.window.width = window.innerWidth
+      this.window.height = window.innerHeight
+    },
+    smallWidth() {
+      if (this.window.width < 600) {
+        return true
+      } else {
+        return false
       }
     }
   }

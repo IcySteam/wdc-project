@@ -4,7 +4,7 @@
     class="mx-auto"
   >
     <v-toolbar
-      color="brown"
+      color="brown darken-4"
       dark
     >
       <!--      <v-app-bar-nav-icon />-->

@@ -169,14 +169,14 @@
                 <v-spacer />
                 <v-btn
                   text
-                  class="brown"
+                  class="brown darken-4"
                   @click="datePickerMenu = false"
                 >
                   Cancel
                 </v-btn>
                 <v-btn
                   text
-                  class="brown"
+                  class="brown darken-4"
                   @click="$refs.picker.save(dob)"
                 >
                   OK
@@ -258,7 +258,7 @@
                 v-slot:activator="{ on, attrs }"
               >
                 <v-btn
-                  color="brown"
+                  color="brown darken-4"
                   v-bind="attrs"
                   class="m-auto p-auto"
                   width="100%"
@@ -271,7 +271,7 @@
               </template>
 
               <v-card class="pb-3">
-                <v-card-title class="brown">
+                <v-card-title class="brown darken-4">
                   Congratulations!
                 </v-card-title>
                 <v-card-text class="mt-6">
@@ -280,7 +280,7 @@
                 <v-card-actions>
                   <v-spacer />
                   <v-btn
-                    class="brown mt-n2"
+                    class="brown darken-4 mt-n2"
                     text
                     @click="submitPopup = false"
                   >
@@ -295,7 +295,7 @@
             sm="12"
           >
             <v-btn
-              color="brown"
+              color="brown darken-4"
               class="m-auto p-auto"
               width="100%"
               plain

@@ -15,6 +15,7 @@
         <Timeline />
       </v-card>
     </v-row>
+    <Footer />
   </v-container>
 </template>
 
@@ -23,11 +24,13 @@ import NavBar from '../components/NavBar'
 import Timeline from '../components/UserHome/Timeline'
 import FakeMap from '../components/UserHome/FakeMap'
 import LocationsList from '../components/UserHome/LocationsList'
+import Footer from '../components/Footer'
 
 export default {
   name: 'UserHome',
 
   components: {
+    Footer,
     NavBar,
     Timeline,
     FakeMap,

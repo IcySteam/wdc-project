@@ -49,7 +49,7 @@
             sm="2"
           >
             <v-btn
-              color="brown"
+              color="brown darken-4"
               class="m-auto p-auto"
               width="100%"
               height="65%"
@@ -83,7 +83,7 @@
                 v-slot:activator="{ on, attrs }"
               >
                 <v-btn
-                  color="brown"
+                  color="brown darken-4"
                   v-bind="attrs"
                   class="m-auto p-auto"
                   width="100%"
@@ -96,7 +96,7 @@
               </template>
 
               <v-card class="pb-3">
-                <v-card-title class="brown">
+                <v-card-title class="brown darken-4">
                   Congratulations!
                 </v-card-title>
                 <v-card-text class="mt-6">
@@ -105,7 +105,7 @@
                 <v-card-actions>
                   <v-spacer />
                   <v-btn
-                    class="brown mt-n2"
+                    class="brown darken-4 mt-n2"
                     text
                     @click="submitPopup = false"
                   >
@@ -120,7 +120,7 @@
             sm="12"
           >
             <v-btn
-              color="brown"
+              color="brown darken-4"
               class="m-auto p-auto"
               width="100%"
               plain
@@ -158,7 +158,7 @@ export default {
       loginRules: [
         v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(v) | /^[0]\d{9}$/.test(v) || 'Enter a valid email address or phone number'
       ],
-      passwordRules: [v => (v.length >= 8 && v.length <= 100) || 'Type between 8 to 100 characters'],
+      passwordRules: [v => (v.length >= 8 && v.length <= 100) || 'Enter a valid password'],
       window: {
         width: 0,
         height: 0
