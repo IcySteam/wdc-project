@@ -7,7 +7,7 @@
       color="brown darken-4"
       dark
       app
-      shrink-on-scroll
+      hide-on-scroll
       fade-img-on-scroll
       prominent
       src="https://picsum.photos/1920/1080?random"
