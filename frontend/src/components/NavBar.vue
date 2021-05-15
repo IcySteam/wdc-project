@@ -10,24 +10,60 @@
       hide-on-scroll
     >
       <v-app-bar-nav-icon @click="drawer = true" />
+      <v-col cols="3">
+        <v-hover
+          v-slot="{ hover }"
+        >
+          <v-card
+            :elevation="hover ? 12:2"
+            max-width="150px"
+            class="m-auto p-auto"
+            :class="smallWidth()? 'px-0' : 'px-10'"
+            color="brown"
+            @click="$router.push('/')"
+          >
+            <v-img
+              class="m-auto p-auto"
+              width="64px"
+              src="../assets/letter-u-lock-logo.png"
+              contain
+            />
+          </v-card>
+        </v-hover>
+      </v-col>
       <v-tabs
-        fixed-tabs
         dark
+        fixed-tabs
         color="teal accent-3"
+        show-arrows
       >
+        <v-tabs-slider />
         <v-tab to="/?to=cras" @click="goto('cras')">
           Cras
         </v-tab>
         <v-tab to="/">
-          PLACEHOLDER 2
+          II
         </v-tab>
         <v-tab to="/">
-          PLACEHOLDER 3
-        </v-tab>
-        <v-tab to="/">
-          PLACEHOLDER 4
+          III
         </v-tab>
       </v-tabs>
+
+      <!--      <v-tabs-->
+      <!--        dark-->
+      <!--        background-color="teal darken-3"-->
+      <!--        fixed-tabs-->
+      <!--        show-arrows-->
+      <!--      >-->
+      <!--        <v-tabs-slider color="teal lighten-3" />-->
+      <!--        <v-tab-->
+      <!--          v-for="i in 30"-->
+      <!--          :key="i"-->
+      <!--          :href="'#tab-' + i"-->
+      <!--        >-->
+      <!--          Item {{ i }}-->
+      <!--        </v-tab>-->
+      <!--      </v-tabs>-->
 
       <v-spacer />
       <div class="text-center">
@@ -101,6 +137,7 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
+    <v-card />
   </v-container>
 </template>
 
@@ -121,8 +158,19 @@ export default {
       {
         'title': 'Admin'
       }
-    ]
+    ],
+    window: {
+      width: 0,
+      height: 0
+    }
   }),
+  created() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  },
   methods: {
     getMenuOptions() {
       if (this.usermode === 'User') {
@@ -175,6 +223,17 @@ export default {
       this.$nextTick(() => {
         this.$vuetify.goTo(document.getElementById(id).offsetTop + 100)
       })
+    },
+    handleResize() {
+      this.window.width = window.innerWidth
+      this.window.height = window.innerHeight
+    },
+    smallWidth() {
+      if (this.window.width < 600) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 }

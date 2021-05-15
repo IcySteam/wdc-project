@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <ConsistentMP>
-      <h1>Lorem Ipsum</h1>
+      <h1>{{ getLoremIpsum }}</h1>
       <h3>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</h3>
       <h5>"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</h5>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eleifend eget ante non dictum. In sagittis nisl sed posuere ullamcorper. Proin finibus porttitor neque nec rutrum. Nulla et iaculis leo. Sed blandit at sapien a hendrerit. Integer porttitor purus a ex condimentum, in rhoncus quam consectetur. Duis lobortis ac odio ac sodales. Morbi vestibulum, eros id commodo ultrices, lorem elit sodales urna, tempus blandit justo nisl id orci. Donec quis eros diam. Duis at ligula finibus, tincidunt ligula sit amet, mollis dolor. Maecenas lobortis non elit at ultricies. Curabitur convallis lectus vitae tellus rhoncus, ac lobortis metus condimentum. Maecenas interdum luctus consectetur. Nunc luctus, velit quis placerat congue, augue sem pellentesque libero, vel condimentum metus nulla sed nulla. Duis eget lacinia ante. Cras blandit interdum eros non tempor.</p>
@@ -21,7 +21,12 @@
 import ConsistentMP from './UX/ConsistentMP'
 export default {
   name: 'LoremIpsum',
-  components: { ConsistentMP }
+  components: { ConsistentMP },
+  computed: {
+    getLoremIpsum() {
+      return this.$store.getters.getLoremIpsum
+    }
+  }
 }
 </script>
 

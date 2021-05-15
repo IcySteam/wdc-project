@@ -158,7 +158,7 @@ export default {
       loginRules: [
         v => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(v) | /^[0]\d{9}$/.test(v) || 'Enter a valid email address or phone number'
       ],
-      passwordRules: [v => (v.length >= 8 && v.length <= 100) || 'Type between 8 to 100 characters'],
+      passwordRules: [v => (v.length >= 8 && v.length <= 100) || 'Enter a valid password'],
       window: {
         width: 0,
         height: 0
