@@ -2,6 +2,7 @@
   <v-footer
     dark
     padless
+    class="mt-10"
   >
     <v-card
       tile
