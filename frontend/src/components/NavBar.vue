@@ -4,22 +4,31 @@
   >
     <!--    System76 brown: #4D4540-->
     <v-app-bar
-      color="brown"
+      color="brown darken-4"
       dark
       app
-      hide-on-scroll
+      shrink-on-scroll
+      fade-img-on-scroll
+      prominent
+      src="https://picsum.photos/1920/1080?random"
     >
+      <template v-slot:img="{ props }">
+        <v-img
+          v-bind="props"
+          gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)"
+        />
+      </template>
       <v-app-bar-nav-icon @click="drawer = true" />
       <v-col cols="3">
         <v-hover
           v-slot="{ hover }"
         >
           <v-card
-            :elevation="hover ? 12:2"
+            :elevation="hover ? 0:0"
             max-width="150px"
-            class="m-auto p-auto"
+            class="mt-n4 p-auto"
             :class="smallWidth()? 'px-0' : 'px-10'"
-            color="brown"
+            color="transparent"
             @click="$router.push('/')"
           >
             <v-img
@@ -31,51 +40,17 @@
           </v-card>
         </v-hover>
       </v-col>
-      <v-tabs
-        dark
-        fixed-tabs
-        color="teal accent-3"
-        show-arrows
-      >
-        <v-tabs-slider />
-        <v-tab to="/?to=cras" @click="goto('cras')">
-          Cras
-        </v-tab>
-        <v-tab to="/">
-          II
-        </v-tab>
-        <v-tab to="/">
-          III
-        </v-tab>
-      </v-tabs>
-
-      <!--      <v-tabs-->
-      <!--        dark-->
-      <!--        background-color="teal darken-3"-->
-      <!--        fixed-tabs-->
-      <!--        show-arrows-->
-      <!--      >-->
-      <!--        <v-tabs-slider color="teal lighten-3" />-->
-      <!--        <v-tab-->
-      <!--          v-for="i in 30"-->
-      <!--          :key="i"-->
-      <!--          :href="'#tab-' + i"-->
-      <!--        >-->
-      <!--          Item {{ i }}-->
-      <!--        </v-tab>-->
-      <!--      </v-tabs>-->
-
       <v-spacer />
       <div class="text-center">
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              color="teal accent-3"
+              icon
               dark
               v-bind="attrs"
               v-on="on"
             >
-              Usermode
+              <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
           <v-list>
@@ -89,6 +64,24 @@
           </v-list>
         </v-menu>
       </div>
+      <template v-slot:extension>
+        <v-tabs
+          dark
+          fixed-tabs
+          color="teal accent-3"
+        >
+          <v-tabs-slider />
+          <v-tab to="/?to=cras" @click="goto('cras')">
+            Cras
+          </v-tab>
+          <v-tab to="/">
+            II
+          </v-tab>
+          <v-tab to="/">
+            III
+          </v-tab>
+        </v-tabs>
+      </template>
 
     </v-app-bar>
 
@@ -96,7 +89,7 @@
       v-model="drawer"
       app
       temporary
-      class="brown"
+      class="brown darken-4"
       dark
     >
       <v-list

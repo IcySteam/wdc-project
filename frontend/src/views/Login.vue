@@ -26,6 +26,7 @@
 
       </v-col>
     </v-row>
+    <Footer />
   </v-container>
 
 </template>
@@ -33,10 +34,12 @@
 <script>
 import NavBar from '../components/NavBar'
 import LoginComponent from '../components/LoginComponent'
+import Footer from '../components/Footer'
 
 export default {
   name: 'Login',
   components: {
+    Footer,
     NavBar,
     LoginComponent
   }
