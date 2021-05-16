@@ -33,7 +33,8 @@
           >
             <v-img
               class="m-auto p-auto"
-              width="64px"
+              min-width="64px"
+              max-width="64px"
               src="../assets/letter-u-lock-logo.png"
               contain
             />

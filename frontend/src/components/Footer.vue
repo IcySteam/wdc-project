@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col
-        v-for="i in 10"
+        v-for="i in paddingRows()"
         :key="i"
         cols="12"
       />
@@ -54,8 +54,40 @@ export default {
       'mdi-twitter',
       'mdi-linkedin',
       'mdi-instagram'
-    ]
-  })
+    ],
+    window: {
+      width: 0,
+      height: 0
+    }
+  }),
+  created() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  },
+  methods: {
+    handleResize() {
+      this.window.width = window.innerWidth
+      this.window.height = window.innerHeight
+    },
+    paddingRows() {
+      const base = 8
+      const increment = 1
+      if (this.window.width > 1904) {
+        return base
+      } else if (this.window.width > 1264 && this.window.width <= 1904) {
+        return base + increment
+      } else if (this.window.width > 960 && this.window.width <= 1264) {
+        return base + 2 * increment
+      } else if (this.window.width > 600 && this.window.width <= 960) {
+        return base + 3 * increment
+      } else {
+        return base + 4 * increment
+      }
+    }
+  }
 }
 </script>
 
