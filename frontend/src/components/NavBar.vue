@@ -27,7 +27,7 @@
             :elevation="hover ? 0:0"
             max-width="150px"
             class="mt-n4 p-auto"
-            :class="smallWidth()? 'px-0' : 'px-10'"
+            :class="smallWidth? 'px-0' : 'px-10'"
             color="transparent"
             @click="$router.push('/')"
           >
@@ -35,7 +35,7 @@
               class="m-auto p-auto"
               min-width="64px"
               max-width="64px"
-              src="../assets/letter-u-lock-logo.png"
+              :src="require('../assets/letter-u-lock-logo.png')"
               contain
             />
           </v-card>
@@ -113,7 +113,7 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
           <v-list-item
-            @click="$router.push('/SignUp')"
+            @click="$router.push('/Auth/SignUp')"
           >
             <v-list-item-icon>
               <v-icon>mdi-account-plus</v-icon>
@@ -121,7 +121,7 @@
             <v-list-item-title>Sign Up</v-list-item-title>
           </v-list-item>
           <v-list-item
-            @click="$router.push('/Login')"
+            @click="$router.push('/Auth/Login')"
           >
             <v-list-item-icon>
               <v-icon>mdi-login</v-icon>
@@ -157,6 +157,15 @@ export default {
       height: 0
     }
   }),
+  computed: {
+    smallWidth() {
+      if (this.window.width < 600) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   created() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
@@ -220,13 +229,6 @@ export default {
     handleResize() {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
-    },
-    smallWidth() {
-      if (this.window.width < 600) {
-        return true
-      } else {
-        return false
-      }
     },
     updateUsermode(item) {
       this.$store.commit('setUsermode', item)

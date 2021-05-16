@@ -56,7 +56,7 @@
               min-height="2em"
               plain
             >
-              {{ recoverButtonText() }}
+              {{ recoverButtonText }}
             </v-btn>
           </v-col>
           <v-col
@@ -166,6 +166,15 @@ export default {
       rememberMe: false
     }
   },
+  computed: {
+    recoverButtonText() {
+      if (this.window.width < 600) {
+        return 'Recover Password'
+      } else {
+        return 'Recover'
+      }
+    }
+  },
   created() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
@@ -179,13 +188,6 @@ export default {
     },
     reset() {
       this.$refs.form.reset()
-    },
-    recoverButtonText() {
-      if (this.window.width < 600) {
-        return 'Recover Password'
-      } else {
-        return 'Recover'
-      }
     },
     handleResize() {
       this.window.width = window.innerWidth

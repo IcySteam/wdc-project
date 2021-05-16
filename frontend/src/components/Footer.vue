@@ -1,8 +1,8 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
       <v-col
-        v-for="i in paddingRows()"
+        v-for="i in paddingRows"
         :key="i"
         cols="12"
       />
@@ -60,18 +60,7 @@ export default {
       height: 0
     }
   }),
-  created() {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize()
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.handleResize)
-  },
-  methods: {
-    handleResize() {
-      this.window.width = window.innerWidth
-      this.window.height = window.innerHeight
-    },
+  computed: {
     paddingRows() {
       const base = 8
       const increment = 1
@@ -86,6 +75,19 @@ export default {
       } else {
         return base + 8 * increment
       }
+    }
+  },
+  created() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  },
+  methods: {
+    handleResize() {
+      this.window.width = window.innerWidth
+      this.window.height = window.innerHeight
     }
   }
 }

@@ -1,23 +1,23 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <NavBar />
-    <LoremIpsum />
+    <AdminAdministrationComponent />
     <Footer />
   </v-container>
 </template>
 
 <script>
 import NavBar from '../components/NavBar'
-import LoremIpsum from '../components/LoremIpsum'
 import Footer from '../components/Footer'
+import AdminAdministrationComponent from '../components/AdminAdministrationComponent'
 
 export default {
   name: 'AdminAdministration',
 
   components: {
+    AdminAdministrationComponent,
     Footer,
-    NavBar,
-    LoremIpsum
+    NavBar
   }
 }
 </script>

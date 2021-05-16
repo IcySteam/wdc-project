@@ -11,7 +11,7 @@
       >
         <v-img
           class="m-auto p-auto"
-          src="../assets/form_filling.jpg"
+          :src="require('../../assets/form_filling.jpg')"
           min-height="80vh"
         />
       </v-col>
@@ -32,9 +32,9 @@
 </template>
 
 <script>
-import NavBar from '../components/NavBar'
-import SignUpComponent from '../components/SignUpComponent'
-import Footer from '../components/Footer'
+import NavBar from '../../components/NavBar'
+import SignUpComponent from '../../components/SignUpComponent'
+import Footer from '../../components/Footer'
 
 export default {
   name: 'SignUp',

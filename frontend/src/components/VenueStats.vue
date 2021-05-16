@@ -1,88 +1,117 @@
 <template>
   <v-container>
-    <h1>{{ venueName }}</h1>
-    <div class="check_in">
-      <h3>List Of Check-Ins</h3>
-      <v-data-table
-        :headers="headers"
-        :items="check_in_data"
-        :items-per-page="5"
-        class="elevation-1"
-      />
-    </div>
-    <div class="hotspot">
-      <h3>List Of Visitors Who Have Been To Hotspot Area Recently</h3>
-      <v-data-table
-        :headers="headers"
-        :items="hotspot_data"
-        :items-per-page="3"
-        class="elevation-1"
-      />
-    </div>
+    <h1 id="h1ID" class="h1Class pb-10">{{ venueName }}</h1>
+    <ConsistentMP id="checkInHistory">
+      <template>
+        <v-card>
+          <v-card-title>
+            Check-In History
+            <v-spacer />
+            <v-text-field
+              v-model="checkInHistorySearch"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+              color="teal accent-3"
+            />
+          </v-card-title>
+          <v-data-table
+            :headers="checkInHistoryHeaders"
+            :items="checkInHistoryItems"
+            :search="checkInHistorySearch"
+            sort-by="timestamp"
+            sort-desc
+          />
+        </v-card>
+      </template>
+    </ConsistentMP>
   </v-container>
 </template>
 
 <script>
+import ConsistentMP from './UX/ConsistentMP'
 export default {
   name: 'VenueStats',
+  components: { ConsistentMP },
   data() {
     return {
-      venueName: 'VenueName',
-      headers: [
+      venueName: 'The University of Adelaide',
+      checkInHistorySearch: '',
+      checkInHistoryHeaders: [
         {
           text: 'User ID',
           align: 'start',
-          sortable: false,
-          value: 'ID'
-        },
-        { text: 'Name', value: 'name' },
-        { text: 'Check-In Time', value: 'time' },
-        { text: 'Date', value: 'date' }
-      ],
-      check_in_data: [
-        {
-          ID: 1,
-          name: 'Jash Vira',
-          time: '12:47 pm',
-          date: '13/05/2021'
+          value: 'userID'
         },
         {
-          ID: 2,
-          name: 'Junguo Wong',
-          time: '12:47 pm',
-          date: '13/05/2021'
+          text: 'Full name',
+          value: 'fullName'
         },
         {
-          ID: 3,
-          name: 'Zhenhang Dong',
-          time: '12:47 pm',
-          date: '13/05/2021'
+          text: 'Recently been to a hotspot?',
+          value: 'beenToHotspot'
         },
         {
-          ID: 4,
-          name: 'Minhaj Ahmed',
-          time: '12:47 pm',
-          date: '13/05/2021'
+          text: 'Date',
+          value: 'date'
+        },
+        {
+          text: 'Time',
+          value: 'time'
+        },
+        {
+          text: 'Timestamp',
+          value: 'timestamp'
         }
       ],
-      hotspot_data: []
+      checkInHistoryItems: [
+        {
+          userID: 'UID#ABYZ0189',
+          fullName: 'Jash Vira',
+          beenToHotspot: 'No',
+          date: '2021-05-16',
+          time: '13:57:09',
+          timestamp: 1621147075
+        },
+        {
+          userID: 'UID#ABYZ0190',
+          fullName: 'Junguo Wong',
+          beenToHotspot: 'No',
+          date: '2021-05-16',
+          time: '13:57:10',
+          timestamp: 1621147076
+        },
+        {
+          userID: 'UID#ABYZ0191',
+          fullName: 'Zhenhang Dong',
+          beenToHotspot: 'No',
+          date: '2021-05-16',
+          time: '13:57:11',
+          timestamp: 1621147077
+        },
+        {
+          userID: 'UID#ABYZ0192',
+          fullName: 'Minhaj Ahmed',
+          beenToHotspot: 'No',
+          date: '2021-05-16',
+          time: '13:57:12',
+          timestamp: 1621147078
+        }
+      ]
     }
   }
 }
 </script>
 
 <style scoped>
-.check_in {
-  padding-top: 20px;
+h1 {
+  text-align: left;
 }
-
-h3 {
-  text-align: center;
-  padding-bottom: 5px;
+.h1Class {
+  text-align: left;
 }
-
-.hotspot {
-  padding-top: 40px;
+#h1ID {
+  text-align: left;
 }
-
 </style>

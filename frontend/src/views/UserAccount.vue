@@ -1,23 +1,23 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <NavBar />
-    <LoremIpsum />
+    <UserAccountComponent />
     <Footer />
   </v-container>
 </template>
 
 <script>
 import NavBar from '../components/NavBar'
-import LoremIpsum from '../components/LoremIpsum'
 import Footer from '../components/Footer'
+import UserAccountComponent from '../components/UserAccountComponent'
 
 export default {
   name: 'UserAccount',
 
   components: {
+    UserAccountComponent,
     Footer,
-    NavBar,
-    LoremIpsum
+    NavBar
   }
 }
 </script>
