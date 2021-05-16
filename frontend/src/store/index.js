@@ -5,11 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    loremIpsum: 'Lorem Ipsum'
+    loremIpsum: 'Lorem Ipsum',
+    usermode: 'User'
   },
   mutations: {
     setLoremIpsum(state, _loremIpsum) {
       state.loremIpsum = _loremIpsum
+    },
+    setUsermode(state, _usermode) {
+      state.usermode = _usermode
     }
   },
   actions: {
@@ -19,6 +23,9 @@ export default new Vuex.Store({
   getters: {
     getLoremIpsum: state => {
       return state.loremIpsum
+    },
+    getUsermode: state => {
+      return state.usermode
     }
   }
 

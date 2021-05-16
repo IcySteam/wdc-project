@@ -57,7 +57,7 @@
             <v-list-item
               v-for="(item, index) in usermodes"
               :key="index"
-              @click="usermode=item.title"
+              @click="updateUsermode(item.title)"
             >
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
@@ -140,7 +140,6 @@ export default {
   data: () => ({
     drawer: false,
     group: null,
-    usermode: 'User',
     usermodes: [
       {
         'title': 'User'
@@ -166,7 +165,7 @@ export default {
   },
   methods: {
     getMenuOptions() {
-      if (this.usermode === 'User') {
+      if (this.$store.getters.getUsermode === 'User') {
         return [
           {
             'title': 'Home',
@@ -179,7 +178,7 @@ export default {
             'icon': 'mdi-account'
           }
         ]
-      } else if (this.usermode === 'Manager') {
+      } else if (this.$store.getters.getUsermode === 'Manager') {
         return [
           {
             'title': 'Home',
@@ -192,7 +191,7 @@ export default {
             'icon': 'mdi-account'
           }
         ]
-      } else if (this.usermode === 'Admin') {
+      } else if (this.$store.getters.getUsermode === 'Admin') {
         return [
           {
             'title': 'Home',
@@ -227,6 +226,9 @@ export default {
       } else {
         return false
       }
+    },
+    updateUsermode(item) {
+      this.$store.commit('setUsermode', item)
     }
   }
 }
