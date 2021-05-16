@@ -82,9 +82,9 @@ export default {
       } else if (this.window.width > 960 && this.window.width <= 1264) {
         return base + 2 * increment
       } else if (this.window.width > 600 && this.window.width <= 960) {
-        return base + 3 * increment
-      } else {
         return base + 4 * increment
+      } else {
+        return base + 8 * increment
       }
     }
   }
