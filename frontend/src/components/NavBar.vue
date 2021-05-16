@@ -65,21 +65,19 @@
           </v-list>
         </v-menu>
       </div>
-      <template v-slot:extension>
+      <template v-if="extensionTabs.length > 0" v-slot:extension>
         <v-tabs
           dark
           fixed-tabs
           color="teal accent-3"
         >
           <v-tabs-slider />
-          <v-tab to="/?to=cras" @click="goto('cras')">
-            Cras
-          </v-tab>
-          <v-tab to="/">
-            II
-          </v-tab>
-          <v-tab to="/">
-            III
+          <v-tab
+            v-for="(item, index) in extensionTabs"
+            :key="index"
+            @click="goto(item.gotoTarget)"
+          >
+            {{ item.name }}
           </v-tab>
         </v-tabs>
       </template>
@@ -163,6 +161,66 @@ export default {
         return true
       } else {
         return false
+      }
+    },
+    currentRouteName() {
+      return this.$route.name
+    },
+    extensionTabs() {
+      if (this.currentRouteName === 'Index') {
+        return [
+          {
+            name: 'I',
+            gotoTarget: ''
+          },
+          {
+            name: 'Cras',
+            gotoTarget: 'cras'
+          },
+          {
+            name: 'II',
+            gotoTarget: ''
+          }
+        ]
+      } else if (this.currentRouteName === 'UserHome') {
+        return [
+          {
+            name: 'Map',
+            gotoTarget: 'Gmap'
+          },
+          {
+            name: 'Check In',
+            gotoTarget: 'checkInCode'
+          }
+        ]
+      } else if (this.currentRouteName === 'ManagerAccount') {
+        return [
+          {
+            name: 'Account',
+            gotoTarget: 'accountDetails'
+          },
+          {
+            name: 'Venue',
+            gotoTarget: 'venueDetails'
+          }
+        ]
+      } else if (this.currentRouteName === 'AdminAdministration') {
+        return [
+          {
+            name: 'Hotspots',
+            gotoTarget: 'currentHotspots'
+          },
+          {
+            name: 'Users',
+            gotoTarget: 'users'
+          },
+          {
+            name: 'Venues',
+            gotoTarget: 'venues'
+          }
+        ]
+      } else {
+        return []
       }
     }
   },
