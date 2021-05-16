@@ -49,7 +49,7 @@
             sm="2"
           >
             <v-btn
-              color="brown darken-4"
+              color="white"
               class="m-auto p-auto"
               width="100%"
               height="65%"
@@ -120,7 +120,7 @@
             sm="12"
           >
             <v-btn
-              color="brown darken-4"
+              color="white"
               class="m-auto p-auto"
               width="100%"
               plain
