@@ -7,7 +7,7 @@
       color="brown darken-4"
       dark
       app
-      shrink-on-scroll
+      hide-on-scroll
       fade-img-on-scroll
       prominent
       src="https://picsum.photos/1920/1080?random"
@@ -27,14 +27,15 @@
             :elevation="hover ? 0:0"
             max-width="150px"
             class="mt-n4 p-auto"
-            :class="smallWidth()? 'px-0' : 'px-10'"
+            :class="smallWidth? 'px-0' : 'px-10'"
             color="transparent"
             @click="$router.push('/')"
           >
             <v-img
               class="m-auto p-auto"
-              width="64px"
-              src="../assets/letter-u-lock-logo.png"
+              min-width="64px"
+              max-width="64px"
+              :src="require('../assets/letter-u-lock-logo.png')"
               contain
             />
           </v-card>
@@ -57,28 +58,26 @@
             <v-list-item
               v-for="(item, index) in usermodes"
               :key="index"
-              @click="usermode=item.title"
+              @click="updateUsermode(item.title)"
             >
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
       </div>
-      <template v-slot:extension>
+      <template v-if="extensionTabs.length > 0" v-slot:extension>
         <v-tabs
           dark
           fixed-tabs
           color="teal accent-3"
         >
           <v-tabs-slider />
-          <v-tab to="/?to=cras" @click="goto('cras')">
-            Cras
-          </v-tab>
-          <v-tab to="/">
-            II
-          </v-tab>
-          <v-tab to="/">
-            III
+          <v-tab
+            v-for="(item, index) in extensionTabs"
+            :key="index"
+            @click="goto(item.gotoTarget)"
+          >
+            {{ item.name }}
           </v-tab>
         </v-tabs>
       </template>
@@ -112,7 +111,7 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
           <v-list-item
-            @click="$router.push('/SignUp')"
+            @click="$router.push('/Auth/SignUp')"
           >
             <v-list-item-icon>
               <v-icon>mdi-account-plus</v-icon>
@@ -120,7 +119,7 @@
             <v-list-item-title>Sign Up</v-list-item-title>
           </v-list-item>
           <v-list-item
-            @click="$router.push('/Login')"
+            @click="$router.push('/Auth/Login')"
           >
             <v-list-item-icon>
               <v-icon>mdi-login</v-icon>
@@ -140,7 +139,6 @@ export default {
   data: () => ({
     drawer: false,
     group: null,
-    usermode: 'User',
     usermodes: [
       {
         'title': 'User'
@@ -157,6 +155,75 @@ export default {
       height: 0
     }
   }),
+  computed: {
+    smallWidth() {
+      if (this.window.width < 600) {
+        return true
+      } else {
+        return false
+      }
+    },
+    currentRouteName() {
+      return this.$route.name
+    },
+    extensionTabs() {
+      if (this.currentRouteName === 'Index') {
+        return [
+          {
+            name: 'I',
+            gotoTarget: ''
+          },
+          {
+            name: 'Cras',
+            gotoTarget: 'cras'
+          },
+          {
+            name: 'II',
+            gotoTarget: ''
+          }
+        ]
+      } else if (this.currentRouteName === 'UserHome') {
+        return [
+          {
+            name: 'Map',
+            gotoTarget: 'Gmap'
+          },
+          {
+            name: 'Check In',
+            gotoTarget: 'checkInCode'
+          }
+        ]
+      } else if (this.currentRouteName === 'ManagerAccount') {
+        return [
+          {
+            name: 'Account',
+            gotoTarget: 'accountDetails'
+          },
+          {
+            name: 'Venue',
+            gotoTarget: 'venueDetails'
+          }
+        ]
+      } else if (this.currentRouteName === 'AdminAdministration') {
+        return [
+          {
+            name: 'Hotspots',
+            gotoTarget: 'currentHotspots'
+          },
+          {
+            name: 'Users',
+            gotoTarget: 'users'
+          },
+          {
+            name: 'Venues',
+            gotoTarget: 'venues'
+          }
+        ]
+      } else {
+        return []
+      }
+    }
+  },
   created() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
@@ -166,7 +233,7 @@ export default {
   },
   methods: {
     getMenuOptions() {
-      if (this.usermode === 'User') {
+      if (this.$store.getters.getUsermode === 'User') {
         return [
           {
             'title': 'Home',
@@ -179,7 +246,7 @@ export default {
             'icon': 'mdi-account'
           }
         ]
-      } else if (this.usermode === 'Manager') {
+      } else if (this.$store.getters.getUsermode === 'Manager') {
         return [
           {
             'title': 'Home',
@@ -192,7 +259,7 @@ export default {
             'icon': 'mdi-account'
           }
         ]
-      } else if (this.usermode === 'Admin') {
+      } else if (this.$store.getters.getUsermode === 'Admin') {
         return [
           {
             'title': 'Home',
@@ -221,12 +288,8 @@ export default {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
     },
-    smallWidth() {
-      if (this.window.width < 600) {
-        return true
-      } else {
-        return false
-      }
+    updateUsermode(item) {
+      this.$store.commit('setUsermode', item)
     }
   }
 }

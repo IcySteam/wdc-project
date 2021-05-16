@@ -49,14 +49,14 @@
             sm="2"
           >
             <v-btn
-              color="brown darken-4"
+              color="white"
               class="m-auto p-auto"
               width="100%"
               height="65%"
               min-height="2em"
               plain
             >
-              {{ recoverButtonText() }}
+              {{ recoverButtonText }}
             </v-btn>
           </v-col>
           <v-col
@@ -120,7 +120,7 @@
             sm="12"
           >
             <v-btn
-              color="brown darken-4"
+              color="white"
               class="m-auto p-auto"
               width="100%"
               plain
@@ -166,6 +166,15 @@ export default {
       rememberMe: false
     }
   },
+  computed: {
+    recoverButtonText() {
+      if (this.window.width < 600) {
+        return 'Recover Password'
+      } else {
+        return 'Recover'
+      }
+    }
+  },
   created() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
@@ -179,13 +188,6 @@ export default {
     },
     reset() {
       this.$refs.form.reset()
-    },
-    recoverButtonText() {
-      if (this.window.width < 600) {
-        return 'Recover Password'
-      } else {
-        return 'Recover'
-      }
     },
     handleResize() {
       this.window.width = window.innerWidth

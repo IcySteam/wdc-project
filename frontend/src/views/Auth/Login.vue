@@ -11,7 +11,7 @@
       >
         <v-img
           class="m-auto p-auto"
-          src="../assets/door_unlocking.jpg"
+          :src="require('../../assets/door_unlocking.jpg')"
           min-height="80vh"
         />
       </v-col>
@@ -32,9 +32,9 @@
 </template>
 
 <script>
-import NavBar from '../components/NavBar'
-import LoginComponent from '../components/LoginComponent'
-import Footer from '../components/Footer'
+import NavBar from '../../components/NavBar'
+import LoginComponent from '../../components/LoginComponent'
+import Footer from '../../components/Footer'
 
 export default {
   name: 'Login',
