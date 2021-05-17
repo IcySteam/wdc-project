@@ -1,30 +1,28 @@
 <template>
   <v-container>
-    <ConsistentMP>
-      <GmapMap
+    <GmapMap
+      :center="center"
+      :zoom="zoom"
+      map-type-id="hybrid"
+      style="width: 100%; "
+      :style="mapHeight"
+    >
+      <GmapMarker
+        v-for="(m, index) in markers"
+        :key="index"
+        :position="m.position"
+        :clickable="true"
+        :draggable="true"
+        :shape="shape"
+        @click="center=m.position"
+      />
+      <GmapCircle
         :center="center"
-        :zoom="zoom"
-        map-type-id="hybrid"
-        style="width: 100%; "
-        :style="mapHeight"
-      >
-        <GmapMarker
-          v-for="(m, index) in markers"
-          :key="index"
-          :position="m.position"
-          :clickable="true"
-          :draggable="true"
-          :shape="shape"
-          @click="center=m.position"
-        />
-        <GmapCircle
-          :center="center"
-          :radius="200"
-          :draggable="true"
-          :editable="true"
-        />
-      </GmapMap>
-    </ConsistentMP>
+        :radius="200"
+        :draggable="true"
+        :editable="true"
+      />
+    </GmapMap>
 
   </v-container>
 </template>
@@ -32,11 +30,10 @@
 <script>
 import * as GmapVue from 'gmap-vue'
 import Vue from 'vue'
-import ConsistentMP from './UX/ConsistentMP'
 
 export default {
   name: 'Gmap',
-  components: { ConsistentMP },
+  components: { },
   props: {
     propMapHeight: {
       type: String,
