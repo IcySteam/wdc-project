@@ -281,7 +281,7 @@ export default {
     },
     goto(id) {
       this.$nextTick(() => {
-        this.$vuetify.goTo(document.getElementById(id).offsetTop + 100)
+        this.$vuetify.goTo(document.getElementById(id).offsetTop + 150)
       })
     },
     handleResize() {
