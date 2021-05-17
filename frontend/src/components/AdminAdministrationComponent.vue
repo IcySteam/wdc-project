@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <h1 class="pb-10">Administration</h1>
     <ConsistentMP id="currentHotspots">
       <template>
         <v-card>

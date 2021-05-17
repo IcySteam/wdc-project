@@ -185,12 +185,12 @@ export default {
       } else if (this.currentRouteName === 'UserHome') {
         return [
           {
-            name: 'Map',
-            gotoTarget: 'Gmap'
-          },
-          {
             name: 'Check In',
             gotoTarget: 'checkInCode'
+          },
+          {
+            name: 'Map',
+            gotoTarget: 'Gmap'
           }
         ]
       } else if (this.currentRouteName === 'ManagerAccount') {
@@ -217,6 +217,17 @@ export default {
           {
             name: 'Venues',
             gotoTarget: 'venues'
+          }
+        ]
+      } else if (this.currentRouteName === 'ManagerHome') {
+        return [
+          {
+            name: 'Map',
+            gotoTarget: 'Gmap'
+          },
+          {
+            name: 'History',
+            gotoTarget: 'checkInHistory'
           }
         ]
       } else {
