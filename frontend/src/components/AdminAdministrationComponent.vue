@@ -163,7 +163,7 @@ export default {
           value: 'affectedUsers'
         },
         {
-          text: 'Last created',
+          text: 'Last created timestamp',
           value: 'lastCreated'
         }
       ],
