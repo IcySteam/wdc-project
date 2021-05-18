@@ -124,7 +124,7 @@
               class="m-auto p-auto"
               width="100%"
               plain
-              @click="$router.push('SignUp')"
+              @click="$router.push('SignUp').catch(()=>{})"
             >
               Create an Account
             </v-btn>

@@ -29,7 +29,7 @@
             class="mt-n4 p-auto"
             :class="smallWidth? 'px-0' : 'px-10'"
             color="transparent"
-            @click="$router.push('/')"
+            @click="$router.push('/').catch(()=>{})"
           >
             <v-img
               class="m-auto p-auto"
@@ -103,7 +103,7 @@
           <v-list-item
             v-for="(item, index) in getMenuOptions()"
             :key="index"
-            @click="$router.push(item.href)"
+            @click="$router.push(item.href).catch(()=>{})"
           >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
@@ -111,7 +111,7 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
           <v-list-item
-            @click="$router.push('/Auth/SignUp')"
+            @click="$router.push('/Auth/SignUp').catch(()=>{})"
           >
             <v-list-item-icon>
               <v-icon>mdi-account-plus</v-icon>
@@ -119,7 +119,7 @@
             <v-list-item-title>Sign Up</v-list-item-title>
           </v-list-item>
           <v-list-item
-            @click="$router.push('/Auth/Login')"
+            @click="$router.push('/Auth/Login').catch(()=>{})"
           >
             <v-list-item-icon>
               <v-icon>mdi-login</v-icon>
