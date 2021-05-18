@@ -33,7 +33,7 @@
 
 <script>
 import NavBar from '../../components/NavBar'
-import SignUpComponent from '../../components/SignUpComponent'
+import SignUpComponent from '../../components/Auth/SignUpComponent'
 import Footer from '../../components/Footer'
 
 export default {

@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import ConsistentMP from './UX/ConsistentMP'
+import ConsistentMP from '../UX/ConsistentMP'
 export default {
   name: 'LoginComponent',
   components: {
