@@ -170,16 +170,16 @@ export default {
       if (this.currentRouteName === 'Index') {
         return [
           {
-            name: 'I',
-            gotoTarget: ''
+            name: 'Lorem',
+            gotoTarget: 'lorem'
           },
           {
             name: 'Cras',
             gotoTarget: 'cras'
           },
           {
-            name: 'II',
-            gotoTarget: ''
+            name: 'Maecenas',
+            gotoTarget: 'maecenas'
           }
         ]
       } else if (this.currentRouteName === 'UserHome') {
