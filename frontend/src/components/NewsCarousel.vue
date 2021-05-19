@@ -42,7 +42,7 @@ export default {
           href: 'https://www.covid-19.sa.gov.au/'
         },
         {
-          title: 'COVID-19 Health Alert | Department of Health',
+          title: 'COVID-19 Health Alert | Australian Department of Health',
           href: 'https://www.health.gov.au/news/health-alerts/novel-coronavirus-2019-ncov-health-alert'
         },
         {

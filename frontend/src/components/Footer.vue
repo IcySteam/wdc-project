@@ -82,7 +82,7 @@ export default {
   }),
   computed: {
     paddingRows() {
-      const base = 10
+      const base = 12
       const increment = 1
       if (this.window.width > 1904) {
         return base

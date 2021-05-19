@@ -110,22 +110,6 @@
             </v-list-item-icon>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
-          <v-list-item
-            @click="$router.push('/Auth/SignUp').catch(()=>{})"
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-account-plus</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Sign Up</v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            @click="$router.push('/Auth/Login').catch(()=>{})"
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-login</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Log In</v-list-item-title>
-          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
