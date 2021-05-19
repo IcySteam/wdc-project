@@ -141,6 +141,9 @@ export default {
     group: null,
     usermodes: [
       {
+        'title': 'None'
+      },
+      {
         'title': 'User'
       },
       {
@@ -167,7 +170,7 @@ export default {
       return this.$route.name
     },
     extensionTabs() {
-      if (this.currentRouteName === 'Index') {
+      if (this.currentRouteName === 'LoremIpsum') {
         return [
           {
             name: 'Lorem',
@@ -244,51 +247,7 @@ export default {
   },
   methods: {
     getMenuOptions() {
-      if (this.$store.getters.getUsermode === 'User') {
-        return [
-          {
-            'title': 'Home',
-            'href': '/User/Home',
-            'icon': 'mdi-home'
-          },
-          {
-            'title': 'Account',
-            'href': '/User/Account',
-            'icon': 'mdi-account'
-          }
-        ]
-      } else if (this.$store.getters.getUsermode === 'Manager') {
-        return [
-          {
-            'title': 'Home',
-            'href': '/Manager/Home',
-            'icon': 'mdi-home'
-          },
-          {
-            'title': 'Account',
-            'href': '/Manager/Account',
-            'icon': 'mdi-account'
-          }
-        ]
-      } else if (this.$store.getters.getUsermode === 'Admin') {
-        return [
-          {
-            'title': 'Home',
-            'href': '/Admin/Home',
-            'icon': 'mdi-home'
-          },
-          {
-            'title': 'Account',
-            'href': '/Admin/Account',
-            'icon': 'mdi-account'
-          },
-          {
-            'title': 'Administration',
-            'href': '/Admin/Administration',
-            'icon': 'mdi-account-key'
-          }
-        ]
-      }
+      return this.$store.getters.getMenuOptions
     },
     goto(id) {
       this.$nextTick(() => {

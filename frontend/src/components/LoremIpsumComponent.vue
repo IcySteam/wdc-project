@@ -20,7 +20,7 @@
 <script>
 import ConsistentMP from './UX/ConsistentMP'
 export default {
-  name: 'LoremIpsum',
+  name: 'LoremIpsumComponent',
   components: { ConsistentMP },
   computed: {
     getLoremIpsum() {

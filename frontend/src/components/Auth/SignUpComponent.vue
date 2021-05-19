@@ -333,7 +333,7 @@ export default {
       genders: [
         'Male',
         'Female',
-        'Secret'
+        'Other'
       ],
       submitPopup: false,
       suburb: '',
