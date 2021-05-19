@@ -2,7 +2,7 @@
   <v-container>
     <h1 id="h1ID" class="h1Class pb-10">{{ venueName }}</h1>
     <v-row>
-      <Gmap id="Gmap"/>
+      <Gmap id="Gmap" />
     </v-row>
     <v-row>
       <ConsistentMP id="checkInHistory">

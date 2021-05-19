@@ -88,12 +88,12 @@ export default {
         },
         {
           name: 'First name',
-          value: 'Jon',
+          value: 'John',
           updated: '2021-05-16'
         },
         {
           name: 'Last name',
-          value: 'Doe',
+          value: 'Wick',
           updated: '2021-05-16'
         },
         {

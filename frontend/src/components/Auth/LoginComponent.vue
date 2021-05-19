@@ -124,7 +124,7 @@
               class="m-auto p-auto"
               width="100%"
               plain
-              @click="$router.push('SignUp')"
+              @click="$router.push('SignUp').catch(()=>{})"
             >
               Create an Account
             </v-btn>
@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import ConsistentMP from './UX/ConsistentMP'
+import ConsistentMP from '../UX/ConsistentMP'
 export default {
   name: 'LoginComponent',
   components: {

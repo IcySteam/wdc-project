@@ -11,7 +11,6 @@
       absolute
       dark
       padless
-      class="mt-10"
     >
       <v-card
         tile
@@ -39,6 +38,21 @@
         <v-card-text class="white--text">
           {{ new Date().getFullYear() }} — <strong>WWWarriors</strong>
         </v-card-text>
+        <v-row
+          justify="center"
+          no-gutters
+        >
+          <v-btn
+            v-for="link in links"
+            :key="link"
+            color="white"
+            text
+            rounded
+            class="mb-2"
+          >
+            {{ link }}
+          </v-btn>
+        </v-row>
       </v-card>
     </v-footer>
   </v-container>
@@ -55,6 +69,12 @@ export default {
       'mdi-linkedin',
       'mdi-instagram'
     ],
+    links: [
+      'ABOUT',
+      'PRIVACY',
+      'TERMS',
+      'CONTACT'
+    ],
     window: {
       width: 0,
       height: 0
@@ -62,7 +82,7 @@ export default {
   }),
   computed: {
     paddingRows() {
-      const base = 8
+      const base = 12
       const increment = 1
       if (this.window.width > 1904) {
         return base

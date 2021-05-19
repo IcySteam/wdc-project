@@ -299,7 +299,7 @@
               class="m-auto p-auto"
               width="100%"
               plain
-              @click="$router.push('Login')"
+              @click="$router.push('Login').catch(()=>{})"
             >
               Sign In Instead
             </v-btn>
@@ -313,7 +313,7 @@
 </template>
 
 <script>
-import ConsistentMP from './UX/ConsistentMP'
+import ConsistentMP from '../UX/ConsistentMP'
 export default {
   name: 'SignUpComponent',
   components: {
@@ -333,7 +333,7 @@ export default {
       genders: [
         'Male',
         'Female',
-        'Secret'
+        'Other'
       ],
       submitPopup: false,
       suburb: '',

@@ -37,7 +37,7 @@ export default {
   props: {
     propMapHeight: {
       type: String,
-      default: '40rem'
+      default: '80vh'
     }
   },
   data() {
