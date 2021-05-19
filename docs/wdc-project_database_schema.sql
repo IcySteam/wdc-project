@@ -60,7 +60,7 @@ CREATE TABLE `hotspotTimeframe` (
 );
 
 CREATE TABLE `registrationCode` (
-  `code` varchar(255),
+  `code` varchar(255) PRIMARY KEY,
   `createdBy` user,
   `creationTimestamp` timeStamp,
   `updateTimestamp` timeStamp,
