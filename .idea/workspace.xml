@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a91e673e-4f9a-436f-9c21-c26e00a0a387" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/wdc-project_database_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/docs/wdc-project_database_schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.eslintrc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/babel.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/babel.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/frontend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AdminAccountComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AdminAccountComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AdminAdministrationComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AdminAdministrationComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AdminHomeComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AdminHomeComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Auth/LoginComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Auth/LoginComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Auth/SignUpComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Auth/SignUpComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/CheckInCode.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CheckInCode.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Default/DefaultAppBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Default/DefaultAppBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Default/HelloWorld.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Default/HelloWorld.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Footer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Footer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Gmap.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Gmap.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoremIpsumComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoremIpsumComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/NavBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NavBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/NavigationComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NavigationComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/NewsCarousel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NewsCarousel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/UX/ConsistentMP.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UX/ConsistentMP.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserAccountComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserAccountComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserHome/FakeMap.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserHome/FakeMap.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserHome/LocationsList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserHome/LocationsList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserHome/Timeline.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserHome/Timeline.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserHomeComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserHomeComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/VenueDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/VenueDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/VenueStats.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/VenueStats.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/plugins/vuetify.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/plugins/vuetify.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/AdminAccount.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/AdminAccount.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/AdminAdministration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/AdminAdministration.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/AdminHome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/AdminHome.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Auth/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Auth/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Auth/SignUp.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Auth/SignUp.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Default/About.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Default/About.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Default/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Default/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/LoremIpsum.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/LoremIpsum.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/ManagerAccount.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/ManagerAccount.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/ManagerHome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/ManagerHome.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/UserAccount.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/UserAccount.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/UserHome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/UserHome.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/.browserslistrc" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/.browserslistrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/.eslintrc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/babel.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/babel.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/bin/www" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/bin/www" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/public/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/public/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/public/robots.txt" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/public/robots.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/public/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/public/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/public/stylesheets/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/public/stylesheets/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/routes/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/routes/users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/setup.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/assets/logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/assets/logo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/assets/vmd.svg" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/assets/vmd.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/assets/vuetify.svg" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/assets/vuetify.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/components/HelloWorld.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/components/HelloWorld.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/components/Links.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/components/Links.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/components/MaterialAlert.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/components/MaterialAlert.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/components/MaterialCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/components/MaterialCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/components/MaterialChartCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/components/MaterialChartCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/components/MaterialSnackbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/components/MaterialSnackbar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/components/MaterialStatsCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/components/MaterialStatsCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/components/ViewIntro.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/components/ViewIntro.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/components/app/BarItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/components/app/BarItem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/components/app/Btn.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/components/app/Btn.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/components/app/Card.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/components/app/Card.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/components/app/Tabs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/components/app/Tabs.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/AppBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/AppBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/Drawer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/Drawer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/Footer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/Footer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/List.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/ListGroup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/ListGroup.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/ListItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/ListItem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/Settings.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/Settings.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/View.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/View.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/Account.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/Account.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/AccountSettings.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/AccountSettings.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/DrawerHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/DrawerHeader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/DrawerToggle.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/DrawerToggle.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/GoHome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/GoHome.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/Notifications.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/Notifications.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/Search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/layouts/default/widgets/Search.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/plugins/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/plugins/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/plugins/chartist.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/plugins/chartist.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/plugins/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/plugins/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/plugins/vue-meta.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/plugins/vue-meta.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/plugins/vuetify.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/plugins/vuetify.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/plugins/vuex-pathify.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/plugins/vuex-pathify.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/plugins/webfontloader.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/plugins/webfontloader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/store/modules/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/store/modules/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/store/modules/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/store/modules/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/store/modules/sales.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/store/modules/sales.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/store/modules/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/store/modules/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/styles/overrides.sass" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/styles/overrides.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/styles/variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/styles/variables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/util/globals.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/util/globals.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/util/helpers.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/util/helpers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/util/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/util/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/views/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/views/Error.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/views/Error.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/views/GoogleMaps.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/views/GoogleMaps.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/views/Icons.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/views/Icons.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/views/Notifications.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/views/Notifications.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/views/RegularTables.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/views/RegularTables.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/views/Typography.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/views/Typography.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/src/views/UserProfile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/src/views/UserProfile.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/views/error.jade" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/views/error.jade" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/views/index.jade" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/views/index.jade" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/views/layout.jade" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/views/layout.jade" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/material-dashboard-free/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/material-dashboard-free/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1tLqM7Nx3CbKPml7yFyrpTSaIlL" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/test.nodejs" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a91e673e-4f9a-436f-9c21-c26e00a0a387" name="Default Changelist" comment="" />
+      <created>1622558670302</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1622558670302</updated>
+      <workItem from="1622558674802" duration="45000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
