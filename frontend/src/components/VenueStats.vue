@@ -1,39 +1,46 @@
 <template>
   <v-container>
     <h1 id="h1ID" class="h1Class pb-10">{{ venueName }}</h1>
-    <ConsistentMP id="checkInHistory">
-      <template>
-        <v-card>
-          <v-card-title>
-            Check-In History
-            <v-spacer />
-            <v-text-field
-              v-model="checkInHistorySearch"
-              append-icon="mdi-magnify"
-              label="Search"
-              single-line
-              hide-details
-              color="teal accent-3"
+    <v-row>
+      <Gmap id="Gmap" />
+    </v-row>
+    <v-row>
+      <ConsistentMP id="checkInHistory">
+        <template>
+          <v-card>
+            <v-card-title>
+              Check-In History
+              <v-spacer />
+              <v-text-field
+                v-model="checkInHistorySearch"
+                append-icon="mdi-magnify"
+                label="Search"
+                single-line
+                hide-details
+                color="teal accent-3"
+              />
+            </v-card-title>
+            <v-data-table
+              :headers="checkInHistoryHeaders"
+              :items="checkInHistoryItems"
+              :search="checkInHistorySearch"
+              sort-by="timestamp"
+              sort-desc
             />
-          </v-card-title>
-          <v-data-table
-            :headers="checkInHistoryHeaders"
-            :items="checkInHistoryItems"
-            :search="checkInHistorySearch"
-            sort-by="timestamp"
-            sort-desc
-          />
-        </v-card>
-      </template>
-    </ConsistentMP>
+          </v-card>
+        </template>
+      </ConsistentMP>
+    </v-row>
+
   </v-container>
 </template>
 
 <script>
 import ConsistentMP from './UX/ConsistentMP'
+import Gmap from './Gmap'
 export default {
   name: 'VenueStats',
-  components: { ConsistentMP },
+  components: { Gmap, ConsistentMP },
   data() {
     return {
       venueName: 'The University of Adelaide',

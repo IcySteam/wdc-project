@@ -2,10 +2,10 @@
   <v-container>
     <h1 class="pb-10">Welcome, {{ fullName }}!</h1>
     <v-row>
-      <Gmap id="Gmap" />
+      <CheckInCode id="checkInCode" />
     </v-row>
     <v-row>
-      <CheckInCode id="checkInCode" />
+      <Gmap id="Gmap" />
     </v-row>
   </v-container>
 

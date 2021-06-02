@@ -29,7 +29,7 @@
             class="mt-n4 p-auto"
             :class="smallWidth? 'px-0' : 'px-10'"
             color="transparent"
-            @click="$router.push('/')"
+            @click="$router.push('/').catch(()=>{})"
           >
             <v-img
               class="m-auto p-auto"
@@ -103,28 +103,12 @@
           <v-list-item
             v-for="(item, index) in getMenuOptions()"
             :key="index"
-            @click="$router.push(item.href)"
+            @click="$router.push(item.href).catch(()=>{})"
           >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            @click="$router.push('/Auth/SignUp')"
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-account-plus</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Sign Up</v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            @click="$router.push('/Auth/Login')"
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-login</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Log In</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -140,6 +124,9 @@ export default {
     drawer: false,
     group: null,
     usermodes: [
+      {
+        'title': 'None'
+      },
       {
         'title': 'User'
       },
@@ -167,30 +154,30 @@ export default {
       return this.$route.name
     },
     extensionTabs() {
-      if (this.currentRouteName === 'Index') {
+      if (this.currentRouteName === 'LoremIpsum') {
         return [
           {
-            name: 'I',
-            gotoTarget: ''
+            name: 'Lorem',
+            gotoTarget: 'lorem'
           },
           {
             name: 'Cras',
             gotoTarget: 'cras'
           },
           {
-            name: 'II',
-            gotoTarget: ''
+            name: 'Maecenas',
+            gotoTarget: 'maecenas'
           }
         ]
       } else if (this.currentRouteName === 'UserHome') {
         return [
           {
-            name: 'Map',
-            gotoTarget: 'Gmap'
-          },
-          {
             name: 'Check In',
             gotoTarget: 'checkInCode'
+          },
+          {
+            name: 'Map',
+            gotoTarget: 'Gmap'
           }
         ]
       } else if (this.currentRouteName === 'ManagerAccount') {
@@ -219,6 +206,17 @@ export default {
             gotoTarget: 'venues'
           }
         ]
+      } else if (this.currentRouteName === 'ManagerHome') {
+        return [
+          {
+            name: 'Map',
+            gotoTarget: 'Gmap'
+          },
+          {
+            name: 'History',
+            gotoTarget: 'checkInHistory'
+          }
+        ]
       } else {
         return []
       }
@@ -233,51 +231,7 @@ export default {
   },
   methods: {
     getMenuOptions() {
-      if (this.$store.getters.getUsermode === 'User') {
-        return [
-          {
-            'title': 'Home',
-            'href': '/User/Home',
-            'icon': 'mdi-home'
-          },
-          {
-            'title': 'Account',
-            'href': '/User/Account',
-            'icon': 'mdi-account'
-          }
-        ]
-      } else if (this.$store.getters.getUsermode === 'Manager') {
-        return [
-          {
-            'title': 'Home',
-            'href': '/Manager/Home',
-            'icon': 'mdi-home'
-          },
-          {
-            'title': 'Account',
-            'href': '/Manager/Account',
-            'icon': 'mdi-account'
-          }
-        ]
-      } else if (this.$store.getters.getUsermode === 'Admin') {
-        return [
-          {
-            'title': 'Home',
-            'href': '/Admin/Home',
-            'icon': 'mdi-home'
-          },
-          {
-            'title': 'Account',
-            'href': '/Admin/Account',
-            'icon': 'mdi-account'
-          },
-          {
-            'title': 'Administration',
-            'href': '/Admin/Administration',
-            'icon': 'mdi-account-key'
-          }
-        ]
-      }
+      return this.$store.getters.getMenuOptions
     },
     goto(id) {
       this.$nextTick(() => {
