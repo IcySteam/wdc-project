@@ -93,26 +93,18 @@
                 >
                   Sign In
                 </v-btn>
+                <v-btn
+                  v-google-signin-button="clientId"
+                  type="button"
+                  width="100%"
+                  color="black"
+                  class="m-auto p-auto"
+                  :disabled="!validated"
+                  large>
+                  Sign In With Google
+                </v-btn>
               </template>
 
-              <v-card class="pb-3">
-                <v-card-title class="brown darken-4">
-                  Congratulations!
-                </v-card-title>
-                <v-card-text class="mt-6">
-                  All done!
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn
-                    class="brown darken-4 mt-n2"
-                    text
-                    @click="submitPopup = false"
-                  >
-                    Close
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
             </v-dialog>
           </v-col>
           <v-col
@@ -139,6 +131,7 @@
 
 <script>
 import ConsistentMP from '../UX/ConsistentMP'
+import 'vue-google-signin-button-directive'
 export default {
   name: 'LoginComponent',
   components: {
@@ -146,6 +139,7 @@ export default {
   },
   data() {
     return {
+      clientId: '743725093686-u623v64qpe7nu55u7me7fut827pds287.apps.googleusercontent.com',
       validated: false,
       showPassword: false,
       login: '',
@@ -192,10 +186,25 @@ export default {
     handleResize() {
       this.window.width = window.innerWidth
       this.window.height = window.innerHeight
+    },
+    OnGoogleAuthSuccess(idToken) {
+      this.GoogleLoginWithIdToken(idToken)
+    },
+    OnGoogleAuthFail(error) {
+      console.log(error)
+    },
+    async GoogleLoginWithIdToken(idToken) {
+      // eslint-disable-next-line no-undef
+      const res = await GoogleLoginWithIdToken(idToken)
+      if (res.code === 0) {
+        console.log('Google login success')
+      }
     }
+
   }
 }
 </script>
 
 <style scoped>
+
 </style>
