@@ -48,7 +48,16 @@
             :search="usersSearch"
             sort-by="timestamp"
             sort-desc
-          />
+          >
+          <template v-slot:item.actions="{ }">
+            <v-btn
+                x-small
+                color="teal accent-3"
+            >
+              Manage
+            </v-btn>
+          </template>
+          </v-data-table>
         </v-card>
       </template>
     </ConsistentMP>
@@ -74,7 +83,16 @@
             :search="venuesSearch"
             sort-by="timestamp"
             sort-desc
-          />
+          >
+            <template v-slot:item.actions="{ }">
+              <v-btn
+                  x-small
+                  color="teal accent-3"
+              >
+                Manage
+              </v-btn>
+            </template>
+          </v-data-table>
         </v-card>
       </template>
     </ConsistentMP>
@@ -106,6 +124,11 @@ export default {
         {
           text: 'Last check-in timestamp',
           value: 'timestamp'
+        },
+        {
+          text: '',
+          value: 'actions',
+          sortable: false
         }
       ],
       usersItems: [
@@ -206,6 +229,11 @@ export default {
         {
           text: 'Last check-in timestamp',
           value: 'timestamp'
+        },
+        {
+          text: '',
+          value: 'actions',
+          sortable: false
         }
       ],
       venuesItems: [
