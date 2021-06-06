@@ -82,29 +82,37 @@
               <template
                 v-slot:activator="{ on, attrs }"
               >
-                <v-btn
-                  color="brown darken-4"
-                  v-bind="attrs"
-                  class="m-auto p-auto"
-                  width="100%"
-                  :disabled="!validated"
-                  large
-                  v-on="on"
+                <v-col>
+                  <v-btn
+                    color="brown darken-4"
+                    v-bind="attrs"
+                    class="m-auto p-auto"
+                    width="100%"
+                    :disabled="!validated"
+                    large
+                    v-on="on"
+                  >
+                    Sign In
+                  </v-btn>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="12"
                 >
-                  Sign In
-                </v-btn>
-                <v-btn
-                  v-google-signin-button="clientId"
-                  type="button"
-                  width="100%"
-                  color="black"
-                  class="m-auto p-auto"
-                  :disabled="!validated"
-                  large>
-                  Sign In With Google
-                </v-btn>
+                </v-col>
+                <v-col>
+                  <v-btn
+                    v-google-signin-button="clientId"
+                    type="button"
+                    width="100%"
+                    color="black"
+                    class="m-auto p-auto"
+                    :disabled="!validated"
+                    large>
+                    Sign In With Google
+                  </v-btn>
+                </v-col>
               </template>
-
             </v-dialog>
           </v-col>
           <v-col
