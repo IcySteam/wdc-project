@@ -50,11 +50,10 @@
                 x-large
                 v-on="on"
             >
-              <v-avatar
-                  color="brown"
-                  size="48"
-              >
-                <span class="white--text text-h5">{{ user.initials }}</span>
+              <v-avatar color="black">
+                <v-icon dark>
+                  mdi-account-circle
+                </v-icon>
               </v-avatar>
             </v-btn>
           </template>
@@ -62,7 +61,7 @@
             <v-list-item-content class="justify-center">
               <div class="mx-auto text-center">
                 <v-avatar
-                    color="brown"
+                    color="indigo"
                 >
                   <span class="white--text text-h5">{{ user.initials }}</span>
                 </v-avatar>
@@ -76,7 +75,7 @@
                     rounded
                     text
                 >
-                  Edit Account
+                  View Account
                 </v-btn>
                 <v-divider class="my-3"></v-divider>
                 <v-btn
@@ -84,7 +83,7 @@
                     rounded
                     text
                 >
-                  Disconnect
+                  Sign Out
                 </v-btn>
               </div>
             </v-list-item-content>
@@ -152,7 +151,7 @@ export default {
     user: {
       initials: 'JD',
       fullName: 'John Doe',
-      email: 'john.doe@doe.com',
+      email: 'john.doe@doe.com'
     },
     window: {
       width: 0,
