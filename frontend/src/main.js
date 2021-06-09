@@ -5,6 +5,9 @@ import vuetify from './plugins/vuetify'
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import GSignInButton from 'vue-google-signin-button'
+
+Vue.use(GSignInButton)
 
 Vue.use(VueAxios, axios)
 
