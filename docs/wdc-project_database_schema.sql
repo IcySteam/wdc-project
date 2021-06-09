@@ -1,8 +1,11 @@
+CREATE DATABASE contact_tracing_system;
+USE contact_tracing_system;
+
 CREATE TABLE `user` (
   `userID` varchar(255) PRIMARY KEY,
   `firstName` varchar(255),
   `lastName` varchar(255),
-  `address` address,
+  `address` int,
   `phoneNumber` int,
   `email` varchar(255),
   `gender` varchar(255),
@@ -12,8 +15,8 @@ CREATE TABLE `user` (
   `creationTimestamp` timestamp,
   `updateTimestamp` timestamp,
   `usermode` varchar(255),
-  `associatedVenue` venue,
-  `recentlyBeenToHotspot` bool
+  `associatedVenue` varchar(255),
+  `recentlyBeenToHotspot` bit
 );
 
 CREATE TABLE `address` (
@@ -29,12 +32,12 @@ CREATE TABLE `venue` (
   `name` varchar(255),
   `phoneNumber` int,
   `email` varchar(255),
-  `address` address,
-  `createdBy` user,
+  `address` int,
+  `createdBy` varchar(255),
   `creationTimestamp` timestamp,
   `updateTimestamp` timestamp,
-  `associatedManager` user,
-  `isHotspot` bool,
+  `associatedManager` varchar(255),
+  `isHotspot` bit,
   `latitude` float,
   `longitude` float,
   `radius` float
@@ -42,42 +45,42 @@ CREATE TABLE `venue` (
 
 CREATE TABLE `checkIn` (
   `id` int PRIMARY KEY,
-  `user` user,
-  `venue` venue,
+  `user` varchar(255),
+  `venue` varchar(255),
   `time` timestamp,
   `codeUsed` varchar(255)
 );
 
 CREATE TABLE `hotspotTimeframe` (
   `id` int PRIMARY KEY,
-  `createdBy` user,
+  `createdBy` varchar(255),
   `creationTimestamp` timestamp,
   `updateTimestamp` timestamp,
-  `venue` venue,
+  `venue` varchar(255),
   `startTime` timestamp,
-  `endTime` timeStamp,
+  `endTime` timestamp,
   `affectedUsers` int
 );
 
 CREATE TABLE `registrationCode` (
   `code` varchar(255) PRIMARY KEY,
-  `createdBy` user,
-  `creationTimestamp` timeStamp,
-  `updateTimestamp` timeStamp,
-  `validityStart` timeStamp,
-  `validityEnd` timeStamp,
+  `createdBy` varchar(255),
+  `creationTimestamp` timestamp,
+  `updateTimestamp` timestamp,
+  `validityStart` timestamp,
+  `validityEnd` timestamp,
   `usermode` varchar(255)
 );
 
-ALTER TABLE `address` ADD FOREIGN KEY (`id`) REFERENCES `user` (`address`);
+ALTER TABLE `user` ADD FOREIGN KEY (`address`) REFERENCES `address` (`id`);
 
-ALTER TABLE `venue` ADD FOREIGN KEY (`venueID`) REFERENCES `user` (`associatedVenue`);
+ALTER TABLE `user` ADD FOREIGN KEY (`associatedVenue`) REFERENCES `venue` (`venueID`);
 
-ALTER TABLE `address` ADD FOREIGN KEY (`id`) REFERENCES `venue` (`address`);
+ALTER TABLE `venue` ADD FOREIGN KEY (`address`) REFERENCES `address` (`id`);
 
-ALTER TABLE `user` ADD FOREIGN KEY (`userID`) REFERENCES `venue` (`createdBy`);
+ALTER TABLE `venue` ADD FOREIGN KEY (`createdBy`) REFERENCES `user` (`userID`);
 
-ALTER TABLE `user` ADD FOREIGN KEY (`userID`) REFERENCES `venue` (`associatedManager`);
+ALTER TABLE `venue` ADD FOREIGN KEY (`associatedManager`) REFERENCES `user` (`userID`);
 
 ALTER TABLE `checkIn` ADD FOREIGN KEY (`user`) REFERENCES `user` (`userID`);
 
