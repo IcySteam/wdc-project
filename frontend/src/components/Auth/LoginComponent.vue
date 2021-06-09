@@ -109,7 +109,7 @@
                     class="m-auto p-auto"
                     :disabled="!validated"
                     large>
-                    Sign In With Google
+                    Continue with Google
                   </v-btn>
                 </v-col>
               </template>
