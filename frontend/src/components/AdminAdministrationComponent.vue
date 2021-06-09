@@ -46,15 +46,48 @@
             :headers="usersHeaders"
             :items="usersItems"
             :search="usersSearch"
-            sort-by="timestamp"
             sort-desc
           >
-          <template v-slot:item.actions="{ }">
+            <template v-slot:top>
+            <v-dialog
+                v-model="dialog"
+                max-width="800px"
+            >
+              <v-card>
+                <v-card-title>
+                  <span class="text-h5">Check-In History</span>
+                </v-card-title>
+
+                <v-card-text>
+                  <v-container>
+                    <v-data-table
+                        :headers="userCheckInHeaders"
+                        :items="userCheckInItems"
+                        sort-desc
+                    />
+                  </v-container>
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="close"
+                  >
+                    Close
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+            </template>
+          <template v-slot:item.actions="{ item }">
             <v-btn
                 x-small
                 color="teal accent-3"
+                @click="viewUserInfo(item)"
             >
-              Manage
+              View Details
             </v-btn>
           </template>
           </v-data-table>
@@ -106,6 +139,7 @@ export default {
   components: { ConsistentMP },
   data() {
     return {
+      dialog: false,
       usersSearch: '',
       usersHeaders: [
         {
@@ -122,8 +156,8 @@ export default {
           value: 'beenToHotspot'
         },
         {
-          text: 'Last check-in timestamp',
-          value: 'timestamp'
+          text: 'Email Address',
+          value: 'email'
         },
         {
           text: '',
@@ -136,25 +170,25 @@ export default {
           userID: 'UID#ABYZ0189',
           fullName: 'Jash Vira',
           beenToHotspot: 'No',
-          timestamp: 1621147075
+          email: 'example@example.com'
         },
         {
           userID: 'UID#ABYZ0190',
           fullName: 'Junguo Wong',
           beenToHotspot: 'No',
-          timestamp: 1621147076
+          email: 'example@example.com'
         },
         {
           userID: 'UID#ABYZ0191',
           fullName: 'Zhenhang Dong',
           beenToHotspot: 'No',
-          timestamp: 1621147077
+          email: 'example@example.com'
         },
         {
           userID: 'UID#ABYZ0192',
           fullName: 'Minhaj Ahmed',
           beenToHotspot: 'No',
-          timestamp: 1621147078
+          email: 'example@example.com'
         }
       ],
 
@@ -249,8 +283,48 @@ export default {
           hotspot: 'Yes',
           timestamp: 1621147067
         }
-      ]
+      ],
+      userCheckInHeaders: [
+        {
+          text: 'Venue ID',
+          align: 'start',
+          value: 'venueID'
+        },
+        {
+          text: 'Venue Name',
+          value: 'venueName'
+        },
+        {
+          text: 'Time',
+          value: 'time'
+        },
+        {
+          text: 'Check-In ID',
+          value: 'id'
+        }
+      ],
+      userCheckInItems: []
     }
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close()
+    }
+  },
+
+  methods: {
+    viewUserInfo(item) {
+      this.dialog = true
+    },
+
+    close() {
+      this.dialog = false
+    }
+
+    // showUsers() {
+    // axios.get('/GetUsersDigest').then(({ data }) => (this.usersItems = data));
+    // }
   }
 }
 </script>
