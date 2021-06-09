@@ -44,25 +44,50 @@
       <v-spacer />
       <div class="text-center">
         <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }">
+          <template v-slot:activator="{ on }">
             <v-btn
-              icon
-              dark
-              v-bind="attrs"
-              v-on="on"
+                icon
+                x-large
+                v-on="on"
             >
-              <v-icon>mdi-dots-vertical</v-icon>
+              <v-avatar color="black">
+                <v-icon dark>
+                  mdi-account-circle
+                </v-icon>
+              </v-avatar>
             </v-btn>
           </template>
-          <v-list>
-            <v-list-item
-              v-for="(item, index) in usermodes"
-              :key="index"
-              @click="updateUsermode(item.title)"
-            >
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
+          <v-card>
+            <v-list-item-content class="justify-center">
+              <div class="mx-auto text-center">
+                <v-avatar
+                    color="indigo"
+                >
+                  <span class="white--text text-h5">{{ user.initials }}</span>
+                </v-avatar>
+                <h3>{{ user.fullName }}</h3>
+                <p class="text-caption mt-1">
+                  {{ user.email }}
+                </p>
+                <v-divider class="my-3"></v-divider>
+                <v-btn
+                    depressed
+                    rounded
+                    text
+                >
+                  View Account
+                </v-btn>
+                <v-divider class="my-3"></v-divider>
+                <v-btn
+                    depressed
+                    rounded
+                    text
+                >
+                  Sign Out
+                </v-btn>
+              </div>
+            </v-list-item-content>
+          </v-card>
         </v-menu>
       </div>
       <template v-if="extensionTabs.length > 0" v-slot:extension>
@@ -123,20 +148,11 @@ export default {
   data: () => ({
     drawer: false,
     group: null,
-    usermodes: [
-      {
-        'title': 'None'
-      },
-      {
-        'title': 'User'
-      },
-      {
-        'title': 'Manager'
-      },
-      {
-        'title': 'Admin'
-      }
-    ],
+    user: {
+      initials: 'JD',
+      fullName: 'John Doe',
+      email: 'john.doe@doe.com'
+    },
     window: {
       width: 0,
       height: 0
