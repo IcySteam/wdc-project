@@ -1,5 +1,5 @@
-CREATE DATABASE contact_tracing_system;
-USE contact_tracing_system;
+CREATE DATABASE IF NOT EXISTS `contact_tracing_system`;
+USE `contact_tracing_system`;
 
 CREATE TABLE `user` (
   `userID` varchar(255) PRIMARY KEY,
