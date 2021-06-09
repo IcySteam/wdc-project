@@ -56,6 +56,7 @@
               <v-card>
                 <v-card-title>
                   <span class="text-h5">Check-In History</span>
+                  <span>{{ selectedUserID }}</span>
                 </v-card-title>
 
                 <v-card-text>
@@ -140,6 +141,8 @@ export default {
   data() {
     return {
       dialog: false,
+      userIndex: 0,
+      selectedUserID: '',
       usersSearch: '',
       usersHeaders: [
         {
@@ -315,6 +318,8 @@ export default {
 
   methods: {
     viewUserInfo(item) {
+      this.userIndex = this.usersItems.indexOf(item)
+      this.selectedUserID = this.usersItems[this.userIndex].userID
       this.dialog = true
     },
 
@@ -323,7 +328,7 @@ export default {
     }
 
     // showUsers() {
-    // axios.get('/GetUsersDigest').then(({ data }) => (this.usersItems = data));
+    // axios.get('/GetUsersDigest').then(({ data }) => (this.usersItems = data))
     // }
   }
 }
