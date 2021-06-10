@@ -8,6 +8,57 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var bcrypt = require('bcrypt');
 const saltRounds = 8;
+var passport = require('passport');
+var GoogleUserProfile;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const GOOGLE_CLIENT_ID = '1007071025898-tm7jhgcq17u2goi17ireghg8c77gb4la.apps.googleusercontent.com';
+const GOOGLE_CLIENT_SECRET = 'cT967vU--K_jZD3zO7eqrVRc';
+
+// dumb proxy to integrate frontend and backend
+const frontend_port = '8080';
+const backend_port = '3000';
+const proxy_port = '8000';
+const httpProxy = require('http-proxy');
+const url = require('url');
+const proxy = httpProxy.createProxy();
+const options = {
+  //frontend routes
+  '/': 'http://localhost:' + frontend_port,
+  '/js': 'http://localhost:' + frontend_port,
+  '/img': 'http://localhost:' + frontend_port,
+  '/fonts': 'http://localhost:' + frontend_port,
+  '/LoremIpsum': 'http://localhost:' + frontend_port,
+  '/Default/Home': 'http://localhost:' + frontend_port,
+  '/Default/About': 'http://localhost:' + frontend_port,
+  '/User/Home': 'http://localhost:' + frontend_port,
+  '/User/Account': 'http://localhost:' + frontend_port,
+  '/Auth/SignUp': 'http://localhost:' + frontend_port,
+  '/Auth/Login': 'http://localhost:' + frontend_port,
+  '/Manager/Home': 'http://localhost:' + frontend_port,
+  '/Manager/Account': 'http://localhost:' + frontend_port,
+  '/Admin/Home': 'http://localhost:' + frontend_port,
+  '/Admin/Account': 'http://localhost:' + frontend_port,
+  '/Admin/Administration': 'http://localhost:' + frontend_port,
+
+  // backend routes
+  '/Action/Login': 'http://localhost:' + backend_port,
+  '/Action/Logout': 'http://localhost:' + backend_port,
+  '/Action/GetSessionStatus': 'http://localhost:' + backend_port,
+  '/Action/GoogleAuth': 'http://localhost:' + backend_port,
+  '/Action/GoogleAuth/Callback': 'http://localhost:' + backend_port,
+  '/Action/GoogleAuth/Failure': 'http://localhost:' + backend_port,
+  '/Action/GoogleAuth/GetGoogleUserProfile': 'http://localhost:' + backend_port
+}
+require('http').createServer((req, res) => {
+  const pathname = url.parse(req.url).pathname;
+  for (const [pattern, target] of Object.entries(options)) {
+    if (pathname === pattern ||
+        pathname.startsWith(pattern + '/')
+    ) {
+      proxy.web(req, res, {target});
+    }
+  }
+}).listen(parseInt(proxy_port));
 
 var dbConnectionPool = mysql.createPool({
   host: 'localhost',
@@ -36,6 +87,26 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+passport.use(new GoogleStrategy({
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL: 'http://localhost:' + backend_port + '/Action/GoogleAuth/Callback'
+    },
+    function(accessToken, refreshToken, profile, done) {
+      // set last user profile to obtained user profile; potentially unsafe and could break when multiple users try to log in at the same time
+      GoogleUserProfile = profile;
+      return done(null, GoogleUserProfile);
+    }
+));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -49,7 +120,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.post('/Auth/Login', function(req, res, next) {
+app.post('/Action/Login', function(req, res, next) {
   // if already logged in, just return OK
   if (req.session.loggedIn === true) {
     res.sendStatus(200);
@@ -88,11 +159,65 @@ app.post('/Auth/Login', function(req, res, next) {
     }
   })
 });
-app.post('/Auth/Logout', function(req, res, next) {
+app.post('/Action/Logout', function(req, res, next) {
   req.session.loggedIn = false;
-  req.session.userID = '';
+  req.session.userID = null;
   res.sendStatus(200);
 });
+app.get('/Action/GetSessionStatus', function(req, res, next) {
+  var resObj = {
+    "userID": null,
+    "loggedIn": false
+  }
+  if(req.session.loggedIn) {
+    resObj.loggedIn = true;
+    resObj.userID = req.session.userID;
+  }
+  res.json(resObj);
+});
+
+// dev purposes only \/
+// app.get('/Action/GoogleAuth/GetGoogleUserProfile', (req, res) => res.send(GoogleUserProfile));
+// dev purposes only /\
+app.get('/Action/GoogleAuth',
+    passport.authenticate('google', { scope : ['profile', 'email'] }));
+app.get('/Action/GoogleAuth/Failure',
+    function(req, res) {
+      res.sendStatus(401);
+    })
+app.get('/Action/GoogleAuth/Callback',
+    // redirect to error on failure
+    passport.authenticate('google', { failureRedirect: '/Action/GoogleAuth/Failure' }),
+    // Successful authentication; check db and respond accordingly
+    function(req, res) {
+      // if already logged in, just return OK
+      if (req.session.loggedIn === true) {
+        res.sendStatus(200);
+        return;
+      }
+      req.pool.getConnection(function(err, connection) {
+        if (err) {
+          res.sendStatus(500);
+          return;
+        }
+        if (GoogleUserProfile) {
+          var userEmail = GoogleUserProfile.emails[0].value;
+          var queryString;
+          queryString = "SELECT * FROM user WHERE email = ?;";
+          connection.query(queryString, [userEmail], function(err, rows, fields) {
+            if (rows.length > 0) {
+                req.session.loggedIn = true;
+                req.session.userID = rows[0].userID;
+                res.sendStatus(200);
+            } else {
+              res.sendStatus(401);
+            }
+          });
+        } else {
+          res.sendStatus(520);
+        }
+      })
+    });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
