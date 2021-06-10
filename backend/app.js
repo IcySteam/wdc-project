@@ -21,9 +21,10 @@ const proxy_port = '8000';
 const httpProxy = require('http-proxy');
 const url = require('url');
 const proxy = httpProxy.createProxy();
-const options = {
+const proxyOptions = {
   //frontend routes
   '/': 'http://localhost:' + frontend_port,
+  '/favicon.ico': 'http://localhost:' + frontend_port,
   '/js': 'http://localhost:' + frontend_port,
   '/img': 'http://localhost:' + frontend_port,
   '/fonts': 'http://localhost:' + frontend_port,
@@ -41,22 +42,30 @@ const options = {
   '/Admin/Administration': 'http://localhost:' + frontend_port,
 
   // backend routes
-  '/Action/Login': 'http://localhost:' + backend_port,
-  '/Action/Logout': 'http://localhost:' + backend_port,
-  '/Action/GetSessionStatus': 'http://localhost:' + backend_port,
-  '/Action/GoogleAuth': 'http://localhost:' + backend_port,
-  '/Action/GoogleAuth/Callback': 'http://localhost:' + backend_port,
-  '/Action/GoogleAuth/Failure': 'http://localhost:' + backend_port,
-  '/Action/GoogleAuth/GetGoogleUserProfile': 'http://localhost:' + backend_port
+  // /Action handled by regex
 }
 require('http').createServer((req, res) => {
   const pathname = url.parse(req.url).pathname;
-  for (const [pattern, target] of Object.entries(options)) {
+  for (const [pattern, dest] of Object.entries(proxyOptions)) {
     if (pathname === pattern ||
         pathname.startsWith(pattern + '/')
     ) {
-      proxy.web(req, res, {target});
+      proxy.web(req, res, {target: dest});
     }
+  }
+  // forward to frontend if no matches
+  // universal solution DOESN'T WORK, breaks shit
+  // FFS
+  // using case-by-case regexp
+  var actionRegex = new RegExp("^\\/Action\\/.*");
+  var hotUpdateRegex = new RegExp("^\\/(.)*[a-z0-9]{20}\\.hot\\-update\\.js(on){0,1}(\\/){0,1}$"); // Vue.js hot update js
+  if (actionRegex.test(pathname)) {
+    let fallbackDest = 'http://localhost:' + backend_port;
+    proxy.web(req, res, {target: fallbackDest});
+  }
+  else if (hotUpdateRegex.test(pathname)) {
+    let fallbackDest = 'http://localhost:' + frontend_port;
+    proxy.web(req, res, {target: fallbackDest});
   }
 }).listen(parseInt(proxy_port));
 
