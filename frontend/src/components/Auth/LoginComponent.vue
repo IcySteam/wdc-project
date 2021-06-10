@@ -100,22 +100,22 @@
                   sm="12"
                 />
                 <v-col>
-<!--                  <v-btn-->
-<!--                    v-google-signin-button="clientId"-->
-<!--                    type="button"-->
-<!--                    width="100%"-->
-<!--                    color="black"-->
-<!--                    class="m-auto p-auto"-->
-<!--                    large-->
-<!--                  >-->
-<!--                    Continue with Google-->
-<!--                  </v-btn>-->
+                  <!--                  <v-btn-->
+                  <!--                    v-google-signin-button="clientId"-->
+                  <!--                    type="button"-->
+                  <!--                    width="100%"-->
+                  <!--                    color="black"-->
+                  <!--                    class="m-auto p-auto"-->
+                  <!--                    large-->
+                  <!--                  >-->
+                  <!--                    Continue with Google-->
+                  <!--                  </v-btn>-->
                   <v-btn
-                      type="button"
-                      width="100%"
-                      color="#222222"
-                      class="m-auto p-auto"
-                      large
+                    type="button"
+                    width="100%"
+                    color="#222222"
+                    class="m-auto p-auto"
+                    large
                   >
                     Continue with Google
                   </v-btn>

@@ -15,9 +15,9 @@ const GOOGLE_CLIENT_ID = '1007071025898-tm7jhgcq17u2goi17ireghg8c77gb4la.apps.go
 const GOOGLE_CLIENT_SECRET = 'cT967vU--K_jZD3zO7eqrVRc';
 
 // dumb proxy to integrate frontend and backend
-const frontend_port = '8080';
+const frontend_port = '8081';
 const backend_port = '3000';
-const proxy_port = '8000';
+const proxy_port = '8080';
 const httpProxy = require('http-proxy');
 const url = require('url');
 const proxy = httpProxy.createProxy();
