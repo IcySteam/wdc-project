@@ -49,14 +49,14 @@
             sort-by="timestamp"
             sort-desc
           >
-          <template v-slot:item.actions="{ }">
-            <v-btn
+            <template v-slot:item.actions="{ }">
+              <v-btn
                 x-small
                 color="teal accent-3"
-            >
-              Manage
-            </v-btn>
-          </template>
+              >
+                Manage
+              </v-btn>
+            </template>
           </v-data-table>
         </v-card>
       </template>
@@ -86,8 +86,8 @@
           >
             <template v-slot:item.actions="{ }">
               <v-btn
-                  x-small
-                  color="teal accent-3"
+                x-small
+                color="teal accent-3"
               >
                 Manage
               </v-btn>

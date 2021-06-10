@@ -98,8 +98,7 @@
                 <v-col
                   cols="12"
                   sm="12"
-                >
-                </v-col>
+                />
                 <v-col>
                   <v-btn
                     v-google-signin-button="clientId"
@@ -108,7 +107,8 @@
                     color="black"
                     class="m-auto p-auto"
                     :disabled="!validated"
-                    large>
+                    large
+                  >
                     Continue with Google
                   </v-btn>
                 </v-col>

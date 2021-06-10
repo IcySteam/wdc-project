@@ -1,30 +1,30 @@
-CREATE DATABASE contact_tracing_system;
-USE contact_tracing_system;
+CREATE DATABASE IF NOT EXISTS `contact_tracing_system`;
+USE `contact_tracing_system`;
 
 CREATE TABLE `user` (
   `userID` varchar(255) PRIMARY KEY,
   `firstName` varchar(255),
   `lastName` varchar(255),
   `address` int,
-  `phoneNumber` int,
-  `email` varchar(255),
+  `phoneNumber` int NOT NULL UNIQUE,
+  `email` varchar(255) NOT NULL UNIQUE,
   `gender` varchar(255),
-  `password` varchar(255),
+  `password` char(60) NOT NULL,
   `DOB` varchar(255),
   `registrationCode` varchar(255),
   `creationTimestamp` timestamp,
   `updateTimestamp` timestamp,
-  `usermode` varchar(255),
+  `usermode` varchar(255) NOT NULL,
   `associatedVenue` varchar(255),
   `recentlyBeenToHotspot` bit
 );
 
 CREATE TABLE `address` (
   `id` int PRIMARY KEY,
-  `line_1` varchar(255),
+  `line_1` varchar(255) NOT NULL,
   `line_2` varchar(255),
-  `suburb` varchar(255),
-  `postcode` int
+  `suburb` varchar(255) NOT NULL,
+  `postcode` int NOT NULL
 );
 
 CREATE TABLE `venue` (
@@ -38,16 +38,16 @@ CREATE TABLE `venue` (
   `updateTimestamp` timestamp,
   `associatedManager` varchar(255),
   `isHotspot` bit,
-  `latitude` float,
-  `longitude` float,
-  `radius` float
+  `latitude` float NOT NULL,
+  `longitude` float NOT NULL,
+  `radius` float NOT NULL
 );
 
 CREATE TABLE `checkIn` (
   `id` int PRIMARY KEY,
-  `user` varchar(255),
-  `venue` varchar(255),
-  `time` timestamp,
+  `user` varchar(255) NOT NULL,
+  `venue` varchar(255) NOT NULL,
+  `time` timestamp NOT NULL,
   `codeUsed` varchar(255)
 );
 
@@ -56,9 +56,9 @@ CREATE TABLE `hotspotTimeframe` (
   `createdBy` varchar(255),
   `creationTimestamp` timestamp,
   `updateTimestamp` timestamp,
-  `venue` varchar(255),
-  `startTime` timestamp,
-  `endTime` timestamp,
+  `venue` varchar(255) NOT NULL,
+  `startTime` timestamp NOT NULL,
+  `endTime` timestamp NOT NULL,
   `affectedUsers` int
 );
 
@@ -67,9 +67,9 @@ CREATE TABLE `registrationCode` (
   `createdBy` varchar(255),
   `creationTimestamp` timestamp,
   `updateTimestamp` timestamp,
-  `validityStart` timestamp,
-  `validityEnd` timestamp,
-  `usermode` varchar(255)
+  `validityStart` timestamp NOT NULL,
+  `validityEnd` timestamp NOT NULL,
+  `usermode` varchar(255) NOT NULL
 );
 
 ALTER TABLE `user` ADD FOREIGN KEY (`address`) REFERENCES `address` (`id`);
