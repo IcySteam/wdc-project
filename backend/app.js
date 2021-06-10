@@ -6,12 +6,14 @@ var logger = require('morgan');
 var mysql = require('mysql');
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var bcrypt = require('bcrypt');
+const saltRounds = 8;
 
 var dbConnectionPool = mysql.createPool({
   host: 'localhost',
   database: 'contact_tracing_system',
   user: 'root',
-  password: '9540'
+  password: ''
 });
 
 var indexRouter = require('./routes/index');
@@ -61,17 +63,22 @@ app.post('/Auth/Login', function(req, res, next) {
     var login = req.body.login;
     var password = req.body.password;
     if (login && password) {
+      // var hashedPassword = bcrypt.hash(password, saltRounds);
       var queryString;
       if (!isNaN(login) && login.length === 10) {
-        queryString = "SELECT * FROM user WHERE phoneNumber = ? AND password = ?;";
+        queryString = "SELECT * FROM user WHERE phoneNumber = ?;";
       } else {
-        queryString = "SELECT * FROM user WHERE email = ? AND password = ?;";
+        queryString = "SELECT * FROM user WHERE email = ?;";
       }
-      connection.query(queryString, [login, password], function(err, rows, fields) {
+      connection.query(queryString, [login], function(err, rows, fields) {
         if (rows.length > 0) {
-          req.session.loggedIn = true;
-          req.session.userID = rows[0].userID;
-          res.sendStatus(200);
+          if (bcrypt.compareSync(password, rows[0].password)) {
+            req.session.loggedIn = true;
+            req.session.userID = rows[0].userID;
+            res.sendStatus(200);
+          } else {
+            res.sendStatus(401);
+          }
         } else {
           res.sendStatus(401);
         }
