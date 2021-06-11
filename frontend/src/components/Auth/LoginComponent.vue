@@ -91,6 +91,7 @@
                     :disabled="!validated"
                     large
                     v-on="on"
+                    @click="traditionalLogin()"
                   >
                     Sign In
                   </v-btn>
@@ -121,6 +122,24 @@
                   </v-btn>
                 </v-col>
               </template>
+              <v-card class="pb-3">
+                <v-card-title class="brown darken-4">
+                  {{ submitPopupTitle }}
+                </v-card-title>
+                <v-card-text class="mt-6">
+                  {{ submitPopupText }}
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    class="brown darken-4 mt-n2"
+                    text
+                    @click="submitPopup = false"
+                  >
+                    Close
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
             </v-dialog>
           </v-col>
           <v-col
@@ -161,6 +180,8 @@ export default {
       login: '',
       password: '',
       submitPopup: false,
+      submitPopupTitle: '',
+      submitPopupText: '',
       genericRules: [
         v => !!v || 'Field is required',
         v => (v && v.length <= 100) || 'Max 100 characters'
@@ -215,8 +236,43 @@ export default {
       if (res.code === 0) {
         console.log('Google login success')
       }
+    },
+    traditionalLogin() {
+      const loginPayload = {
+        'login': this.login,
+        'password': this.password
+      }
+      this.$store.commit('postLogin', loginPayload)
+      // better to use promises than setTimeout I know
+      // out of time bruh
+      // also see
+      // https://stackoverflow.com/questions/47692003/access-vuex-store-getters-in-component-method
+      const realThis = this
+      setTimeout(function() {
+        const response = realThis.$store.getters.getPostLoginResponse
+        // console.log(response)
+        const loggedInRegExp = new RegExp('^You are already logged in as UID#')
+        try {
+          switch (response.status) {
+            case 200:
+              if (loggedInRegExp.test(response.data)) {
+                realThis.submitPopupTitle = 'Already logged in'
+                realThis.submitPopupText = 'Please log out first to continue as another user.'
+              } else {
+                realThis.submitPopupTitle = 'Success!'
+                realThis.submitPopupText = 'You have successfully logged in.'
+              }
+              break
+            default:
+              break
+          }
+        } catch (error) {
+          // console.log(error)
+          realThis.submitPopupTitle = 'Error'
+          realThis.submitPopupText = 'Failed to log in!'
+        }
+      }, 100)
     }
-
   }
 }
 </script>

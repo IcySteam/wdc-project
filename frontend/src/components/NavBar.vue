@@ -135,6 +135,15 @@
             </v-list-item-icon>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
+          <v-list-item
+            v-if="this.$store.getters.getLoggedIn"
+            href="/Auth/Logout"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Log Out</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -241,6 +250,7 @@ export default {
   created() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
+    this.$store.dispatch('getSessionStatus')
   },
   destroyed() {
     window.removeEventListener('resize', this.handleResize)
