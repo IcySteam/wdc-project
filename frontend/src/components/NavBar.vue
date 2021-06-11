@@ -65,11 +65,11 @@
                 >
                   <span class="white--text text-h5">{{ user.initials }}</span>
                 </v-avatar>
-                <h3>{{ user.fullName }}</h3>
-                <p class="text-caption mt-1">
+                <h3 class="mt-3">{{ user.fullName }}</h3>
+                <p class="text-caption mt-3">
                   {{ user.email }}
                 </p>
-                <v-divider class="my-3" />
+                <v-divider class="my-2" />
                 <v-btn
                   depressed
                   rounded
@@ -77,7 +77,7 @@
                 >
                   View Account
                 </v-btn>
-                <v-divider class="my-3" />
+                <v-divider class="my-2" />
                 <v-btn
                   depressed
                   rounded

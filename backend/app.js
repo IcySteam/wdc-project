@@ -15,15 +15,16 @@ const GOOGLE_CLIENT_ID = '1007071025898-tm7jhgcq17u2goi17ireghg8c77gb4la.apps.go
 const GOOGLE_CLIENT_SECRET = 'cT967vU--K_jZD3zO7eqrVRc';
 
 // dumb proxy to integrate frontend and backend
-const frontend_port = '8080';
+const frontend_port = '8081';
 const backend_port = '3000';
-const proxy_port = '8000';
+const proxy_port = '8080';
 const httpProxy = require('http-proxy');
 const url = require('url');
 const proxy = httpProxy.createProxy();
-const options = {
+const proxyOptions = {
   //frontend routes
   '/': 'http://localhost:' + frontend_port,
+  '/favicon.ico': 'http://localhost:' + frontend_port,
   '/js': 'http://localhost:' + frontend_port,
   '/img': 'http://localhost:' + frontend_port,
   '/fonts': 'http://localhost:' + frontend_port,
@@ -41,22 +42,30 @@ const options = {
   '/Admin/Administration': 'http://localhost:' + frontend_port,
 
   // backend routes
-  '/Action/Login': 'http://localhost:' + backend_port,
-  '/Action/Logout': 'http://localhost:' + backend_port,
-  '/Action/GetSessionStatus': 'http://localhost:' + backend_port,
-  '/Action/GoogleAuth': 'http://localhost:' + backend_port,
-  '/Action/GoogleAuth/Callback': 'http://localhost:' + backend_port,
-  '/Action/GoogleAuth/Failure': 'http://localhost:' + backend_port,
-  '/Action/GoogleAuth/GetGoogleUserProfile': 'http://localhost:' + backend_port
+  // /Action handled by regex
 }
 require('http').createServer((req, res) => {
   const pathname = url.parse(req.url).pathname;
-  for (const [pattern, target] of Object.entries(options)) {
+  for (const [pattern, dest] of Object.entries(proxyOptions)) {
     if (pathname === pattern ||
         pathname.startsWith(pattern + '/')
     ) {
-      proxy.web(req, res, {target});
+      proxy.web(req, res, {target: dest});
     }
+  }
+  // forward to frontend if no matches
+  // universal solution DOESN'T WORK, breaks shit
+  // FFS
+  // using case-by-case regexp
+  var actionRegex = new RegExp("^\\/Action\\/.*");
+  var hotUpdateRegex = new RegExp("^\\/(.)*[a-z0-9]{20}\\.hot\\-update\\.js(on){0,1}(\\/){0,1}$"); // Vue.js hot update js
+  if (actionRegex.test(pathname)) {
+    let fallbackDest = 'http://localhost:' + backend_port;
+    proxy.web(req, res, {target: fallbackDest});
+  }
+  else if (hotUpdateRegex.test(pathname)) {
+    let fallbackDest = 'http://localhost:' + frontend_port;
+    proxy.web(req, res, {target: fallbackDest});
   }
 }).listen(parseInt(proxy_port));
 
@@ -98,7 +107,9 @@ passport.deserializeUser(function(obj, cb) {
 passport.use(new GoogleStrategy({
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:' + backend_port + '/Action/GoogleAuth/Callback'
+      // Google auth callback url; DEPENDENT ON ENVIRONMENT
+      // callbackURL: 'https://ide-8c045c49c48c4ffb8cbf416d2ea89fd8-8080.cs50.ws/Action/GoogleAuth/Callback'
+      callbackURL: 'http://localhost:' + proxy_port + '/Action/GoogleAuth/Callback'
     },
     function(accessToken, refreshToken, profile, done) {
       // set last user profile to obtained user profile; potentially unsafe and could break when multiple users try to log in at the same time
