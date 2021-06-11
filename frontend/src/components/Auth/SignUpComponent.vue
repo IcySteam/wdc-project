@@ -284,7 +284,7 @@
                     text
                     @click="submitPopup = false"
                   >
-                    Close
+                    OK
                   </v-btn>
                 </v-card-actions>
               </v-card>

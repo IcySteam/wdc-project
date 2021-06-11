@@ -117,6 +117,7 @@
                     color="#222222"
                     class="m-auto p-auto"
                     large
+                    href="/Action/GoogleAuth"
                   >
                     Continue with Google
                   </v-btn>
@@ -134,9 +135,9 @@
                   <v-btn
                     class="brown darken-4 mt-n2"
                     text
-                    @click="submitPopup = false"
+                    @click="OKSubmitPopup()"
                   >
-                    Close
+                    OK
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -270,6 +271,20 @@ export default {
           // console.log(error)
           realThis.submitPopupTitle = 'Error'
           realThis.submitPopupText = 'Failed to log in!'
+        }
+      }, 100)
+    },
+    OKSubmitPopup() {
+      // better to use promises than setTimeout I know
+      // out of time bruh
+      // final reminder
+      this.$store.dispatch('getSessionStatus')
+      const realThis = this
+      setTimeout(function() {
+        if (realThis.$store.getters.getLoggedIn) {
+          realThis.$router.push('/').catch(() => {})
+        } else {
+          realThis.submitPopup = false
         }
       }, 100)
     }
