@@ -50,7 +50,7 @@
               x-large
               v-on="on"
             >
-              <v-avatar color="black">
+              <v-avatar color="transparent">
                 <v-icon dark>
                   mdi-account-circle
                 </v-icon>

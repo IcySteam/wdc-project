@@ -244,7 +244,7 @@ export default {
         'password': this.password
       }
       this.$store.commit('postLogin', loginPayload)
-      // better to use promises than setTimeout I know
+      // have to use promises rather than setTimeout in real world I know
       // out of time bruh
       // also see
       // https://stackoverflow.com/questions/47692003/access-vuex-store-getters-in-component-method
@@ -275,8 +275,7 @@ export default {
       }, 100)
     },
     OKSubmitPopup() {
-      // better to use promises than setTimeout I know
-      // out of time bruh
+      // using setTimeout cuz out of time bruh
       // final reminder
       this.$store.dispatch('getSessionStatus')
       const realThis = this
