@@ -9,3 +9,8 @@
 ```
 ./start.sh
 ```
+
+### Access the project with port
+```
+8080
+```

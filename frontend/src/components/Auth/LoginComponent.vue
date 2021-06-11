@@ -98,17 +98,25 @@
                 <v-col
                   cols="12"
                   sm="12"
-                >
-                </v-col>
+                />
                 <v-col>
+                  <!--                  <v-btn-->
+                  <!--                    v-google-signin-button="clientId"-->
+                  <!--                    type="button"-->
+                  <!--                    width="100%"-->
+                  <!--                    color="black"-->
+                  <!--                    class="m-auto p-auto"-->
+                  <!--                    large-->
+                  <!--                  >-->
+                  <!--                    Continue with Google-->
+                  <!--                  </v-btn>-->
                   <v-btn
-                    v-google-signin-button="clientId"
                     type="button"
                     width="100%"
-                    color="black"
+                    color="#222222"
                     class="m-auto p-auto"
-                    :disabled="!validated"
-                    large>
+                    large
+                  >
                     Continue with Google
                   </v-btn>
                 </v-col>

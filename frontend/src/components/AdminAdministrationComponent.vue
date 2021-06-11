@@ -120,8 +120,9 @@
           >
             <template v-slot:item.actions="{ }">
               <v-btn
-                x-small
+                small
                 color="teal accent-3"
+                class="black--text"
               >
                 Manage
               </v-btn>

@@ -46,9 +46,9 @@
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-btn
-                icon
-                x-large
-                v-on="on"
+              icon
+              x-large
+              v-on="on"
             >
               <v-avatar color="black">
                 <v-icon dark>
@@ -61,27 +61,27 @@
             <v-list-item-content class="justify-center">
               <div class="mx-auto text-center">
                 <v-avatar
-                    color="indigo"
+                  color="indigo"
                 >
                   <span class="white--text text-h5">{{ user.initials }}</span>
                 </v-avatar>
-                <h3>{{ user.fullName }}</h3>
-                <p class="text-caption mt-1">
+                <h3 class="mt-3">{{ user.fullName }}</h3>
+                <p class="text-caption mt-3">
                   {{ user.email }}
                 </p>
-                <v-divider class="my-3"></v-divider>
+                <v-divider class="my-2" />
                 <v-btn
-                    depressed
-                    rounded
-                    text
+                  depressed
+                  rounded
+                  text
                 >
                   View Account
                 </v-btn>
-                <v-divider class="my-3"></v-divider>
+                <v-divider class="my-2" />
                 <v-btn
-                    depressed
-                    rounded
-                    text
+                  depressed
+                  rounded
+                  text
                 >
                   Sign Out
                 </v-btn>
