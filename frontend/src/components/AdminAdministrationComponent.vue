@@ -49,48 +49,48 @@
             sort-desc
           >
             <template v-slot:top>
-            <v-dialog
+              <v-dialog
                 v-model="dialog"
                 max-width="800px"
-            >
-              <v-card>
-                <v-card-title>
-                  <span class="text-h5">Check-In History</span>
-                  <span>{{ selectedUserID }}</span>
-                </v-card-title>
+              >
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Check-In History</span>
+                    <span>{{ selectedUserID }}</span>
+                  </v-card-title>
 
-                <v-card-text>
-                  <v-container>
-                    <v-data-table
+                  <v-card-text>
+                    <v-container>
+                      <v-data-table
                         :headers="userCheckInHeaders"
                         :items="userCheckInItems"
                         sort-desc
-                    />
-                  </v-container>
-                </v-card-text>
+                      />
+                    </v-container>
+                  </v-card-text>
 
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
                       color="blue darken-1"
                       text
                       @click="close"
-                  >
-                    Close
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+                    >
+                      Close
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </template>
-          <template v-slot:item.actions="{ item }">
-            <v-btn
+            <template v-slot:item.actions="{ item }">
+              <v-btn
                 x-small
                 color="teal accent-3"
                 @click="viewUserInfo(item)"
-            >
-              View Details
-            </v-btn>
-          </template>
+              >
+                View Details
+              </v-btn>
+            </template>
           </v-data-table>
         </v-card>
       </template>
@@ -120,8 +120,8 @@
           >
             <template v-slot:item.actions="{ }">
               <v-btn
-                  x-small
-                  color="teal accent-3"
+                x-small
+                color="teal accent-3"
               >
                 Manage
               </v-btn>
