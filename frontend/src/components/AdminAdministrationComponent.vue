@@ -46,18 +46,127 @@
             :headers="usersHeaders"
             :items="usersItems"
             :search="usersSearch"
-            sort-by="timestamp"
             sort-desc
           >
-            <template v-slot:item.actions="{ }">
+            <template v-slot:top>
+              <v-dialog
+                v-model="UCdialog"
+                max-width="800px"
+              >
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Check-In History</span>
+                    <v-spacer />
+                    <span>User ID: {{ selectedUserID }}</span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-data-table
+                        :headers="userCheckInHeaders"
+                        :items="userCheckInItems"
+                        sort-desc
+                      />
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="close"
+                    >
+                      Close
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+              <v-dialog
+                v-model="UMdialog"
+                max-width="800px"
+              >
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Account Details</span>
+                    <v-spacer />
+                    <span>User ID: {{ selectedUserID }}</span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-data-table
+                        :headers="userAccountDetailHeaders"
+                        :items="userAccountDetailItems"
+                      >
+                        <template v-slot:item.value="props">
+                          <v-edit-dialog
+                            :return-value.sync="props.item.value"
+                            large
+                            persistent
+                            @save="usave"
+                            @cancel="ucancel"
+                            @open="open"
+                          >
+                            <div>{{ props.item.value }}</div>
+                            <template v-slot:input>
+                              <div class="mt-4 text-h6">
+                                Update Value
+                              </div>
+                              <v-text-field
+                                v-model="props.item.value"
+                                :rules="[max255chars]"
+                                label="Edit"
+                                single-line
+                                counter
+                                autofocus
+                              />
+                            </template>
+                          </v-edit-dialog>
+                        </template>
+                      </v-data-table>
+                      <v-snackbar
+                        v-model="pop"
+                        :timeout="3000"
+                        :color="popColor"
+                      >
+                        {{ popText }}
+                      </v-snackbar>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="close"
+                    >
+                      Close
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </template>
+            <template v-slot:item.actions="{ item }">
               <v-btn
                 small
                 color="teal accent-3"
                 class="black--text"
+                @click="viewUserInfo(item)"
+              >
+                View Check-Ins
+              </v-btn>
+              <v-btn
+                small
+                color="teal accent-3"
+                class="black--text"
+                @click="manageUserInfo(item)"
               >
                 Manage
               </v-btn>
             </template>
+
           </v-data-table>
         </v-card>
       </template>
@@ -85,11 +194,120 @@
             sort-by="timestamp"
             sort-desc
           >
-            <template v-slot:item.actions="{ }">
+            <template v-slot:top>
+              <v-dialog
+                v-model="VCdialog"
+                max-width="800px"
+              >
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Check-In History</span>
+                    <v-spacer />
+                    <span>Venue ID: {{ selectedVenueID }}</span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-data-table
+                        :headers="venueCheckInHeaders"
+                        :items="venueCheckInItems"
+                        sort-desc
+                      />
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="close"
+                    >
+                      Close
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+              <v-dialog
+                v-model="VMdialog"
+                max-width="800px"
+              >
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Account Details</span>
+                    <v-spacer />
+                    <span>Venue ID: {{ selectedVenueID }}</span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-data-table
+                        :headers="venueDetailHeaders"
+                        :items="venueDetailItems"
+                      >
+                        <template v-slot:item.value="props">
+                          <v-edit-dialog
+                            :return-value.sync="props.item.value"
+                            large
+                            persistent
+                            @save="vsave"
+                            @cancel="vcancel"
+                            @open="open"
+                          >
+                            <div>{{ props.item.value }}</div>
+                            <template v-slot:input>
+                              <div class="mt-4 text-h6">
+                                Update Value
+                              </div>
+                              <v-text-field
+                                v-model="props.item.value"
+                                :rules="[max255chars]"
+                                label="Edit"
+                                single-line
+                                counter
+                                autofocus
+                              />
+                            </template>
+                          </v-edit-dialog>
+                        </template>
+                      </v-data-table>
+                      <v-snackbar
+                        v-model="pop"
+                        :timeout="3000"
+                        :color="popColor"
+                      >
+                        {{ popText }}
+                      </v-snackbar>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="close"
+                    >
+                      Close
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </template>
+            <template v-slot:item.actions="{ item }">
               <v-btn
                 small
                 color="teal accent-3"
                 class="black--text"
+                @click="viewVenueInfo(item)"
+              >
+                View Check-Ins
+              </v-btn>
+              <v-btn
+                small
+                color="teal accent-3"
+                class="black--text"
+                @click="manageVenueInfo(item)"
               >
                 Manage
               </v-btn>
@@ -108,6 +326,18 @@ export default {
   components: { ConsistentMP },
   data() {
     return {
+      UCdialog: false,
+      UMdialog: false,
+      VCdialog: false,
+      VMdialog: false,
+      pop: false,
+      popColor: '',
+      popText: '',
+      max255chars: v => v.length <= 255 || 'Input too long!',
+      userIndex: 0,
+      venueIndex: 0,
+      selectedUserID: '',
+      selectedVenueID: '',
       usersSearch: '',
       usersHeaders: [
         {
@@ -124,8 +354,8 @@ export default {
           value: 'beenToHotspot'
         },
         {
-          text: 'Last check-in timestamp',
-          value: 'timestamp'
+          text: 'Email Address',
+          value: 'email'
         },
         {
           text: '',
@@ -138,25 +368,25 @@ export default {
           userID: 'abyx0189',
           fullName: 'Jash Vira',
           beenToHotspot: 'No',
-          timestamp: 1621147075
+          email: 'example@example.com'
         },
         {
           userID: 'abyz0190',
           fullName: 'Junguo Wong',
           beenToHotspot: 'No',
-          timestamp: 1621147076
+          email: 'example@example.com'
         },
         {
           userID: 'abyz0191',
           fullName: 'Zhenhang Dong',
           beenToHotspot: 'No',
-          timestamp: 1621147077
+          email: 'example@example.com'
         },
         {
           userID: 'abyz0192',
           fullName: 'Minhaj Ahmed',
           beenToHotspot: 'No',
-          timestamp: 1621147078
+          email: 'example@example.com'
         }
       ],
 
@@ -251,8 +481,253 @@ export default {
           hotspot: 'Yes',
           timestamp: 1621147067
         }
+      ],
+      userCheckInHeaders: [
+        {
+          text: 'Venue ID',
+          align: 'start',
+          value: 'venueID'
+        },
+        {
+          text: 'Venue Name',
+          value: 'venueName'
+        },
+        {
+          text: 'Time',
+          value: 'time'
+        },
+        {
+          text: 'Check-In ID',
+          value: 'id'
+        }
+      ],
+      userCheckInItems: [],
+      userAccountDetailHeaders: [
+        {
+          text: 'Detail',
+          align: 'start',
+          value: 'name'
+        },
+        {
+          text: '',
+          value: 'value',
+          sortable: false
+        },
+        {
+          text: 'Last updated',
+          value: 'updated'
+        }
+      ],
+      userAccountDetailItems: [
+        {
+          name: 'First name',
+          value: 'Jon',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Last name',
+          value: 'Doe',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Role',
+          value: 'User',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Gender',
+          value: 'Attack helicopter',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Date of birth',
+          value: '1970-01-01',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Recently been to a hotspot?',
+          value: 'No',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Phone number',
+          value: '0456789012',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Email',
+          value: 'user@example.com',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Address #1',
+          value: '1 Nowhere St',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Address #2 (optional)',
+          value: '',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Suburb',
+          value: 'Adelaide',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Postcode',
+          value: '5000',
+          updated: '2021-05-16'
+        }
+      ],
+      venueCheckInHeaders: [
+        {
+          text: 'User ID',
+          align: 'start',
+          value: 'userID'
+        },
+        {
+          text: 'Full Name',
+          value: 'fullName'
+        },
+        {
+          text: 'Time',
+          value: 'time'
+        },
+        {
+          text: 'Check-In ID',
+          value: 'id'
+        }
+      ],
+      venueCheckInItems: [],
+      venueDetailHeaders: [
+        {
+          text: 'Detail',
+          align: 'start',
+          value: 'name'
+        },
+        {
+          text: '',
+          value: 'value',
+          sortable: false
+        },
+        {
+          text: 'Last updated',
+          value: 'updated'
+        }
+      ],
+      venueDetailItems: [
+        {
+          name: 'Venue ID',
+          value: 'VID#ABYZ0189',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Venue name',
+          value: 'The University of Adelaide',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Venue ID',
+          value: 'VID#ABYZ0189',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Latitude',
+          value: '-34.9206',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Longitude',
+          value: '138.6062',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Radius',
+          value: '500',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Hotspot?',
+          value: 'No',
+          updated: '2021-05-16'
+        }
       ]
     }
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close()
+    }
+  },
+
+  methods: {
+    viewUserInfo(item) {
+      this.userIndex = this.usersItems.indexOf(item)
+      this.selectedUserID = this.usersItems[this.userIndex].userID
+      this.UCdialog = true
+    },
+
+    manageUserInfo(item) {
+      this.userIndex = this.usersItems.indexOf(item)
+      this.selectedUserID = this.usersItems[this.userIndex].userID
+      this.UMdialog = true
+    },
+
+    viewVenueInfo(item) {
+      this.venueIndex = this.venuesItems.indexOf(item)
+      this.selectedVenueID = this.venuesItems[this.venueIndex].venueID
+      this.VCdialog = true
+    },
+
+    manageVenueInfo(item) {
+      this.venueIndex = this.venuesItems.indexOf(item)
+      this.selectedVenueID = this.venuesItems[this.venueIndex].venueID
+      this.VMdialog = true
+    },
+
+    usave() {
+      this.pop = true
+      this.popColor = 'success'
+      this.popText = 'Data saved'
+      this.UMdialog = true
+    },
+
+    ucancel() {
+      this.pop = true
+      this.popColor = 'error'
+      this.popText = 'Canceled'
+      this.UMdialog = true
+    },
+
+    vsave() {
+      this.pop = true
+      this.popColor = 'success'
+      this.popText = 'Data saved'
+      this.VMdialog = true
+    },
+
+    vcancel() {
+      this.pop = true
+      this.popColor = 'error'
+      this.popText = 'Canceled'
+      this.VMdialog = true
+    },
+
+    open() {
+    },
+
+    close() {
+      this.UCdialog = false
+      this.UMdialog = false
+      this.VCdialog = false
+      this.VMdialog = false
+    }
+
+    // showUsers() {
+    // axios.get('/GetUsersDigest').then(({ data }) => (this.usersItems = data))
+    // }
   }
 }
 </script>
