@@ -182,7 +182,7 @@ export default {
       login: '',
       password: '',
       submitPopup: false,
-      submitPopupTitle: 'Loading',
+      submitPopupTitle: 'Logging in',
       submitPopupText: 'Please wait...',
       genericRules: [
         v => !!v || 'Field is required',
@@ -244,7 +244,7 @@ export default {
         'login': this.login,
         'password': this.password
       }
-      this.submitPopupTitle = 'Loading'
+      this.submitPopupTitle = 'Logging in'
       this.submitPopupText = 'Please wait...'
       axios({
         url: '/Action/Login',

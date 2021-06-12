@@ -265,6 +265,7 @@
                   :disabled="!validated"
                   large
                   v-on="on"
+                  @click="postSignUp()"
                 >
                   Submit
                 </v-btn>
@@ -272,10 +273,10 @@
 
               <v-card class="pb-3">
                 <v-card-title class="brown darken-4">
-                  Congratulations!
+                  {{ submitPopupTitle }}
                 </v-card-title>
                 <v-card-text class="mt-6">
-                  All done!
+                  {{ submitPopupText }}
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
@@ -314,6 +315,7 @@
 
 <script>
 import ConsistentMP from '../UX/ConsistentMP'
+import axios from 'axios'
 export default {
   name: 'SignUpComponent',
   components: {
@@ -336,6 +338,8 @@ export default {
         'other'
       ],
       submitPopup: false,
+      submitPopupTitle: 'Signing up',
+      submitPopupText: 'Please wait...',
       suburb: '',
       postcode: '',
       dob: new Date().toISOString().substr(0, 10),
@@ -356,6 +360,44 @@ export default {
     },
     reset() {
       this.$refs.form.reset()
+    },
+    postSignUp() {
+      const strippedDOB = this.dob.replaceAll('-', '')
+      const signUpPayload = {
+        'email': this.email,
+        'password': this.password,
+        'phoneNumber': this.phoneNumber,
+        'gender': this.gender,
+        'firstName': this.first_name,
+        'lastName': this.last_name,
+        'DOB': strippedDOB
+      }
+      this.submitPopupTitle = 'Signing up'
+      this.submitPopupText = 'Please wait...'
+      axios({
+        url: '/Action/SignUp',
+        method: 'post',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: signUpPayload
+      })
+        .then((res) => {
+          // got an ok response
+          // console.log(res)
+          this.submitPopupTitle = 'Success!'
+          this.submitPopupText = 'You have successfully created an account.'
+        })
+        .catch((err) => {
+          // encountered error making request/error response
+          console.log(err)
+          // console.log(err.response)
+          this.submitPopupTitle = 'Error'
+          this.submitPopupText = 'Failed to sign up!'
+        })
+      // about this and realThis
+      // https://stackoverflow.com/questions/47692003/access-vuex-store-getters-in-component-method
     }
   }
 }
