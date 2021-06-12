@@ -284,7 +284,7 @@
                     text
                     @click="submitPopup = false"
                   >
-                    Close
+                    OK
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -331,9 +331,9 @@ export default {
       confirmPassword: '',
       gender: '',
       genders: [
-        'Male',
-        'Female',
-        'Other'
+        'male',
+        'female',
+        'other'
       ],
       submitPopup: false,
       suburb: '',

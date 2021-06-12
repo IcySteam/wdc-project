@@ -43,6 +43,7 @@ const proxyOptions = {
 
   // backend routes
   // /Action handled by regex
+  '/Auth/Logout': 'http://localhost:' + backend_port,
 }
 require('http').createServer((req, res) => {
   const pathname = url.parse(req.url).pathname;
@@ -132,9 +133,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 app.post('/Action/Login', function(req, res, next) {
-  // if already logged in, just return OK
+  // if already logged in
   if (req.session.loggedIn === true) {
-    res.sendStatus(200);
+    let resPayload = "You are already logged in as UID#" + req.session.userID + ". Log out first to continue.";
+    res.send(resPayload);
     return;
   }
   req.pool.getConnection(function(err, connection) {
@@ -145,6 +147,7 @@ app.post('/Action/Login', function(req, res, next) {
     var login = req.body.login;
     var password = req.body.password;
     if (login && password) {
+      login = login.toLowerCase();
       // var hashedPassword = bcrypt.hash(password, saltRounds);
       var queryString;
       if (!isNaN(login) && login.length === 10) {
@@ -156,7 +159,8 @@ app.post('/Action/Login', function(req, res, next) {
         if (rows.length > 0) {
           if (bcrypt.compareSync(password, rows[0].password)) {
             req.session.loggedIn = true;
-            req.session.userID = rows[0].userID;
+            req.session.userID = rows[0].userID.toLowerCase();
+            req.session.usermode = rows[0].usermode.toLowerCase();
             res.sendStatus(200);
           } else {
             res.sendStatus(401);
@@ -170,19 +174,23 @@ app.post('/Action/Login', function(req, res, next) {
     }
   })
 });
-app.post('/Action/Logout', function(req, res, next) {
+app.get('/Auth/Logout', function(req, res, next) {
   req.session.loggedIn = false;
   req.session.userID = null;
-  res.sendStatus(200);
+  req.session.usermode = 'none';
+  // res.sendStatus(200);
+  res.redirect('/');
 });
 app.get('/Action/GetSessionStatus', function(req, res, next) {
   var resObj = {
     "userID": null,
-    "loggedIn": false
+    "loggedIn": false,
+    "usermode": 'none'
   }
   if(req.session.loggedIn) {
     resObj.loggedIn = true;
-    resObj.userID = req.session.userID;
+    resObj.userID = req.session.userID.toLowerCase();
+    resObj.usermode = req.session.usermode.toLowerCase();
   }
   res.json(resObj);
 });
@@ -201,9 +209,10 @@ app.get('/Action/GoogleAuth/Callback',
     passport.authenticate('google', { failureRedirect: '/Action/GoogleAuth/Failure' }),
     // Successful authentication; check db and respond accordingly
     function(req, res) {
-      // if already logged in, just return OK
+      // if already logged in
       if (req.session.loggedIn === true) {
-        res.sendStatus(200);
+        let resPayload = "You are already logged in as UID#" + req.session.userID + ". Log out first to continue.";
+        res.send(resPayload);
         return;
       }
       req.pool.getConnection(function(err, connection) {
@@ -219,7 +228,9 @@ app.get('/Action/GoogleAuth/Callback',
             if (rows.length > 0) {
                 req.session.loggedIn = true;
                 req.session.userID = rows[0].userID;
-                res.sendStatus(200);
+                req.session.usermode = rows[0].usermode;
+                // res.sendStatus(200);
+                res.redirect('/');
             } else {
               res.sendStatus(401);
             }
