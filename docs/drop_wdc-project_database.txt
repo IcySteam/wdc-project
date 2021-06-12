@@ -1,0 +1,1 @@
+DROP DATABASE `contact_tracing_system`;
