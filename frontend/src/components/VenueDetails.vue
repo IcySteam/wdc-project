@@ -258,7 +258,7 @@ export default {
         },
         {
           name: 'Role',
-          value: 'Manager',
+          value: 'manager',
           updated: '2021-05-16'
         },
         {

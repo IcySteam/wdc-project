@@ -73,7 +73,7 @@ export default {
         },
         {
           name: 'Role',
-          value: 'User',
+          value: 'user',
           updated: '2021-05-16'
         },
         {

@@ -7,12 +7,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     loremIpsum: 'Lorem Ipsum',
-    usermode: 'None',
+    usermode: 'none',
     userID: null,
     loggedIn: false,
     // current user json object
-    userObj: null,
-    postLoginResponse: null
+    userObj: null
   },
   mutations: {
     setLoremIpsum(state, _loremIpsum) {
@@ -25,21 +24,6 @@ export default new Vuex.Store({
       state.loggedIn = payload.loggedIn
       state.usermode = payload.usermode
       state.userID = payload.userID
-    },
-    async postLogin(state, payload) {
-      axios.post('/Action/Login', payload)
-        .then(function(response) {
-          // handle success
-          // console.log(response)
-          state.postLoginResponse = response
-        })
-        .catch(function(error) {
-          // handle error
-          console.log(error)
-        })
-        .then(function() {
-          // always executed
-        })
     }
   },
   actions: {
@@ -64,11 +48,8 @@ export default new Vuex.Store({
     getLoggedIn: state => {
       return state.loggedIn
     },
-    getPostLoginResponse: state => {
-      return state.postLoginResponse
-    },
     getMenuOptions: state => {
-      if (state.usermode === 'None') {
+      if (state.usermode === 'none') {
         return [
           {
             'title': 'Sign Up',
@@ -81,7 +62,7 @@ export default new Vuex.Store({
             'icon': 'mdi-login'
           }
         ]
-      } else if (state.usermode === 'User') {
+      } else if (state.usermode === 'user') {
         return [
           {
             'title': 'Home',
@@ -99,7 +80,7 @@ export default new Vuex.Store({
           //   'icon': 'mdi-logout'
           // }
         ]
-      } else if (state.usermode === 'Manager') {
+      } else if (state.usermode === 'manager') {
         return [
           {
             'title': 'Home',
@@ -117,7 +98,7 @@ export default new Vuex.Store({
           //   'icon': 'mdi-logout'
           // }
         ]
-      } else if (state.usermode === 'Admin') {
+      } else if (state.usermode === 'admin') {
         return [
           {
             'title': 'Home',
@@ -145,7 +126,7 @@ export default new Vuex.Store({
       }
     },
     getNavigationComponentOptions: state => {
-      if (state.usermode === 'None') {
+      if (state.usermode === 'none') {
         return [
           {
             'title': 'Sign Up',
@@ -160,7 +141,7 @@ export default new Vuex.Store({
             'imgName': 'door_unlocking.jpg'
           }
         ]
-      } else if (state.usermode === 'User') {
+      } else if (state.usermode === 'user') {
         return [
           {
             'title': 'Home',
@@ -181,7 +162,7 @@ export default new Vuex.Store({
           //   'imgName': 'sunset_briefcase.jpg'
           // }
         ]
-      } else if (state.usermode === 'Manager') {
+      } else if (state.usermode === 'manager') {
         return [
           {
             'title': 'Home',
@@ -202,7 +183,7 @@ export default new Vuex.Store({
           //   'imgName': 'sunset_briefcase.jpg'
           // }
         ]
-      } else if (state.usermode === 'Admin') {
+      } else if (state.usermode === 'admin') {
         return [
           {
             'title': 'Home',

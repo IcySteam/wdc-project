@@ -74,7 +74,7 @@ export default {
       ],
       checkInHistoryItems: [
         {
-          userID: 'UID#ABYZ0189',
+          userID: 'abyz0189',
           fullName: 'Jash Vira',
           beenToHotspot: 'No',
           date: '2021-05-16',
@@ -82,7 +82,7 @@ export default {
           timestamp: 1621147075
         },
         {
-          userID: 'UID#ABYZ0190',
+          userID: 'abyz0190',
           fullName: 'Junguo Wong',
           beenToHotspot: 'No',
           date: '2021-05-16',
@@ -90,7 +90,7 @@ export default {
           timestamp: 1621147076
         },
         {
-          userID: 'UID#ABYZ0191',
+          userID: 'abyz0191',
           fullName: 'Zhenhang Dong',
           beenToHotspot: 'No',
           date: '2021-05-16',
@@ -98,7 +98,7 @@ export default {
           timestamp: 1621147077
         },
         {
-          userID: 'UID#ABYZ0192',
+          userID: 'abyz0192',
           fullName: 'Minhaj Ahmed',
           beenToHotspot: 'No',
           date: '2021-05-16',

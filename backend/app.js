@@ -147,6 +147,7 @@ app.post('/Action/Login', function(req, res, next) {
     var login = req.body.login;
     var password = req.body.password;
     if (login && password) {
+      login = login.toLowerCase();
       // var hashedPassword = bcrypt.hash(password, saltRounds);
       var queryString;
       if (!isNaN(login) && login.length === 10) {
@@ -158,8 +159,8 @@ app.post('/Action/Login', function(req, res, next) {
         if (rows.length > 0) {
           if (bcrypt.compareSync(password, rows[0].password)) {
             req.session.loggedIn = true;
-            req.session.userID = rows[0].userID;
-            req.session.usermode = rows[0].usermode;
+            req.session.userID = rows[0].userID.toLowerCase();
+            req.session.usermode = rows[0].usermode.toLowerCase();
             res.sendStatus(200);
           } else {
             res.sendStatus(401);
@@ -176,7 +177,7 @@ app.post('/Action/Login', function(req, res, next) {
 app.get('/Auth/Logout', function(req, res, next) {
   req.session.loggedIn = false;
   req.session.userID = null;
-  req.session.usermode = 'None';
+  req.session.usermode = 'none';
   // res.sendStatus(200);
   res.redirect('/');
 });
@@ -184,12 +185,12 @@ app.get('/Action/GetSessionStatus', function(req, res, next) {
   var resObj = {
     "userID": null,
     "loggedIn": false,
-    "usermode": 'None'
+    "usermode": 'none'
   }
   if(req.session.loggedIn) {
     resObj.loggedIn = true;
-    resObj.userID = req.session.userID;
-    resObj.usermode = req.session.usermode;
+    resObj.userID = req.session.userID.toLowerCase();
+    resObj.usermode = req.session.usermode.toLowerCase();
   }
   res.json(resObj);
 });

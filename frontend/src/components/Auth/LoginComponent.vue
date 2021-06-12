@@ -168,6 +168,7 @@
 <script>
 import ConsistentMP from '../UX/ConsistentMP'
 import 'vue-google-signin-button-directive'
+import axios from 'axios'
 export default {
   name: 'LoginComponent',
   components: {
@@ -181,8 +182,8 @@ export default {
       login: '',
       password: '',
       submitPopup: false,
-      submitPopupTitle: '',
-      submitPopupText: '',
+      submitPopupTitle: 'Loading',
+      submitPopupText: 'Please wait...',
       genericRules: [
         v => !!v || 'Field is required',
         v => (v && v.length <= 100) || 'Max 100 characters'
@@ -243,49 +244,82 @@ export default {
         'login': this.login,
         'password': this.password
       }
-      this.$store.commit('postLogin', loginPayload)
-      // have to use promises rather than setTimeout in real world I know
-      // out of time bruh
-      // also see
-      // https://stackoverflow.com/questions/47692003/access-vuex-store-getters-in-component-method
-      const realThis = this
-      setTimeout(function() {
-        const response = realThis.$store.getters.getPostLoginResponse
-        // console.log(response)
-        const loggedInRegExp = new RegExp('^You are already logged in as UID#')
-        try {
-          switch (response.status) {
-            case 200:
-              if (loggedInRegExp.test(response.data)) {
-                realThis.submitPopupTitle = 'Already logged in'
-                realThis.submitPopupText = 'Please log out first to continue as another user.'
-              } else {
-                realThis.submitPopupTitle = 'Success!'
-                realThis.submitPopupText = 'You have successfully logged in.'
-              }
-              break
-            default:
-              break
+      this.submitPopupTitle = 'Loading'
+      this.submitPopupText = 'Please wait...'
+      axios({
+        url: '/Action/Login',
+        method: 'post',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: loginPayload
+      })
+        .then((res) => {
+          // got an ok response
+          // console.log(res)
+          const loggedInRegExp = new RegExp('^You are already logged in as UID#')
+          if (loggedInRegExp.test(res.data)) {
+            this.submitPopupTitle = 'Already logged in'
+            this.submitPopupText = 'Please log out first to continue as another user.'
+          } else {
+            this.submitPopupTitle = 'Success!'
+            this.submitPopupText = 'You have successfully logged in.'
           }
-        } catch (error) {
-          // console.log(error)
-          realThis.submitPopupTitle = 'Error'
-          realThis.submitPopupText = 'Failed to log in!'
+        })
+        .catch((err) => {
+          // encountered error making request/error response
+          // console.log(err)
+          // console.log(err.response)
+          this.submitPopupTitle = 'Error'
+          this.submitPopupText = 'Failed to log in!'
+          if (err.response) {
+            switch (err.response.status) {
+              case 401:
+                this.submitPopupTitle = 'Unauthorized'
+                this.submitPopupText = 'Incorrect login and/or password.'
+                break
+              case 500:
+                this.submitPopupTitle = 'Error'
+                this.submitPopupText = 'The server is not feeling so well... Is MySQL up and running?'
+                break
+              case 400:
+                this.submitPopupTitle = 'Error'
+                this.submitPopupText = 'Please enter a valid login and password.'
+            }
+          }
+        })
+      // about this and realThis
+      // https://stackoverflow.com/questions/47692003/access-vuex-store-getters-in-component-method
+    },
+    getSessionStatus() {
+      return axios({
+        url: '/Action/GetSessionStatus',
+        method: 'get',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
         }
-      }, 100)
+      })
+      // return response data
+        .then(res => res.data)
+      // just error error object when encountering error making request/error response
+        .catch(err => console.error(err))
     },
     OKSubmitPopup() {
-      // using setTimeout cuz out of time bruh
-      // final reminder
-      this.$store.dispatch('getSessionStatus')
-      const realThis = this
-      setTimeout(function() {
-        if (realThis.$store.getters.getLoggedIn) {
-          realThis.$router.push('/').catch(() => {})
-        } else {
-          realThis.submitPopup = false
-        }
-      }, 100)
+      this.getSessionStatus()
+        .then(res => {
+          // console.log(res)
+          if (res.loggedIn) {
+            this.$router.push('/').catch(() => {})
+          } else {
+            this.submitPopup = false
+          }
+        })
+        .catch(err => {
+          console.error(err)
+          this.submitPopup = false
+        })
     }
   }
 }

@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     mockLogout() {
-      this.$store.commit('setUsermode', 'None')
+      this.$store.commit('setUsermode', 'none')
       this.$router.push('/').catch(() => {})
     },
     getImgPath(shortName) {
