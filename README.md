@@ -19,7 +19,7 @@ Backend: 3000
 
 ### Notes on running on CS50 IDE
 <ul>
-	<li>.profile export PORT should be different from other required ports</li>
+	<li>.profile hack script (github.com/ian-knight-uofa/uofa-tools) line where export PORT=xxxx should be DELETED</li>
 	<li>Start MySQL first before running setup.sh or start.sh</li>
 	<li>Change Google auth callback url in backend/app.js according to environment</li>
 </ul>
