@@ -71,10 +71,10 @@ require('http').createServer((req, res) => {
 }).listen(parseInt(proxy_port));
 
 var dbConnectionPool = mysql.createPool({
-  host: 'localhost',
+  host: '34.151.109.78',
   database: 'contact_tracing_system',
   user: 'root',
-  password: ''
+  password: 'wdc2021'
 });
 
 var indexRouter = require('./routes/index');
