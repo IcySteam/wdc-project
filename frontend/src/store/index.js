@@ -1,12 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     loremIpsum: 'Lorem Ipsum',
-    usermode: 'None'
+    usermode: 'none',
+    userID: null,
+    loggedIn: false,
+    // current user json object
+    userObj: null
   },
   mutations: {
     setLoremIpsum(state, _loremIpsum) {
@@ -14,9 +19,19 @@ export default new Vuex.Store({
     },
     setUsermode(state, _usermode) {
       state.usermode = _usermode
+    },
+    updateSessionStatus(state, payload) {
+      state.loggedIn = payload.loggedIn
+      state.usermode = payload.usermode
+      state.userID = payload.userID
     }
   },
   actions: {
+    // context same as this.$store? guess so
+    async getSessionStatus(context) {
+      const response = await axios.get('/Action/GetSessionStatus')
+      context.commit('updateSessionStatus', response.data)
+    }
   },
   modules: {
   },
@@ -27,8 +42,14 @@ export default new Vuex.Store({
     getUsermode: state => {
       return state.usermode
     },
+    getUserID: state => {
+      return state.userID
+    },
+    getLoggedIn: state => {
+      return state.loggedIn
+    },
     getMenuOptions: state => {
-      if (state.usermode === 'None') {
+      if (state.usermode === 'none') {
         return [
           {
             'title': 'Sign Up',
@@ -41,7 +62,7 @@ export default new Vuex.Store({
             'icon': 'mdi-login'
           }
         ]
-      } else if (state.usermode === 'User') {
+      } else if (state.usermode === 'user') {
         return [
           {
             'title': 'Home',
@@ -52,14 +73,14 @@ export default new Vuex.Store({
             'title': 'Account',
             'href': '/User/Account',
             'icon': 'mdi-account'
-          },
-          {
-            'title': 'Log Out',
-            'href': '/Auth/Logout',
-            'icon': 'mdi-logout'
           }
+          // {
+          //   'title': 'Log Out',
+          //   'href': '/Auth/Logout',
+          //   'icon': 'mdi-logout'
+          // }
         ]
-      } else if (state.usermode === 'Manager') {
+      } else if (state.usermode === 'manager') {
         return [
           {
             'title': 'Home',
@@ -70,14 +91,14 @@ export default new Vuex.Store({
             'title': 'Account',
             'href': '/Manager/Account',
             'icon': 'mdi-account'
-          },
-          {
-            'title': 'Log Out',
-            'href': '/Auth/Logout',
-            'icon': 'mdi-logout'
           }
+          // {
+          //   'title': 'Log Out',
+          //   'href': '/Auth/Logout',
+          //   'icon': 'mdi-logout'
+          // }
         ]
-      } else if (state.usermode === 'Admin') {
+      } else if (state.usermode === 'admin') {
         return [
           {
             'title': 'Home',
@@ -93,19 +114,19 @@ export default new Vuex.Store({
             'title': 'Administration',
             'href': '/Admin/Administration',
             'icon': 'mdi-account-key'
-          },
-          {
-            'title': 'Log Out',
-            'href': '/Auth/Logout',
-            'icon': 'mdi-logout'
           }
+          // {
+          //   'title': 'Log Out',
+          //   'href': '/Auth/Logout',
+          //   'icon': 'mdi-logout'
+          // }
         ]
       } else {
         return null
       }
     },
     getNavigationComponentOptions: state => {
-      if (state.usermode === 'None') {
+      if (state.usermode === 'none') {
         return [
           {
             'title': 'Sign Up',
@@ -120,7 +141,7 @@ export default new Vuex.Store({
             'imgName': 'door_unlocking.jpg'
           }
         ]
-      } else if (state.usermode === 'User') {
+      } else if (state.usermode === 'user') {
         return [
           {
             'title': 'Home',
@@ -133,15 +154,15 @@ export default new Vuex.Store({
             'href': '/User/Account',
             'description': 'Manage your account',
             'imgName': 'account.jpg'
-          },
-          {
-            'title': 'Log Out',
-            'href': '/Auth/Logout',
-            'description': 'Log out of your account',
-            'imgName': 'sunset_briefcase.jpg'
           }
+          // {
+          //   'title': 'Log Out',
+          //   'href': '/Auth/Logout',
+          //   'description': 'Log out of your account',
+          //   'imgName': 'sunset_briefcase.jpg'
+          // }
         ]
-      } else if (state.usermode === 'Manager') {
+      } else if (state.usermode === 'manager') {
         return [
           {
             'title': 'Home',
@@ -154,15 +175,15 @@ export default new Vuex.Store({
             'href': '/Manager/Account',
             'description': 'Manage your account & venue',
             'imgName': 'account.jpg'
-          },
-          {
-            'title': 'Log Out',
-            'href': '/Auth/Logout',
-            'description': 'Log out of your account',
-            'imgName': 'sunset_briefcase.jpg'
           }
+          // {
+          //   'title': 'Log Out',
+          //   'href': '/Auth/Logout',
+          //   'description': 'Log out of your account',
+          //   'imgName': 'sunset_briefcase.jpg'
+          // }
         ]
-      } else if (state.usermode === 'Admin') {
+      } else if (state.usermode === 'admin') {
         return [
           {
             'title': 'Home',
@@ -181,13 +202,13 @@ export default new Vuex.Store({
             'href': '/Admin/Administration',
             'description': 'Perform administrative actions',
             'imgName': 'administration.jpg'
-          },
-          {
-            'title': 'Log Out',
-            'href': '/Auth/Logout',
-            'description': 'Log out of your account',
-            'imgName': 'sunset_briefcase.jpg'
           }
+          // {
+          //   'title': 'Log Out',
+          //   'href': '/Auth/Logout',
+          //   'description': 'Log out of your account',
+          //   'imgName': 'sunset_briefcase.jpg'
+          // }
         ]
       } else {
         return null

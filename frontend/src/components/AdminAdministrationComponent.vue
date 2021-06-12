@@ -171,25 +171,25 @@ export default {
       ],
       usersItems: [
         {
-          userID: 'UID#ABYZ0189',
+          userID: 'abyx0189',
           fullName: 'Jash Vira',
           beenToHotspot: 'No',
           email: 'example@example.com'
         },
         {
-          userID: 'UID#ABYZ0190',
+          userID: 'abyz0190',
           fullName: 'Junguo Wong',
           beenToHotspot: 'No',
           email: 'example@example.com'
         },
         {
-          userID: 'UID#ABYZ0191',
+          userID: 'abyz0191',
           fullName: 'Zhenhang Dong',
           beenToHotspot: 'No',
           email: 'example@example.com'
         },
         {
-          userID: 'UID#ABYZ0192',
+          userID: 'abyz0192',
           fullName: 'Minhaj Ahmed',
           beenToHotspot: 'No',
           email: 'example@example.com'
@@ -230,7 +230,7 @@ export default {
       ],
       currentHotspotsItems: [
         {
-          venueID: 'VID#ABYZ0200',
+          venueID: 'abyz0200',
           venueName: 'McMurdo Station',
           latitude: -77.8419,
           longitude: 116.6863,
@@ -239,7 +239,7 @@ export default {
           lastCreated: 1621147075
         },
         {
-          venueID: 'VID#ABYZ0201',
+          venueID: 'abyz0201',
           venueName: 'Scott Base',
           latitude: -77.8477,
           longitude: 166.7602,
@@ -276,13 +276,13 @@ export default {
       ],
       venuesItems: [
         {
-          venueID: 'VID#ABYZ0200',
+          venueID: 'abyz0200',
           venueName: 'McMurdo Station',
           hotspot: 'Yes',
           timestamp: 1621147065
         },
         {
-          venueID: 'VID#ABYZ0201',
+          venueID: 'abyz0201',
           venueName: 'Scott Base',
           hotspot: 'Yes',
           timestamp: 1621147067

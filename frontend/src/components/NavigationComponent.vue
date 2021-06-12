@@ -34,6 +34,34 @@
             </v-img>
           </v-card>
         </v-col>
+        <v-col
+          v-if="this.$store.getters.getLoggedIn"
+          cols="12"
+          sm="4"
+          lg="4"
+        >
+          <v-card
+            href="/Auth/Logout"
+          >
+            <v-img
+              class="m-auto p-auto white--text align-end"
+              :src="getImgPath('sunset_briefcase.jpg')"
+              height="300px"
+            >
+              <v-card
+                class="m-auto p-auto"
+                height="33%"
+              >
+                <v-card-title>
+                  Log Out
+                </v-card-title>
+                <v-card-subtitle class="text--primary">
+                  Log out of your account
+                </v-card-subtitle>
+              </v-card>
+            </v-img>
+          </v-card>
+        </v-col>
       </template>
     </v-row>
   </ConsistentMP>
@@ -57,7 +85,7 @@ export default {
   },
   methods: {
     mockLogout() {
-      this.$store.commit('setUsermode', 'None')
+      this.$store.commit('setUsermode', 'none')
       this.$router.push('/').catch(() => {})
     },
     getImgPath(shortName) {
