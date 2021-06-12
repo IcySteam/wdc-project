@@ -3,4 +3,4 @@ cd backend
 npm start &
 # frontend has to take port 8081
 cd ../frontend
-npm run serve &
+npm run serve -- --port 8081&
