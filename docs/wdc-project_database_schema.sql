@@ -10,7 +10,7 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL UNIQUE,
   `gender` varchar(255),
   `password` char(60) NOT NULL,
-  `DOB` varchar(255),
+  `DOB` char(8),
   `registrationCode` varchar(255),
   `creationTimestamp` timestamp,
   `updateTimestamp` timestamp,
@@ -76,6 +76,8 @@ ALTER TABLE `user` ADD FOREIGN KEY (`address`) REFERENCES `address` (`id`);
 
 ALTER TABLE `user` ADD FOREIGN KEY (`associatedVenue`) REFERENCES `venue` (`venueID`);
 
+ALTER TABLE `user` ADD FOREIGN KEY (`registrationCode`) REFERENCES `registrationCode` (`code`);
+
 ALTER TABLE `venue` ADD FOREIGN KEY (`address`) REFERENCES `address` (`id`);
 
 ALTER TABLE `venue` ADD FOREIGN KEY (`createdBy`) REFERENCES `user` (`userID`);
@@ -91,3 +93,14 @@ ALTER TABLE `hotspotTimeframe` ADD FOREIGN KEY (`venue`) REFERENCES `venue` (`ve
 ALTER TABLE `hotspotTimeframe` ADD FOREIGN KEY (`createdBy`) REFERENCES `user` (`userID`);
 
 ALTER TABLE `registrationCode` ADD FOREIGN KEY (`createdBy`) REFERENCES `user` (`userID`);
+
+-- data constraints
+ALTER TABLE `user` ADD CHECK ((`email`) = (lower(`email`)));
+ALTER TABLE `user` ADD CHECK ((`userID`) = (lower(`userID`)));
+ALTER TABLE `user` ADD CHECK ((`gender`) = (lower(`gender`)));
+ALTER TABLE `user` ADD CHECK ((`usermode`) = (lower(`usermode`)));
+
+ALTER TABLE `registrationCode` ADD CHECK ((`usermode`) = (lower(`usermode`)));
+
+ALTER TABLE `venue` ADD CHECK ((`venueID`) = (lower(`venueID`)));
+ALTER TABLE `venue` ADD CHECK ((`email`) = (lower(`email`)));
