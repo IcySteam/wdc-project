@@ -14,9 +14,10 @@
             >
               <template v-slot:activator="{ on, cardHolder }">
                 <v-btn
-                  color="grey"
+                  color="teal accent-3"
                   v-bind="cardHolder"
                   v-on="on"
+                  class="black--text"
                 >
                   Check The QR Code
                 </v-btn>
@@ -36,8 +37,9 @@
                   </v-spacer>
 
                   <v-btn
-                    color="secondary"
                     @click="QRcode = false"
+                    color="teal accent-3"
+                    class="black--text"
                   >
                     All done!
                   </v-btn>
