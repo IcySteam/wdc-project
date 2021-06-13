@@ -254,7 +254,7 @@
                   <v-card-actions>
                     <v-spacer />
                     <v-btn
-                      color="blue darken-1"
+                      color="teal accent-3"
                       text
                       @click="close"
                     >
@@ -319,7 +319,7 @@
                   <v-card-actions>
                     <v-spacer />
                     <v-btn
-                      color="blue darken-1"
+                      color="teal accent-3"
                       text
                       @click="close"
                     >
@@ -355,6 +355,13 @@
 
     <ConsistentMP id="venues">
       <template>
+        <v-btn
+          color="teal accent-3"
+          plain
+          @click="addVenue"
+        >
+          Create Venue
+        </v-btn>
         <v-card>
           <v-card-title>
             Venues
@@ -376,6 +383,91 @@
             sort-desc
           >
             <template v-slot:top>
+              <v-dialog
+                v-model="VAdialog"
+                max-width="800px"
+              >
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Add Venue Details</span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                        >
+                          <v-text-field
+                            v-model="addVenueDetails.venueID"
+                            label="Venue ID"
+                          />
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                        >
+                          <v-text-field
+                            v-model="addVenueDetails.name"
+                            label="Venue Name"
+                          />
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                        >
+                          <v-text-field
+                            v-model="addVenueDetails.latitude"
+                            label="Latitude"
+                          />
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                        >
+                          <v-text-field
+                            v-model="addVenueDetails.longitude"
+                            label="Longitude"
+                          />
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                        >
+                          <v-text-field
+                            v-model="addVenueDetails.radius"
+                            label="Radius"
+                          />
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      color="teal accent-3"
+                      text
+                      @click="close"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      color="teal accent-3"
+                      text
+                      @click="submitVenue"
+                    >
+                      Submit
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
               <v-dialog
                 v-model="VCdialog"
                 max-width="800px"
@@ -400,7 +492,7 @@
                   <v-card-actions>
                     <v-spacer />
                     <v-btn
-                      color="blue darken-1"
+                      color="teal accent-3"
                       text
                       @click="close"
                     >
@@ -465,7 +557,7 @@
                   <v-card-actions>
                     <v-spacer />
                     <v-btn
-                      color="blue darken-1"
+                      color="teal accent-3"
                       text
                       @click="close"
                     >
@@ -511,6 +603,7 @@ export default {
       UMdialog: false,
       VCdialog: false,
       VMdialog: false,
+      VAdialog: false,
       DelDialog: false,
       HAdialog: false,
       HMdialog: false,
@@ -847,6 +940,13 @@ export default {
         startTime: '2021/01/23 04:11:05',
         endTime: '2021/01/23 04:11:05',
         affectedUsers: 30
+      },
+      addVenueDetails: {
+        venueID: '',
+        name: '',
+        latitude: '',
+        longitude: '',
+        radius: ''
       }
     }
   },
@@ -942,6 +1042,7 @@ export default {
       this.DelDialog = false
       this.HAdialog = false
       this.HMdialog = false
+      this.VAdialog = false
     },
 
     addHotspot() {
@@ -950,6 +1051,14 @@ export default {
 
     submitHotspot() {
       this.HAdialog = false
+    },
+
+    addVenue() {
+      this.VAdialog = true
+    },
+
+    submitVenue() {
+      this.VAdialog = false
     }
 
     // showUsers() {
