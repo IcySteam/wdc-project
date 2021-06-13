@@ -83,7 +83,7 @@
                   <v-card-actions>
                     <v-spacer />
                     <v-btn
-                      color="blue darken-1"
+                      color="teal accent-3"
                       text
                       @click="close"
                     >
@@ -179,7 +179,7 @@
                   <v-card-actions>
                     <v-spacer />
                     <v-btn
-                      color="blue darken-1"
+                      color="teal accent-3"
                       text
                       @click="close"
                     >
