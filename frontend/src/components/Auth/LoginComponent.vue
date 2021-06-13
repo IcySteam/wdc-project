@@ -309,7 +309,13 @@ export default {
         .then(res => {
           // console.log(res)
           if (res.loggedIn) {
-            this.$router.push('/').catch(() => {})
+            if (res.usermode === 'user') {
+              this.$router.push('/User/Home').catch(() => {})
+            } else if (res.usermode === 'manager') {
+              this.$router.push('/Manager/Home').catch(() => {})
+            } else if (res.usermode === 'admin') {
+              this.$router.push('/Admin/Home').catch(() => {})
+            }
           } else {
             this.submitPopup = false
           }
