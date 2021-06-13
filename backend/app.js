@@ -48,7 +48,7 @@ const proxyOptions = {
   // /Action handled by regex
   '/Auth/Logout': 'http://localhost:' + backend_port,
 }
-require('http').createServer((req, res) => {
+var proxyServer = require('http').createServer((req, res) => {
   const pathname = url.parse(req.url).pathname;
   for (const [pattern, dest] of Object.entries(proxyOptions)) {
     if (pathname === pattern ||
@@ -72,6 +72,15 @@ require('http').createServer((req, res) => {
     proxy.web(req, res, {target: fallbackDest});
   }
 }).listen(parseInt(proxy_port));
+
+proxyServer.on('error', function (err) {
+  // Handle your error here
+  console.log(err);
+});
+// make express not quit on uncaught exception (e.g. when frontend hasn't started => connection_refused)
+process.on('uncaughtException', function( err ) {
+  console.error(err.stack);
+});
 
 var dbConnectionPool = mysql.createPool({
   database: 'contact_tracing_system',
