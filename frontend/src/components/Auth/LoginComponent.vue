@@ -289,8 +289,6 @@ export default {
             }
           }
         })
-      // about this and realThis
-      // https://stackoverflow.com/questions/47692003/access-vuex-store-getters-in-component-method
     },
     getSessionStatus() {
       return axios({

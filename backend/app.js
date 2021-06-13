@@ -73,10 +73,13 @@ require('http').createServer((req, res) => {
 }).listen(parseInt(proxy_port));
 
 var dbConnectionPool = mysql.createPool({
-  host: '34.151.109.78',
   database: 'contact_tracing_system',
+  // host: 'localhost',
+  // user: 'root',
+  // password: '',
+  host: '34.151.109.78',
   user: 'root',
-  password: 'wdc2021'
+  password: 'wdc2021',
 });
 
 var indexRouter = require('./routes/index');
@@ -316,7 +319,8 @@ app.get('/Action/GetVenueCheckInHistory', function(req, res) {
     // DOES NOT WORK because async
     // async!!
     // ...
-    // btw return status 401 in query doesn't work either because js and its stoopid ERR_HTTP_HEADERS_SENT
+    // CEEBS learning async/promise syntax again... this time for Express
+    // btw return status 401 in perm check query doesn't work either because js and its stoopid ERR_HTTP_HEADERS_SENT
 
     //query
     var query = "SELECT user.userID, CONCAT(user.firstName,' ',user.lastName) AS fullName, user.recentlyBeenToHotspot, checkIn.time, checkIn.id FROM user INNER JOIN checkIn ON user.userID = checkIn.user WHERE checkIn.venue = ?;";
