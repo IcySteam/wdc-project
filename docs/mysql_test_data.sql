@@ -11,15 +11,15 @@ INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `
 INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES ('manager02', 'Manager', '02', 0400000202, 'manager02@example.com', 'other', '$2a$08$M4tlVv0xcg35WVmvWuRKMedbACVrjc.REwkJzpEBwfHxZ1VN3M0gi', '19700101', 'manager'); -- 12345678
 INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES ('manager03', 'Manager', '03', 0400000203, 'manager03@example.com', 'other', '$2a$08$M4tlVv0xcg35WVmvWuRKMedbACVrjc.REwkJzpEBwfHxZ1VN3M0gi', '19700101', 'manager'); -- 12345678
 INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES ('manager04', 'Manager', '04', 0400000204, 'manager04@example.com', 'other', '$2a$08$M4tlVv0xcg35WVmvWuRKMedbACVrjc.REwkJzpEBwfHxZ1VN3M0gi', '19700101', 'manager'); -- 12345678
-INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES ('admin01', 'admin', '01', 0400000301, 'admin01@example.com', 'other', '$2a$08$M4tlVv0xcg35WVmvWuRKMedbACVrjc.REwkJzpEBwfHxZ1VN3M0gi', '19700101', 'admin'); -- 12345678
-INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES ('admin02', 'admin', '02', 0400000302, 'admin02@example.com', 'other', '$2a$08$M4tlVv0xcg35WVmvWuRKMedbACVrjc.REwkJzpEBwfHxZ1VN3M0gi', '19700101', 'admin'); -- 12345678
-INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES ('admin03', 'admin', '03', 0400000303, 'admin03@example.com', 'other', '$2a$08$M4tlVv0xcg35WVmvWuRKMedbACVrjc.REwkJzpEBwfHxZ1VN3M0gi', '19700101', 'admin'); -- 12345678
-INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES ('admin04', 'admin', '04', 0400000304, 'admin04@example.com', 'other', '$2a$08$M4tlVv0xcg35WVmvWuRKMedbACVrjc.REwkJzpEBwfHxZ1VN3M0gi', '19700101', 'admin'); -- 12345678
+INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES ('admin01', 'Admin', '01', 0400000301, 'admin01@example.com', 'other', '$2a$08$M4tlVv0xcg35WVmvWuRKMedbACVrjc.REwkJzpEBwfHxZ1VN3M0gi', '19700101', 'admin'); -- 12345678
+INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES ('admin02', 'Admin', '02', 0400000302, 'admin02@example.com', 'other', '$2a$08$M4tlVv0xcg35WVmvWuRKMedbACVrjc.REwkJzpEBwfHxZ1VN3M0gi', '19700101', 'admin'); -- 12345678
+INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES ('admin03', 'Admin', '03', 0400000303, 'admin03@example.com', 'other', '$2a$08$M4tlVv0xcg35WVmvWuRKMedbACVrjc.REwkJzpEBwfHxZ1VN3M0gi', '19700101', 'admin'); -- 12345678
+INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES ('admin04', 'Admin', '04', 0400000304, 'admin04@example.com', 'other', '$2a$08$M4tlVv0xcg35WVmvWuRKMedbACVrjc.REwkJzpEBwfHxZ1VN3M0gi', '19700101', 'admin'); -- 12345678
 
 INSERT INTO `venue` (`venueID`, `name`, `associatedManager`, `latitude`, `longitude`, `radius`) VALUES ('venue01', 'Adelaide Central Market', 'test02', -34.9295, 138.5973, 99.5);
 INSERT INTO `venue` (`venueID`, `name`, `associatedManager`, `latitude`, `longitude`, `radius`) VALUES ('venue02', 'Adelaide Bonanic Garden', 'manager01', -34.9174, 138.6100, 155.6);
 
-INSERT INTO `checkIn` (`id`, `user`, `venue`, `time`) VALUES ('user01', 'venue01', timestamp("2020-07-23",  "13:10:11"));
-INSERT INTO `checkIn` (`id`, `user`, `venue`, `time`) VALUES ('user01', 'venue02', timestamp("2020-07-24",  "14:10:11"));
-INSERT INTO `checkIn` (`id`, `user`, `venue`, `time`) VALUES ('user02', 'venue01', timestamp("2020-07-25",  "15:10:11"));
-INSERT INTO `checkIn` (`id`, `user`, `venue`, `time`) VALUES ('user02', 'venue02', timestamp("2020-07-26",  "16:10:11"));
+INSERT INTO `checkIn` (`user`, `venue`, `time`) VALUES ('user01', 'venue01', timestamp("2020-07-23",  "13:10:11"));
+INSERT INTO `checkIn` (`user`, `venue`, `time`) VALUES ('user01', 'venue02', timestamp("2020-07-24",  "14:10:11"));
+INSERT INTO `checkIn` (`user`, `venue`, `time`) VALUES ('user02', 'venue01', timestamp("2020-07-25",  "15:10:11"));
+INSERT INTO `checkIn` (`user`, `venue`, `time`) VALUES ('user02', 'venue02', timestamp("2020-07-26",  "16:10:11"));

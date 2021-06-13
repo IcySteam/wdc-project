@@ -1,6 +1,28 @@
 CREATE DATABASE IF NOT EXISTS `contact_tracing_system`;
 USE `contact_tracing_system`;
 
+-- define custom uuid function
+DELIMITER $$
+CREATE FUNCTION myUUID(
+	uuidLength int
+)
+RETURNS varchar(255)
+BEGIN
+
+SET @chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+SET @charLen = length(@chars);
+
+SET @myUUID = '';
+
+WHILE length(@myUUID) < uuidLength
+    DO
+    SET @myUUID = concat(@myUUID, substring(@chars,CEILING(RAND() * @charLen),1));
+END WHILE;
+
+RETURN @myUUID ;
+END$$
+DELIMITER ;
+
 CREATE TABLE `user` (
   `userID` varchar(255) PRIMARY KEY,
   `firstName` varchar(255),
@@ -21,7 +43,7 @@ CREATE TABLE `user` (
 );
 
 CREATE TABLE `address` (
-  `id` int PRIMARY KEY DEFAULT left(UUID(), 8),
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `line_1` varchar(255) NOT NULL,
   `line_2` varchar(255),
   `suburb` varchar(255) NOT NULL,
@@ -34,7 +56,7 @@ CREATE TABLE `venue` (
   `phoneNumber` int,
   `email` varchar(255),
   `address` int,
-  `createdBy` varchar(255) DEFAULT 'debug',
+  `createdBy` varchar(255),
   `creationTimestamp` timestamp DEFAULT current_timestamp(),
   `updateTimestamp` timestamp,
   `associatedManager` varchar(255), -- null for not associated
@@ -45,16 +67,16 @@ CREATE TABLE `venue` (
 );
 
 CREATE TABLE `checkIn` (
-  `id` int PRIMARY KEY DEFAULT left(UUID(), 8),
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `user` varchar(255) NOT NULL,
   `venue` varchar(255) NOT NULL,
   `time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `codeUsed` varchar(255) NOT NULL DEFAULT 'debug'
+  `codeUsed` varchar(255)
 );
 
 CREATE TABLE `hotspotTimeframe` (
-  `id` int PRIMARY KEY DEFAULT left(UUID(), 8),
-  `createdBy` varchar(255) DEFAULT 'debug',
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `createdBy` varchar(255),
   `creationTimestamp` timestamp DEFAULT current_timestamp(),
   `updateTimestamp` timestamp,
   `venue` varchar(255) NOT NULL,
@@ -64,14 +86,25 @@ CREATE TABLE `hotspotTimeframe` (
 );
 
 CREATE TABLE `registrationCode` (
-  `code` varchar(255) PRIMARY KEY DEFAULT left(UUID(), 8),
-  `createdBy` varchar(255) DEFAULT 'debug',
+  `code` varchar(255) PRIMARY KEY,
+  `createdBy` varchar(255),
   `creationTimestamp` timestamp DEFAULT current_timestamp(),
   `updateTimestamp` timestamp,
   `validityStart` timestamp NOT NULL,
   `validityEnd` timestamp NOT NULL,
   `usermode` varchar(255) NOT NULL
 );
+
+-- set up trigger to use function result as default value
+DELIMITER ;;
+CREATE TRIGGER `foo_registrationCode_before_insert` 
+BEFORE INSERT ON `registrationCode` FOR EACH ROW 
+BEGIN
+  IF new.code IS NULL THEN
+    SET new.code = myUUID(8);
+  END IF;
+END;;
+DELIMITER ;
 
 ALTER TABLE `user` ADD FOREIGN KEY (`address`) REFERENCES `address` (`id`);
 
