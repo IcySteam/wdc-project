@@ -13,7 +13,7 @@ CREATE TABLE `user` (
   `DOB` char(8),
   `registrationCode` varchar(255),
   `creationTimestamp` timestamp DEFAULT current_timestamp(),
-  `updateTimestamp` timestamp  DEFAULT current_timestamp(), -- need to manually update with queries
+  `updateTimestamp` timestamp, -- need to manually update with queries
   `usermode` varchar(255) NOT NULL,
   `associatedVenue` varchar(255),  -- null for not associated
   `recentlyBeenToHotspot` bit DEFAULT 0,
@@ -36,7 +36,7 @@ CREATE TABLE `venue` (
   `address` int,
   `createdBy` varchar(255) DEFAULT 'debug',
   `creationTimestamp` timestamp DEFAULT current_timestamp(),
-  `updateTimestamp` timestamp  DEFAULT current_timestamp(),
+  `updateTimestamp` timestamp,
   `associatedManager` varchar(255), -- null for not associated
   `isHotspot` bit DEFAULT 0,
   `latitude` float NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE `hotspotTimeframe` (
   `id` int PRIMARY KEY DEFAULT left(UUID(), 8),
   `createdBy` varchar(255) DEFAULT 'debug',
   `creationTimestamp` timestamp DEFAULT current_timestamp(),
-  `updateTimestamp` timestamp DEFAULT current_timestamp(),
+  `updateTimestamp` timestamp,
   `venue` varchar(255) NOT NULL,
   `startTime` timestamp NOT NULL,
   `endTime` timestamp NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE `registrationCode` (
   `code` varchar(255) PRIMARY KEY DEFAULT left(UUID(), 8),
   `createdBy` varchar(255) DEFAULT 'debug',
   `creationTimestamp` timestamp DEFAULT current_timestamp(),
-  `updateTimestamp` timestamp DEFAULT current_timestamp(),
+  `updateTimestamp` timestamp,
   `validityStart` timestamp NOT NULL,
   `validityEnd` timestamp NOT NULL,
   `usermode` varchar(255) NOT NULL
