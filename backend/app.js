@@ -241,6 +241,32 @@ app.get('/Action/GoogleAuth/Callback',
       })
     });
 
+// zac add /user/getcurrentHotspots
+app.get('/Action/hotspots', function(req, res) {
+
+  req.pool.getConnection(function(err,connection) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+      return;
+    }
+
+    var query = "SELECT userID FROM user";
+    connection.query(query, function(err, rows, fields) {
+      connection.release();
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+        return;
+      }
+      res.json(rows);
+    });
+  });
+});
+
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

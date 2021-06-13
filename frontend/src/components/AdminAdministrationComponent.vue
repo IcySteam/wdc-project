@@ -157,6 +157,7 @@
               >
                 View Check-Ins
               </v-btn>
+              <v-divider></v-divider>
               <v-btn
                 small
                 color="teal accent-3"
@@ -303,6 +304,8 @@
               >
                 View Check-Ins
               </v-btn>
+              <v-divider>
+              </v-divider>
               <v-btn
                 small
                 color="teal accent-3"
