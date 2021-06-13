@@ -154,15 +154,16 @@
                 color="teal accent-3"
                 class="black--text"
                 @click="viewUserInfo(item)"
+                style="margin: 20px;"
               >
                 View Check-Ins
               </v-btn>
-              <v-divider></v-divider>
               <v-btn
                 small
                 color="teal accent-3"
                 class="black--text"
                 @click="manageUserInfo(item)"
+                style="margin: 20px;"
               >
                 Manage
               </v-btn>
@@ -301,16 +302,16 @@
                 color="teal accent-3"
                 class="black--text"
                 @click="viewVenueInfo(item)"
+                style="margin: 20px;"
               >
                 View Check-Ins
               </v-btn>
-              <v-divider>
-              </v-divider>
               <v-btn
                 small
                 color="teal accent-3"
                 class="black--text"
                 @click="manageVenueInfo(item)"
+                style="margin: 20px;"
               >
                 Manage
               </v-btn>

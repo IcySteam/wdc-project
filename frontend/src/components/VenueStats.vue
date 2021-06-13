@@ -35,7 +35,6 @@
                 <v-card-actions>
                   <v-spacer>
                   </v-spacer>
-
                   <v-btn
                     @click="QRcode = false"
                     color="teal accent-3"
