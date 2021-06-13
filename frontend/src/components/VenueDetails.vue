@@ -6,6 +6,7 @@
         <v-btn
           color="teal accent-3"
           plain
+          @click="manageUserInfo"
         >
           Edit Details
         </v-btn>
@@ -26,7 +27,73 @@
             :headers="accountDetailHeaders"
             :items="accountDetailItems"
             :search="accountDetailSearch"
-          />
+          >
+            <template v-slot:top>
+              <v-dialog
+                v-model="UMdialog"
+                max-width="800px"
+              >
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Edit Details</span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-data-table
+                        :headers="editAccountDetailHeaders"
+                        :items="editAccountDetailItems"
+                      >
+                        <template v-slot:item.value="props">
+                          <v-edit-dialog
+                            :return-value.sync="props.item.value"
+                            large
+                            persistent
+                            @save="usave"
+                            @cancel="ucancel"
+                            @open="open"
+                          >
+                            <div>{{ props.item.value }}</div>
+                            <template v-slot:input>
+                              <div class="mt-4 text-h6">
+                                Update Value
+                              </div>
+                              <v-text-field
+                                v-model="props.item.value"
+                                :rules="[max255chars]"
+                                label="Edit"
+                                single-line
+                                counter
+                                autofocus
+                              />
+                            </template>
+                          </v-edit-dialog>
+                        </template>
+                      </v-data-table>
+                      <v-snackbar
+                        v-model="pop"
+                        :timeout="3000"
+                        :color="popColor"
+                      >
+                        {{ popText }}
+                      </v-snackbar>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="close"
+                    >
+                      Close
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </template>
+          </v-data-table>
         </v-card>
       </template>
     </ConsistentMP>
@@ -34,6 +101,7 @@
       <v-btn
         color="teal accent-3"
         plain
+        @click="manageVenueInfo"
       >
         Edit Details
       </v-btn>
@@ -55,7 +123,73 @@
             :headers="venueDetailHeaders"
             :items="venueDetailItems"
             :search="venueDetailSearch"
-          />
+          >
+            <template v-slot:top>
+              <v-dialog
+                v-model="VMdialog"
+                max-width="800px"
+              >
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Account Details</span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-data-table
+                        :headers="editVenueDetailHeaders"
+                        :items="editVenueDetailItems"
+                      >
+                        <template v-slot:item.value="props">
+                          <v-edit-dialog
+                            :return-value.sync="props.item.value"
+                            large
+                            persistent
+                            @save="vsave"
+                            @cancel="vcancel"
+                            @open="open"
+                          >
+                            <div>{{ props.item.value }}</div>
+                            <template v-slot:input>
+                              <div class="mt-4 text-h6">
+                                Update Value
+                              </div>
+                              <v-text-field
+                                v-model="props.item.value"
+                                :rules="[max255chars]"
+                                label="Edit"
+                                single-line
+                                counter
+                                autofocus
+                              />
+                            </template>
+                          </v-edit-dialog>
+                        </template>
+                      </v-data-table>
+                      <v-snackbar
+                        v-model="pop"
+                        :timeout="3000"
+                        :color="popColor"
+                      >
+                        {{ popText }}
+                      </v-snackbar>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="close"
+                    >
+                      Close
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </template>
+          </v-data-table>
         </v-card>
         <v-btn
           color="teal accent-3"
@@ -233,6 +367,12 @@ export default {
   components: { ConsistentMP },
   data() {
     return {
+      UMdialog: false,
+      VMdialog: false,
+      pop: false,
+      popColor: '',
+      popText: '',
+      max255chars: v => v.length <= 255 || 'Input too long!',
       accountDetailSearch: '',
       accountDetailHeaders: [
         {
@@ -257,21 +397,6 @@ export default {
           updated: '2021-05-16'
         },
         {
-          name: 'Role',
-          value: 'manager',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Phone number',
-          value: '0456789012',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Email',
-          value: 'user@example.com',
-          updated: '2021-05-16'
-        },
-        {
           name: 'First name',
           value: 'Jon',
           updated: '2021-05-16'
@@ -282,6 +407,11 @@ export default {
           updated: '2021-05-16'
         },
         {
+          name: 'Role',
+          value: 'manager',
+          updated: '2021-05-16'
+        },
+        {
           name: 'Gender',
           value: 'Attack helicopter',
           updated: '2021-05-16'
@@ -289,6 +419,16 @@ export default {
         {
           name: 'Date of birth',
           value: '1970-01-01',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Phone number',
+          value: '0456789012',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Email',
+          value: 'user@example.com',
           updated: '2021-05-16'
         },
         {
@@ -366,6 +506,113 @@ export default {
           updated: '2021-05-16'
         }
       ],
+      editAccountDetailHeaders: [
+        {
+          text: 'Detail',
+          align: 'start',
+          value: 'name'
+        },
+        {
+          text: '',
+          value: 'value',
+          sortable: false
+        },
+        {
+          text: 'Last updated',
+          value: 'updated'
+        }
+      ],
+      editAccountDetailItems: [
+        {
+          name: 'First name',
+          value: 'Jon',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Last name',
+          value: 'Doe',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Gender',
+          value: 'Attack helicopter',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Date of birth',
+          value: '1970-01-01',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Phone number',
+          value: '0456789012',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Email',
+          value: 'user@example.com',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Address #1',
+          value: '1 Nowhere St',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Address #2 (optional)',
+          value: '',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Suburb',
+          value: 'Adelaide',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Postcode',
+          value: '5000',
+          updated: '2021-05-16'
+        }
+      ],
+
+      editVenueDetailHeaders: [
+        {
+          text: 'Detail',
+          align: 'start',
+          value: 'name'
+        },
+        {
+          text: '',
+          value: 'value',
+          sortable: false
+        },
+        {
+          text: 'Last updated',
+          value: 'updated'
+        }
+      ],
+      editVenueDetailItems: [
+        {
+          name: 'Venue name',
+          value: 'The University of Adelaide',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Latitude',
+          value: '-34.9206',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Longitude',
+          value: '138.6062',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Radius',
+          value: '500',
+          updated: '2021-05-16'
+        }
+      ],
 
       dialog: false,
       dialogDelete: false,
@@ -418,6 +665,46 @@ export default {
     this.initialize()
   },
   methods: {
+    manageUserInfo() {
+      this.UMdialog = true
+    },
+
+    manageVenueInfo() {
+      this.VMdialog = true
+    },
+
+    usave() {
+      this.pop = true
+      this.popColor = 'success'
+      this.popText = 'Data saved'
+      this.UMdialog = true
+    },
+
+    ucancel() {
+      this.pop = true
+      this.popColor = 'error'
+      this.popText = 'Canceled'
+      this.UMdialog = true
+    },
+
+    vsave() {
+      this.pop = true
+      this.popColor = 'success'
+      this.popText = 'Data saved'
+      this.VMdialog = true
+    },
+
+    vcancel() {
+      this.pop = true
+      this.popColor = 'error'
+      this.popText = 'Canceled'
+      this.VMdialog = true
+    },
+
+    close() {
+      this.VMdialog = false
+      this.UMdialog = false
+    },
 
     initialize() {
       this.desserts = [
@@ -507,13 +794,13 @@ export default {
       this.desserts.splice(this.editedIndex, 1)
       this.closeDelete()
     },
-    close() {
-      this.dialog = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
-    },
+    // close() {
+    //  this.dialog = false
+    //  this.$nextTick(() => {
+    //    this.editedItem = Object.assign({}, this.defaultItem)
+    //    this.editedIndex = -1
+    //  })
+    // },
     closeDelete() {
       this.dialogDelete = false
       this.$nextTick(() => {
