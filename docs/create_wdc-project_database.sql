@@ -12,15 +12,16 @@ CREATE TABLE `user` (
   `password` char(60) NOT NULL,
   `DOB` char(8),
   `registrationCode` varchar(255),
-  `creationTimestamp` timestamp,
-  `updateTimestamp` timestamp,
+  `creationTimestamp` timestamp DEFAULT current_timestamp(),
+  `updateTimestamp` timestamp  DEFAULT current_timestamp(), -- need to manually update with queries
   `usermode` varchar(255) NOT NULL,
-  `associatedVenue` varchar(255),
-  `recentlyBeenToHotspot` bit
+  `associatedVenue` varchar(255),  -- null for not associated
+  `recentlyBeenToHotspot` bit DEFAULT 0,
+  `allowGoogleLogin` bit NOT NULL DEFAULT 0
 );
 
 CREATE TABLE `address` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY DEFAULT left(UUID(), 8),
   `line_1` varchar(255) NOT NULL,
   `line_2` varchar(255),
   `suburb` varchar(255) NOT NULL,
@@ -28,45 +29,45 @@ CREATE TABLE `address` (
 );
 
 CREATE TABLE `venue` (
-  `venueID` varchar(255) PRIMARY KEY,
+  `venueID` varchar(255) PRIMARY KEY, -- temp solution same as check-in code
   `name` varchar(255),
   `phoneNumber` int,
   `email` varchar(255),
   `address` int,
-  `createdBy` varchar(255),
-  `creationTimestamp` timestamp,
-  `updateTimestamp` timestamp,
-  `associatedManager` varchar(255),
-  `isHotspot` bit,
+  `createdBy` varchar(255) DEFAULT 'debug',
+  `creationTimestamp` timestamp DEFAULT current_timestamp(),
+  `updateTimestamp` timestamp  DEFAULT current_timestamp(),
+  `associatedManager` varchar(255), -- null for not associated
+  `isHotspot` bit DEFAULT 0,
   `latitude` float NOT NULL,
   `longitude` float NOT NULL,
   `radius` float NOT NULL
 );
 
 CREATE TABLE `checkIn` (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY DEFAULT left(UUID(), 8),
   `user` varchar(255) NOT NULL,
   `venue` varchar(255) NOT NULL,
-  `time` timestamp NOT NULL,
-  `codeUsed` varchar(255)
+  `time` timestamp NOT NULL DEFAULT current_timestamp(),
+  `codeUsed` varchar(255) NOT NULL DEFAULT 'debug'
 );
 
 CREATE TABLE `hotspotTimeframe` (
-  `id` int PRIMARY KEY,
-  `createdBy` varchar(255),
-  `creationTimestamp` timestamp,
-  `updateTimestamp` timestamp,
+  `id` int PRIMARY KEY DEFAULT left(UUID(), 8),
+  `createdBy` varchar(255) DEFAULT 'debug',
+  `creationTimestamp` timestamp DEFAULT current_timestamp(),
+  `updateTimestamp` timestamp DEFAULT current_timestamp(),
   `venue` varchar(255) NOT NULL,
   `startTime` timestamp NOT NULL,
   `endTime` timestamp NOT NULL,
-  `affectedUsers` int
+  `affectedUsers` int DEFAULT 0
 );
 
 CREATE TABLE `registrationCode` (
-  `code` varchar(255) PRIMARY KEY,
-  `createdBy` varchar(255),
-  `creationTimestamp` timestamp,
-  `updateTimestamp` timestamp,
+  `code` varchar(255) PRIMARY KEY DEFAULT left(UUID(), 8),
+  `createdBy` varchar(255) DEFAULT 'debug',
+  `creationTimestamp` timestamp DEFAULT current_timestamp(),
+  `updateTimestamp` timestamp DEFAULT current_timestamp(),
   `validityStart` timestamp NOT NULL,
   `validityEnd` timestamp NOT NULL,
   `usermode` varchar(255) NOT NULL

@@ -19,7 +19,7 @@ INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `
 INSERT INTO `venue` (`venueID`, `name`, `associatedManager`, `latitude`, `longitude`, `radius`) VALUES ('venue01', 'Adelaide Central Market', 'test02', -34.9295, 138.5973, 99.5);
 INSERT INTO `venue` (`venueID`, `name`, `associatedManager`, `latitude`, `longitude`, `radius`) VALUES ('venue02', 'Adelaide Bonanic Garden', 'manager01', -34.9174, 138.6100, 155.6);
 
-INSERT INTO `checkIn` (`id`, `user`, `venue`, `time`) VALUES (101, 'user01', 'venue01', current_timestamp());
-INSERT INTO `checkIn` (`id`, `user`, `venue`, `time`) VALUES (102, 'user01', 'venue02', current_timestamp());
-INSERT INTO `checkIn` (`id`, `user`, `venue`, `time`) VALUES (103, 'user02', 'venue01', current_timestamp());
-INSERT INTO `checkIn` (`id`, `user`, `venue`, `time`) VALUES (104, 'user02', 'venue02', current_timestamp());
+INSERT INTO `checkIn` (`id`, `user`, `venue`, `time`) VALUES ('user01', 'venue01', timestamp("2020-07-23",  "13:10:11"));
+INSERT INTO `checkIn` (`id`, `user`, `venue`, `time`) VALUES ('user01', 'venue02', timestamp("2020-07-24",  "14:10:11"));
+INSERT INTO `checkIn` (`id`, `user`, `venue`, `time`) VALUES ('user02', 'venue01', timestamp("2020-07-25",  "15:10:11"));
+INSERT INTO `checkIn` (`id`, `user`, `venue`, `time`) VALUES ('user02', 'venue02', timestamp("2020-07-26",  "16:10:11"));

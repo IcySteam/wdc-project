@@ -316,7 +316,8 @@ app.get('/Action/GetVenueCheckInHistory', function(req, res) {
     // DOES NOT WORK because async
     // async!!
     // ...
-    // btw return status 401 in query doesn't work either because js and its stoopid ERR_HTTP_HEADERS_SENT
+    // CEEBS learning async/promise syntax again... this time for Express
+    // btw return status 401 in perm check query doesn't work either because js and its stoopid ERR_HTTP_HEADERS_SENT
 
     //query
     var query = "SELECT user.userID, CONCAT(user.firstName,' ',user.lastName) AS fullName, user.recentlyBeenToHotspot, checkIn.time, checkIn.id FROM user INNER JOIN checkIn ON user.userID = checkIn.user WHERE checkIn.venue = ?;";

@@ -248,6 +248,20 @@
             cols="12"
             sm="12"
           >
+            <v-text-field
+              v-model="registrationCode"
+              label="Registration code (optional)"
+              hide-details="auto"
+              color="teal accent-3"
+              outlined
+              counter
+              clearable
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="12"
+          >
             <v-dialog
               v-model="submitPopup"
               width="480"
@@ -283,7 +297,7 @@
                   <v-btn
                     class="brown darken-4 mt-n2"
                     text
-                    @click="submitPopup = false"
+                    @click="OKSubmitPopup()"
                   >
                     OK
                   </v-btn>
@@ -337,6 +351,7 @@ export default {
         'female',
         'other'
       ],
+      registrationCode: '',
       submitPopup: false,
       submitPopupTitle: 'Signing up',
       submitPopupText: 'Please wait...',
@@ -344,6 +359,7 @@ export default {
       postcode: '',
       dob: new Date().toISOString().substr(0, 10),
       datePickerMenu: false,
+      justSignedUp: false,
       genericRules: [
         v => !!v || 'Field is required',
         v => (v && v.length <= 100) || 'Max 100 characters'
@@ -370,7 +386,8 @@ export default {
         'gender': this.gender,
         'firstName': this.first_name,
         'lastName': this.last_name,
-        'DOB': strippedDOB
+        'DOB': strippedDOB,
+        'registrationCode': this.registrationCode
       }
       this.submitPopupTitle = 'Signing up'
       this.submitPopupText = 'Please wait...'
@@ -388,6 +405,7 @@ export default {
           // console.log(res)
           this.submitPopupTitle = 'Success!'
           this.submitPopupText = 'You have successfully created an account.'
+          this.justSignedUp = true
         })
         .catch((err) => {
           // encountered error making request/error response
@@ -395,9 +413,14 @@ export default {
           // console.log(err.response)
           this.submitPopupTitle = 'Error'
           this.submitPopupText = 'Failed to sign up!'
+          this.justSignedUp = false
         })
-      // about this and realThis
-      // https://stackoverflow.com/questions/47692003/access-vuex-store-getters-in-component-method
+    },
+    OKSubmitPopup() {
+      if (this.justSignedUp) {
+        this.$router.push('/Auth/Login').catch(() => {})
+      }
+      this.submitPopup = false
     }
   }
 }

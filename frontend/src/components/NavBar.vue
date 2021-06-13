@@ -42,7 +42,10 @@
         </v-hover>
       </v-col>
       <v-spacer />
-      <div class="text-center">
+      <div
+        v-if="this.$store.getters.getLoggedIn"
+        class="text-center"
+      >
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-btn
@@ -74,7 +77,9 @@
                   depressed
                   rounded
                   text
+                  @click="$router.push(getMenuOptions()[1].href).catch(()=>{})"
                 >
+                  <!--                get [1] which is the account option (for now at least)-->
                   View Account
                 </v-btn>
                 <v-divider class="my-2" />
@@ -82,6 +87,7 @@
                   depressed
                   rounded
                   text
+                  href="/Auth/Logout"
                 >
                   Sign Out
                 </v-btn>
