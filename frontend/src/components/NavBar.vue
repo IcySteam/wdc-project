@@ -43,7 +43,7 @@
       </v-col>
       <v-spacer />
       <div
-        v-if="this.$store.getters.getLoggedIn"
+        v-if="getLoggedIn"
         class="text-center"
       >
         <v-menu offset-y>
@@ -94,6 +94,25 @@
               </div>
             </v-list-item-content>
           </v-card>
+        </v-menu>
+      </div>
+      <div
+        v-if="!getLoggedIn"
+        class="text-center"
+      >
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="teal accent-3"
+              v-bind="attrs"
+              class="mt-2"
+              light
+              @click="realThis.$router.push('/Auth/Login').catch(()=>{})"
+              v-on="on"
+            >
+              Sign In
+            </v-btn>
+          </template>
         </v-menu>
       </div>
       <template v-if="extensionTabs.length > 0" v-slot:extension>
@@ -174,6 +193,11 @@ export default {
     }
   }),
   computed: {
+    realThis() {
+      // about this and realThis
+      // https://stackoverflow.com/questions/47692003/access-vuex-store-getters-in-component-method
+      return this
+    },
     smallWidth() {
       if (this.window.width < 600) {
         return true
@@ -251,6 +275,9 @@ export default {
       } else {
         return []
       }
+    },
+    getLoggedIn() {
+      return this.$store.getters.getLoggedIn
     }
   },
   created() {
