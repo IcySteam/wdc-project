@@ -182,7 +182,7 @@ export default {
       login: '',
       password: '',
       submitPopup: false,
-      submitPopupTitle: 'Loading',
+      submitPopupTitle: 'Logging in',
       submitPopupText: 'Please wait...',
       genericRules: [
         v => !!v || 'Field is required',
@@ -244,7 +244,7 @@ export default {
         'login': this.login,
         'password': this.password
       }
-      this.submitPopupTitle = 'Loading'
+      this.submitPopupTitle = 'Logging in'
       this.submitPopupText = 'Please wait...'
       axios({
         url: '/Action/Login',
@@ -289,8 +289,6 @@ export default {
             }
           }
         })
-      // about this and realThis
-      // https://stackoverflow.com/questions/47692003/access-vuex-store-getters-in-component-method
     },
     getSessionStatus() {
       return axios({

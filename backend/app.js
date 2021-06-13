@@ -13,6 +13,8 @@ var GoogleUserProfile;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const GOOGLE_CLIENT_ID = '1007071025898-tm7jhgcq17u2goi17ireghg8c77gb4la.apps.googleusercontent.com';
 const GOOGLE_CLIENT_SECRET = 'cT967vU--K_jZD3zO7eqrVRc';
+var crypto = require("crypto");
+
 
 // dumb proxy to integrate frontend and backend
 const frontend_port = '8081';
@@ -71,10 +73,13 @@ require('http').createServer((req, res) => {
 }).listen(parseInt(proxy_port));
 
 var dbConnectionPool = mysql.createPool({
-  host: '34.151.109.78',
   database: 'contact_tracing_system',
+  // host: 'localhost',
+  // user: 'root',
+  // password: '',
+  host: '34.151.109.78',
   user: 'root',
-  password: 'wdc2021'
+  password: 'wdc2021',
 });
 
 var indexRouter = require('./routes/index');
@@ -141,6 +146,7 @@ app.post('/Action/Login', function(req, res, next) {
   }
   req.pool.getConnection(function(err, connection) {
     if (err) {
+      console.log(err);
       res.sendStatus(500);
       return;
     }
@@ -148,7 +154,7 @@ app.post('/Action/Login', function(req, res, next) {
     var password = req.body.password;
     if (login && password) {
       login = login.toLowerCase();
-      // var hashedPassword = bcrypt.hash(password, saltRounds);
+      // var hashedPassword = bcrypt.hashSync(password, saltRounds);
       var queryString;
       if (!isNaN(login) && login.length === 10) {
         queryString = "SELECT * FROM user WHERE phoneNumber = ?;";
@@ -156,6 +162,12 @@ app.post('/Action/Login', function(req, res, next) {
         queryString = "SELECT * FROM user WHERE email = ?;";
       }
       connection.query(queryString, [login], function(err, rows, fields) {
+        connection.release();
+        if (err) {
+          console.log(err);
+          res.sendStatus(500);
+          return;
+        }
         if (rows.length > 0) {
           if (bcrypt.compareSync(password, rows[0].password)) {
             req.session.loggedIn = true;
@@ -172,6 +184,38 @@ app.post('/Action/Login', function(req, res, next) {
     } else {
       res.sendStatus(400);
     }
+  })
+});
+app.post('/Action/SignUp', function(req, res, next) {
+  // if missing really mandatory fields
+  if (!req.body.password || !req.body.email || !req.body.phoneNumber) {
+    res.sendStatus(400);
+    return;
+  }
+  // 1 in 2,821,109,907,456 chance of collision; skipping checking
+  var newUserID = crypto.randomBytes(4).toString('hex');
+  // need to query db and change usermode according to registration code accordingly
+  var usermode = 'user';
+  req.pool.getConnection(function(err, connection) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+      return;
+    }
+    // synchronous hash function used!
+    var hashedPassword = bcrypt.hashSync(req.body.password, saltRounds);
+    var queryString;
+    queryString = "INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    connection.query(queryString, [newUserID, req.body.firstName, req.body.lastName, req.body.phoneNumber, req.body.email, req.body.gender, hashedPassword, req.body.DOB, usermode], function(err, rows, fields) {
+      connection.release();
+      if (err) {
+        console.log(err);
+        // 520 unknown error; failing at insertion or other errors
+        res.sendStatus(520);
+        return;
+      }
+      res.sendStatus(200);
+    });
   })
 });
 app.get('/Auth/Logout', function(req, res, next) {
@@ -195,6 +239,112 @@ app.get('/Action/GetSessionStatus', function(req, res, next) {
   res.json(resObj);
 });
 
+// <Minhaj>
+// query for listing users in administration page
+app.get('/Action/GetUsersDigest', function(req, res) {
+  // insufficient permission
+  if (req.session.usermode !== 'admin') {
+    res.sendStatus(401);
+    return;
+  }
+  //Connect to the database
+  req.pool.getConnection(function(err,connection) {
+    if (err) {
+      console.log(err);     //for error details
+      res.sendStatus(500);
+      return;
+    }
+    //query
+    var query = "SELECT userID, CONCAT(firstName,' ',lastName) AS fullName, recentlyBeenToHotspot, email FROM user WHERE usermode = 'user';";
+    connection.query(query, function(err, rows, fields) {
+      connection.release(); // release connection
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+        return;
+      }
+      res.json(rows); //send response
+    });
+  });
+});
+
+// query for showing check-in history of each user
+app.get('/Action/GetUserCheckInHistory', function(req, res) {
+  if (!req.query.userID) {
+    res.sendStatus(400);
+    return;
+  }
+  const targetUser = req.query.userID.toLowerCase();
+  // console.log(targetUser)
+  if (req.session.usermode !== 'admin' && targetUser !== req.session.userID) {
+    res.sendStatus(401);
+    return;
+  }
+  //Connect to the database
+  req.pool.getConnection(function(err,connection) {
+    if (err) {
+      console.log(err);     //for error details
+      res.sendStatus(500);
+      return;
+    }
+    //query
+    var query = "SELECT venue.venueID, venue.name, checkIn.time, checkIn.id FROM venue INNER JOIN checkIn ON venue.venueID = checkIn.venue WHERE checkIn.user = ?;";
+    connection.query(query, [targetUser], function(err, rows, fields) {
+      connection.release(); // release connection
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+        return;
+      }
+      res.json(rows); //send response
+    });
+  });
+});
+
+// query for showing check-in history of venue
+app.get('/Action/GetVenueCheckInHistory', function(req, res) {
+  if (!req.query.venueID) {
+    res.sendStatus(400);
+    return;
+  }
+  const targetVenue = req.query.venueID.toLowerCase();
+  //Connect to the database
+  req.pool.getConnection(function(err,connection) {
+    if (err) {
+      console.log(err);     //for error details
+      res.sendStatus(500);
+      return;
+    }
+    // wanted to use another query to check permission first
+    // DOES NOT WORK because async
+    // async!!
+    // ...
+    // CEEBS learning async/promise syntax again... this time for Express
+    // btw return status 401 in perm check query doesn't work either because js and its stoopid ERR_HTTP_HEADERS_SENT
+
+    //query
+    var query = "SELECT user.userID, CONCAT(user.firstName,' ',user.lastName) AS fullName, user.recentlyBeenToHotspot, checkIn.time, checkIn.id FROM user INNER JOIN checkIn ON user.userID = checkIn.user WHERE checkIn.venue = ?;";
+    connection.query(query, [targetVenue], function(err, rows, fields) {
+      connection.release(); // release connection
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+        return;
+      }
+      res.json(rows); //send response
+    });
+  });
+});
+// </Minhaj>
+
+// <Jash>
+
+// </Jash>
+
+// <Zac>
+
+// </Zac>
+
 // dev purposes only \/
 // app.get('/Action/GoogleAuth/GetGoogleUserProfile', (req, res) => res.send(GoogleUserProfile));
 // dev purposes only /\
@@ -217,6 +367,7 @@ app.get('/Action/GoogleAuth/Callback',
       }
       req.pool.getConnection(function(err, connection) {
         if (err) {
+          console.log(err);
           res.sendStatus(500);
           return;
         }
@@ -225,6 +376,12 @@ app.get('/Action/GoogleAuth/Callback',
           var queryString;
           queryString = "SELECT * FROM user WHERE email = ?;";
           connection.query(queryString, [userEmail], function(err, rows, fields) {
+            connection.release();
+            if (err) {
+              console.log(err);
+              res.sendStatus(500);
+              return;
+            }
             if (rows.length > 0) {
                 req.session.loggedIn = true;
                 req.session.userID = rows[0].userID;

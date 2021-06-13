@@ -248,6 +248,20 @@
             cols="12"
             sm="12"
           >
+            <v-text-field
+              v-model="registrationCode"
+              label="Registration code (optional)"
+              hide-details="auto"
+              color="teal accent-3"
+              outlined
+              counter
+              clearable
+            />
+          </v-col>
+          <v-col
+            cols="12"
+            sm="12"
+          >
             <v-dialog
               v-model="submitPopup"
               width="480"
@@ -265,6 +279,7 @@
                   :disabled="!validated"
                   large
                   v-on="on"
+                  @click="postSignUp()"
                 >
                   Submit
                 </v-btn>
@@ -272,17 +287,17 @@
 
               <v-card class="pb-3">
                 <v-card-title class="brown darken-4">
-                  Congratulations!
+                  {{ submitPopupTitle }}
                 </v-card-title>
                 <v-card-text class="mt-6">
-                  All done!
+                  {{ submitPopupText }}
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
                   <v-btn
                     class="brown darken-4 mt-n2"
                     text
-                    @click="submitPopup = false"
+                    @click="OKSubmitPopup()"
                   >
                     OK
                   </v-btn>
@@ -314,6 +329,7 @@
 
 <script>
 import ConsistentMP from '../UX/ConsistentMP'
+import axios from 'axios'
 export default {
   name: 'SignUpComponent',
   components: {
@@ -335,11 +351,15 @@ export default {
         'female',
         'other'
       ],
+      registrationCode: '',
       submitPopup: false,
+      submitPopupTitle: 'Signing up',
+      submitPopupText: 'Please wait...',
       suburb: '',
       postcode: '',
       dob: new Date().toISOString().substr(0, 10),
       datePickerMenu: false,
+      justSignedUp: false,
       genericRules: [
         v => !!v || 'Field is required',
         v => (v && v.length <= 100) || 'Max 100 characters'
@@ -356,6 +376,51 @@ export default {
     },
     reset() {
       this.$refs.form.reset()
+    },
+    postSignUp() {
+      const strippedDOB = this.dob.replaceAll('-', '')
+      const signUpPayload = {
+        'email': this.email,
+        'password': this.password,
+        'phoneNumber': this.phoneNumber,
+        'gender': this.gender,
+        'firstName': this.first_name,
+        'lastName': this.last_name,
+        'DOB': strippedDOB,
+        'registrationCode': this.registrationCode
+      }
+      this.submitPopupTitle = 'Signing up'
+      this.submitPopupText = 'Please wait...'
+      axios({
+        url: '/Action/SignUp',
+        method: 'post',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: signUpPayload
+      })
+        .then((res) => {
+          // got an ok response
+          // console.log(res)
+          this.submitPopupTitle = 'Success!'
+          this.submitPopupText = 'You have successfully created an account.'
+          this.justSignedUp = true
+        })
+        .catch((err) => {
+          // encountered error making request/error response
+          console.log(err)
+          // console.log(err.response)
+          this.submitPopupTitle = 'Error'
+          this.submitPopupText = 'Failed to sign up!'
+          this.justSignedUp = false
+        })
+    },
+    OKSubmitPopup() {
+      if (this.justSignedUp) {
+        this.$router.push('/Auth/Login').catch(() => {})
+      }
+      this.submitPopup = false
     }
   }
 }

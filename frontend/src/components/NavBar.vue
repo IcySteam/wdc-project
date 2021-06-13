@@ -42,7 +42,10 @@
         </v-hover>
       </v-col>
       <v-spacer />
-      <div class="text-center">
+      <div
+        v-if="getLoggedIn"
+        class="text-center"
+      >
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-btn
@@ -74,7 +77,9 @@
                   depressed
                   rounded
                   text
+                  @click="$router.push(getMenuOptions()[1].href).catch(()=>{})"
                 >
+                  <!--                get [1] which is the account option (for now at least)-->
                   View Account
                 </v-btn>
                 <v-divider class="my-2" />
@@ -82,12 +87,32 @@
                   depressed
                   rounded
                   text
+                  href="/Auth/Logout"
                 >
                   Sign Out
                 </v-btn>
               </div>
             </v-list-item-content>
           </v-card>
+        </v-menu>
+      </div>
+      <div
+        v-if="!getLoggedIn"
+        class="text-center"
+      >
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="teal accent-3"
+              v-bind="attrs"
+              class="mt-2"
+              light
+              @click="realThis.$router.push('/Auth/Login').catch(()=>{})"
+              v-on="on"
+            >
+              Sign In
+            </v-btn>
+          </template>
         </v-menu>
       </div>
       <template v-if="extensionTabs.length > 0" v-slot:extension>
@@ -168,6 +193,11 @@ export default {
     }
   }),
   computed: {
+    realThis() {
+      // about this and realThis
+      // https://stackoverflow.com/questions/47692003/access-vuex-store-getters-in-component-method
+      return this
+    },
     smallWidth() {
       if (this.window.width < 600) {
         return true
@@ -245,6 +275,9 @@ export default {
       } else {
         return []
       }
+    },
+    getLoggedIn() {
+      return this.$store.getters.getLoggedIn
     }
   },
   created() {
