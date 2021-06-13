@@ -103,7 +103,7 @@ CREATE TABLE `hotspotTimeframe` (
   `updateTimestamp` timestamp,
   `venue` varchar(255) NOT NULL,
   `startTime` timestamp NOT NULL,
-  `endTime` timestamp NOT NULL,
+  `endTime` timestamp,
   `affectedUsers` int DEFAULT 0
 );
 
