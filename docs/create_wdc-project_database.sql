@@ -38,8 +38,8 @@ CREATE TABLE `user` (
   `updateTimestamp` timestamp, -- need to manually update with queries
   `usermode` varchar(255) NOT NULL,
   `associatedVenue` varchar(255),  -- null for not associated
-  `recentlyBeenToHotspot` bit DEFAULT 0,
-  `allowGoogleLogin` bit NOT NULL DEFAULT 0
+  `recentlyBeenToHotspot` varchar(255) DEFAULT 'no',
+  `allowGoogleLogin` varchar(255) NOT NULL DEFAULT 'no'
 );
 
 -- set up trigger to use function result as default value
@@ -71,7 +71,7 @@ CREATE TABLE `venue` (
   `creationTimestamp` timestamp DEFAULT current_timestamp(),
   `updateTimestamp` timestamp,
   `associatedManager` varchar(255), -- null for not associated
-  `isHotspot` bit DEFAULT 0,
+  `isHotspot` varchar(255) DEFAULT 'no',
   `latitude` float NOT NULL,
   `longitude` float NOT NULL,
   `radius` float NOT NULL
@@ -155,8 +155,11 @@ ALTER TABLE `user` ADD CHECK ((`email`) = (lower(`email`)));
 ALTER TABLE `user` ADD CHECK ((`userID`) = (lower(`userID`)));
 ALTER TABLE `user` ADD CHECK ((`gender`) = (lower(`gender`)));
 ALTER TABLE `user` ADD CHECK ((`usermode`) = (lower(`usermode`)));
+ALTER TABLE `user` ADD CHECK ((`recentlyBeenToHotspot`) = (lower(`recentlyBeenToHotspot`)));
+ALTER TABLE `user` ADD CHECK ((`allowGoogleLogin`) = (lower(`allowGoogleLogin`)));
 
 ALTER TABLE `registrationCode` ADD CHECK ((`usermode`) = (lower(`usermode`)));
 
 ALTER TABLE `venue` ADD CHECK ((`venueID`) = (lower(`venueID`)));
 ALTER TABLE `venue` ADD CHECK ((`email`) = (lower(`email`)));
+ALTER TABLE `venue` ADD CHECK ((`isHotspot`) = (lower(`isHotspot`)));
