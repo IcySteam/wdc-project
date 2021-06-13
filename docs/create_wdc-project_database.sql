@@ -42,6 +42,17 @@ CREATE TABLE `user` (
   `allowGoogleLogin` bit NOT NULL DEFAULT 0
 );
 
+-- set up trigger to use function result as default value
+DELIMITER ;;
+CREATE TRIGGER `foo_user_before_insert` 
+BEFORE INSERT ON `user` FOR EACH ROW 
+BEGIN
+  IF new.userID IS NULL THEN
+    SET new.userID = myUUID(8);
+  END IF;
+END;;
+DELIMITER ;
+
 CREATE TABLE `address` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `line_1` varchar(255) NOT NULL,
@@ -65,6 +76,17 @@ CREATE TABLE `venue` (
   `longitude` float NOT NULL,
   `radius` float NOT NULL
 );
+
+-- set up trigger to use function result as default value
+DELIMITER ;;
+CREATE TRIGGER `foo_venue_before_insert` 
+BEFORE INSERT ON `venue` FOR EACH ROW 
+BEGIN
+  IF new.venueID IS NULL THEN
+    SET new.venueID = myUUID(8);
+  END IF;
+END;;
+DELIMITER ;
 
 CREATE TABLE `checkIn` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
@@ -101,7 +123,7 @@ CREATE TRIGGER `foo_registrationCode_before_insert`
 BEFORE INSERT ON `registrationCode` FOR EACH ROW 
 BEGIN
   IF new.code IS NULL THEN
-    SET new.code = myUUID(8);
+    SET new.code = myUUID(12);
   END IF;
 END;;
 DELIMITER ;
