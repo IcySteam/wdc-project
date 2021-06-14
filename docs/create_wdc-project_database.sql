@@ -102,7 +102,10 @@ CREATE TABLE `hotspotTimeframe` (
   `creationTimestamp` timestamp DEFAULT current_timestamp(),
   `updateTimestamp` timestamp,
   `venue` varchar(255) NOT NULL,
-  `startTime` timestamp NOT NULL,
+   -- not NULL? out of time bruh
+  -- `startTime` timestamp NOT NULL,
+  -- `endTime` timestamp,
+  `startTime` timestamp,
   `endTime` timestamp,
   `affectedUsers` int DEFAULT 0
 );
@@ -112,8 +115,11 @@ CREATE TABLE `registrationCode` (
   `createdBy` varchar(255),
   `creationTimestamp` timestamp DEFAULT current_timestamp(),
   `updateTimestamp` timestamp,
-  `validityStart` timestamp NOT NULL,
-  `validityEnd` timestamp NOT NULL,
+  -- not NULL? out of time bruh
+  -- `validityStart` timestamp NOT NULL,
+  -- `validityEnd` timestamp NOT NULL,
+  `validityStart` timestamp,
+  `validityEnd` timestamp,
   `usermode` varchar(255) NOT NULL
 );
 
@@ -159,7 +165,10 @@ ALTER TABLE `user` ADD CHECK ((`recentlyBeenToHotspot`) = (lower(`recentlyBeenTo
 ALTER TABLE `user` ADD CHECK ((`allowGoogleLogin`) = (lower(`allowGoogleLogin`)));
 
 ALTER TABLE `registrationCode` ADD CHECK ((`usermode`) = (lower(`usermode`)));
+ALTER TABLE `registrationCode` ADD CHECK (`validityEnd` >= `validityStart`);
 
 ALTER TABLE `venue` ADD CHECK ((`venueID`) = (lower(`venueID`)));
 ALTER TABLE `venue` ADD CHECK ((`email`) = (lower(`email`)));
 ALTER TABLE `venue` ADD CHECK ((`isHotspot`) = (lower(`isHotspot`)));
+
+ALTER TABLE `hotspotTimeframe` ADD CHECK ((`endTime` >= `startTime`) OR (`endTime` = NULL));
