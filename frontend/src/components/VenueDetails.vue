@@ -131,7 +131,7 @@
               >
                 <v-card>
                   <v-card-title>
-                    <span class="text-h5">Account Details</span>
+                    <span class="text-h5">Edit Details</span>
                   </v-card-title>
 
                   <v-card-text>
