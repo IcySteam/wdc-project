@@ -5,5 +5,6 @@
 cd ./backend
 npm install
 cd ../frontend
+chmod +x ./src/plugins/setup.sh
 ./src/plugins/setup.sh
 npm install
