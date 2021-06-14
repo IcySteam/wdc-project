@@ -124,8 +124,8 @@ passport.use(new GoogleStrategy({
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
       // Google auth callback url; DEPENDENT ON ENVIRONMENT
-      // callbackURL: 'https://ide-8c045c49c48c4ffb8cbf416d2ea89fd8-8080.cs50.ws/Action/GoogleAuth/Callback'
       callbackURL: 'http://localhost:' + proxy_port + '/Action/GoogleAuth/Callback'
+      // callbackURL: 'https://ide-8c045c49c48c4ffb8cbf416d2ea89fd8-8080.cs50.ws/Action/GoogleAuth/Callback'
     },
     function(accessToken, refreshToken, profile, done) {
       // set last user profile to obtained user profile; potentially unsafe and could break when multiple users try to log in at the same time

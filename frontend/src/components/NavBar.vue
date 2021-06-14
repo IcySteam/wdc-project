@@ -66,11 +66,11 @@
                 <v-avatar
                   color="indigo"
                 >
-                  <span class="white--text text-h5">{{ user.initials }}</span>
+                  <span class="white--text text-h5">{{ currentUserObject.initials }}</span>
                 </v-avatar>
-                <h3 class="mt-3">{{ user.fullName }}</h3>
+                <h3 class="mt-3">{{ currentUserObject.fullName }}</h3>
                 <p class="text-caption mt-3">
-                  {{ user.email }}
+                  {{ currentUserObject.email }}
                 </p>
                 <v-divider class="my-2" />
                 <v-btn
@@ -177,15 +177,16 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'NavBar',
   data: () => ({
     drawer: false,
     group: null,
-    user: {
-      initials: 'JD',
-      fullName: 'John Doe',
-      email: 'john.doe@doe.com'
+    currentUserObject: {
+      initials: '',
+      fullName: '',
+      email: ''
     },
     window: {
       width: 0,
@@ -284,6 +285,7 @@ export default {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
     this.$store.dispatch('getSessionStatus')
+    this.currentUserAxios()
   },
   destroyed() {
     window.removeEventListener('resize', this.handleResize)
@@ -303,6 +305,58 @@ export default {
     },
     updateUsermode(item) {
       this.$store.commit('setUsermode', item)
+    },
+    currentUserAxios() {
+      // get session status first
+      var currentUserID
+      axios({
+        url: '/Action/GetSessionStatus',
+        method: 'get',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        params: {
+        }
+      })
+        .then((res) => {
+          // got an ok response
+          // console.log(res)
+          currentUserID = res.data.userID
+          // get user object, NESTED axios request
+          axios({
+            url: '/Action/GetUser',
+            method: 'get',
+            timeout: 8000,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            params: {
+              'userID': currentUserID
+            }
+          })
+            .then((res1) => {
+              // got an ok response
+              // console.log(res1)
+              this.currentUserObject = res1.data
+              this.currentUserObject.fullName = this.currentUserObject.firstName + ' ' + this.currentUserObject.lastName
+              this.currentUserObject.initials = this.currentUserObject.firstName[0] + this.currentUserObject.lastName[0]
+            })
+            .catch((err1) => {
+              // encountered error making request/error response
+              console.log(err1)
+              if (err1.response) {
+                console.log(err1.response)
+              }
+            })
+        })
+        .catch((err) => {
+          // encountered error making request/error response
+          console.log(err)
+          if (err.response) {
+            console.log(err.response)
+          }
+        })
     }
   }
 }

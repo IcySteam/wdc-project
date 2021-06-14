@@ -8,6 +8,7 @@
           plain
           @click="manageUserInfo"
         >
+          <!--          SKIPPED edit details integration with backend-->
           Edit Details
         </v-btn>
         <v-card>
@@ -142,11 +143,13 @@
 
 <script>
 import ConsistentMP from './UX/ConsistentMP'
+import axios from 'axios'
 export default {
   name: 'UserAccountComponent',
   components: { ConsistentMP },
   data() {
     return {
+      currentUserObject: {},
       UCdialog: false,
       UMdialog: false,
       pop: false,
@@ -170,73 +173,77 @@ export default {
           value: 'updated'
         }
       ],
-      accountDetailItems: [
-        {
-          name: 'User ID',
-          value: 'UID#ABYZ0189',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'First name',
-          value: 'Jon',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Last name',
-          value: 'Doe',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Role',
-          value: 'user',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Gender',
-          value: 'Attack helicopter',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Date of birth',
-          value: '1970-01-01',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Recently been to a hotspot?',
-          value: 'No',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Phone number',
-          value: '0456789012',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Email',
-          value: 'user@example.com',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Address #1',
-          value: '1 Nowhere St',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Address #2 (optional)',
-          value: '',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Suburb',
-          value: 'Adelaide',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Postcode',
-          value: '5000',
-          updated: '2021-05-16'
-        }
-      ],
+      accountDetailItems: [],
+
+      // old placeholder data
+      // accountDetailItems: [
+      //   {
+      //     name: 'User ID',
+      //     value: 'UID#ABYZ0189',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'First name',
+      //     value: 'Jon',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Last name',
+      //     value: 'Doe',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Role',
+      //     value: 'user',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Gender',
+      //     value: 'Attack helicopter',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Date of birth',
+      //     value: '1970-01-01',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Recently been to a hotspot?',
+      //     value: 'No',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Phone number',
+      //     value: '0456789012',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Email',
+      //     value: 'user@example.com',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Address #1',
+      //     value: '1 Nowhere St',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Address #2 (optional)',
+      //     value: '',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Suburb',
+      //     value: 'Adelaide',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Postcode',
+      //     value: '5000',
+      //     updated: '2021-05-16'
+      //   }
+      // ],
+
       userCheckInHeaders: [
         {
           text: 'Venue ID',
@@ -273,62 +280,71 @@ export default {
           value: 'updated'
         }
       ],
-      editAccountDetailItems: [
-        {
-          name: 'First name',
-          value: 'Jon',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Last name',
-          value: 'Doe',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Gender',
-          value: 'Attack helicopter',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Date of birth',
-          value: '1970-01-01',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Phone number',
-          value: '0456789012',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Email',
-          value: 'user@example.com',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Address #1',
-          value: '1 Nowhere St',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Address #2 (optional)',
-          value: '',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Suburb',
-          value: 'Adelaide',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Postcode',
-          value: '5000',
-          updated: '2021-05-16'
-        }
-      ]
+
+      editAccountDetailItems: []
+      // old placeholder data
+      // editAccountDetailItems: [
+      //   {
+      //     name: 'First name',
+      //     value: 'Jon',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Last name',
+      //     value: 'Doe',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Gender',
+      //     value: 'Attack helicopter',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Date of birth',
+      //     value: '1970-01-01',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Phone number',
+      //     value: '0456789012',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Email',
+      //     value: 'user@example.com',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Address #1',
+      //     value: '1 Nowhere St',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Address #2 (optional)',
+      //     value: '',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Suburb',
+      //     value: 'Adelaide',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Postcode',
+      //     value: '5000',
+      //     updated: '2021-05-16'
+      //   }
+      // ],
     }
   },
 
   computed: {
+  },
+  created() {
+    this.currentUserAxios()
+    this.checkInTimelineAxios()
+  },
+  destroyed() {
   },
   methods: {
     viewCheckInInfo() {
@@ -356,6 +372,127 @@ export default {
     close() {
       this.UCdialog = false
       this.UMdialog = false
+    },
+
+    currentUserAxios() {
+      // get session status first
+      var currentUserID
+      axios({
+        url: '/Action/GetSessionStatus',
+        method: 'get',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        params: {
+        }
+      })
+        .then((res) => {
+          // got an ok response
+          // console.log(res)
+          currentUserID = res.data.userID
+          // get user object, NESTED axios request
+          axios({
+            url: '/Action/GetUser',
+            method: 'get',
+            timeout: 8000,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            params: {
+              'userID': currentUserID
+            }
+          })
+            .then((res1) => {
+              // got an ok response
+              // console.log(res1)
+              this.currentUserObject = res1.data
+              this.currentUserObject.fullName = this.currentUserObject.firstName + ' ' + this.currentUserObject.lastName
+              this.currentUserObject.initials = this.currentUserObject.firstName[0] + this.currentUserObject.lastName[0]
+              for (const [key, value] of Object.entries(this.currentUserObject)) {
+                // console.log(`${key}: ${value}`)
+                const newEntry = {}
+                newEntry.name = key
+                newEntry.value = value
+                // newEntry.updated = this.currentUserObject.updatedTimestamp
+                // foo to look better
+                newEntry.updated = this.currentUserObject.creationTimestamp
+                this.accountDetailItems.push(newEntry)
+                this.editAccountDetailItems.push(newEntry)
+              }
+            })
+            .catch((err1) => {
+              // encountered error making request/error response
+              console.log(err1)
+              if (err1.response) {
+                console.log(err1.response)
+              }
+            })
+        })
+        .catch((err) => {
+          // encountered error making request/error response
+          console.log(err)
+          if (err.response) {
+            console.log(err.response)
+          }
+        })
+    },
+    checkInTimelineAxios() {
+      // get session status first
+      var currentUserID
+      axios({
+        url: '/Action/GetSessionStatus',
+        method: 'get',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        params: {
+        }
+      })
+        .then((res) => {
+          // got an ok response
+          // console.log(res)
+          currentUserID = res.data.userID
+          // get user check-in timeline, NESTED axios request
+          axios({
+            url: '/Action/GetUserCheckInHistory',
+            method: 'get',
+            timeout: 8000,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            params: {
+              'userID': currentUserID
+            }
+          })
+            .then((res1) => {
+              // got an ok response
+              // console.log(res1)
+              for (let i = 0; i < res1.data.length; ++i) {
+                this.userCheckInItems.push({
+                  venueID: res1.data[i].venueID,
+                  venueName: res1.data[i].name,
+                  time: res1.data[i].time,
+                  id: res1.data[i].id
+                })
+              }
+            })
+            .catch((err1) => {
+              // encountered error making request/error response
+              console.log(err1)
+              if (err1.response) {
+                console.log(err1.response)
+              }
+            })
+        })
+        .catch((err) => {
+          // encountered error making request/error response
+          console.log(err)
+          if (err.response) {
+            console.log(err.response)
+          }
+        })
     }
   }
 }
