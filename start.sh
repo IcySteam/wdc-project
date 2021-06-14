@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # set up and run mysql first
 cd backend
 npm start &
