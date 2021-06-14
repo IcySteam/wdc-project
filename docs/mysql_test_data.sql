@@ -1,7 +1,7 @@
 USE contact_tracing_system;
 
-INSERT INTO `venue` (`venueID`, `name`, `latitude`, `longitude`, `radius`) VALUES ('venue01', 'Adelaide Central Market', -34.9295, 138.5973, 99.5);
-INSERT INTO `venue` (`venueID`, `name`, `latitude`, `longitude`, `radius`) VALUES ('venue02', 'Adelaide Bonanic Garden', -34.9174, 138.6100, 210.07);
+INSERT INTO `venue` (`venueID`, `name`, `latitude`, `longitude`, `radius`, `isHotspot`) VALUES ('venue01', 'Adelaide Central Market', -34.9295, 138.5973, 99.5, 'yes');
+INSERT INTO `venue` (`venueID`, `name`, `latitude`, `longitude`, `radius`, `isHotspot`) VALUES ('venue02', 'Adelaide Bonanic Garden', -34.9174, 138.6100, 210.07, 'yes');
 INSERT INTO `venue` (`venueID`, `name`, `latitude`, `longitude`, `radius`) VALUES ('venue03', 'Chinatown Adelaide South Australia Inc.', -34.930528, 138.595978, 155.6);
 
 INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES ('test01', 'Don', 'Joe', 0400000001, 'test01@example.com', 'male', '$2a$08$M4tlVv0xcg35WVmvWuRKMedbACVrjc.REwkJzpEBwfHxZ1VN3M0gi', '19700101', 'user'); -- 12345678
@@ -32,3 +32,6 @@ INSERT INTO `checkIn` (`user`, `venue`, `time`) VALUES ('user02', 'venue02', tim
 
 INSERT INTO `hotspotTimeframe` (`venue`, `startTime`, `endTime`, `affectedUsers`) VALUES ('venue01', timestamp("2019-12-03",  "16:10:11"), timestamp("2029-07-28",  "17:30:22"), 10);
 INSERT INTO `hotspotTimeframe` (`venue`, `startTime`, `endTime`, `affectedUsers`) VALUES ('venue02', timestamp("2020-01-03",  "16:10:12"), timestamp("2030-08-28",  "17:30:23"), 12);
+
+INSERT INTO `registrationCode` (`code`, `validityStart`, `validityEnd`, `usermode`) VALUES ('manager123', timestamp("2019-12-03",  "16:10:11"), timestamp("2029-07-28",  "17:30:22"), 'manager');
+INSERT INTO `registrationCode` (`code`, `validityStart`, `validityEnd`, `usermode`) VALUES ('admin123', timestamp("2020-01-03",  "16:10:12"), timestamp("2030-08-28",  "17:30:23"), 'admin');
