@@ -153,8 +153,8 @@
                 small
                 color="teal accent-3"
                 class="black--text"
-                @click="viewUserInfo(item)"
                 style="margin: 20px;"
+                @click="viewUserInfo(item)"
               >
                 View Check-Ins
               </v-btn>
@@ -162,8 +162,8 @@
                 small
                 color="teal accent-3"
                 class="black--text"
-                @click="manageUserInfo(item)"
                 style="margin: 20px;"
+                @click="manageUserInfo(item)"
               >
                 Manage
               </v-btn>
@@ -301,8 +301,8 @@
                 small
                 color="teal accent-3"
                 class="black--text"
-                @click="viewVenueInfo(item)"
                 style="margin: 20px;"
+                @click="viewVenueInfo(item)"
               >
                 View Check-Ins
               </v-btn>
@@ -310,8 +310,8 @@
                 small
                 color="teal accent-3"
                 class="black--text"
-                @click="manageVenueInfo(item)"
                 style="margin: 20px;"
+                @click="manageVenueInfo(item)"
               >
                 Manage
               </v-btn>

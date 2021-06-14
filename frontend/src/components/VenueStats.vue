@@ -7,7 +7,7 @@
     <v-row>
       <ConsistentMP id="checkInHistory">
         <template>
-          <div class="text-center">
+          <div>
             <v-dialog
               v-model="QRcode"
               width="310"
@@ -16,31 +16,30 @@
                 <v-btn
                   color="teal accent-3"
                   v-bind="cardHolder"
+                  class="black--text ml-4"
                   v-on="on"
-                  class="black--text"
                 >
-                  Check The QR Code
+                  Show Check-In QR Code
                 </v-btn>
               </template>
 
               <v-card>
-                <v-card-title>
-                  The QR Code Information
+                <v-card-title class="my-2">
+                  Check-In QR Code
                 </v-card-title>
 
                 <v-card-text>
-                  <div v-qr="text" v-if="text" />
+                  <div v-if="text" v-qr="text" />
                 </v-card-text>
 
                 <v-card-actions>
-                  <v-spacer>
-                  </v-spacer>
+                  <v-spacer />
                   <v-btn
-                    @click="QRcode = false"
                     color="teal accent-3"
-                    class="black--text"
+                    class="black--text mb-2 mt-n2"
+                    @click="QRcode = false"
                   >
-                    All done!
+                    OK
                   </v-btn>
                 </v-card-actions>
               </v-card>
