@@ -229,7 +229,7 @@ app.post('/Action/SignUp', function(req, res, next) {
     var queryString;
     // skipping inserting registration code
     queryString = "INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    connection.query(queryString, [newUserID, req.body.firstName.length > 0? req.body.firstName : null, req.body.lastName.length > 0? req.body.lastName : null, req.body.phoneNumber, req.body.email, req.body.gender.length > 0? req.body.gender : null, hashedPassword, req.body.DOB.length > 0? req.body.DOB : null, usermode], function(err, rows, fields) {
+    connection.query(queryString, [newUserID, (req.body.firstName && req.body.firstName.length > 0)? req.body.firstName : null, (req.body.lastName && req.body.lastName.length > 0)? req.body.lastName : null, req.body.phoneNumber, req.body.email, (req.body.gender && req.body.gender.length > 0)? req.body.gender : null, hashedPassword, (req.body.DOB && req.body.DOB.length > 0)? req.body.DOB : null, usermode], function(err, rows, fields) {
       connection.release();
       if (err) {
         console.log(err);
@@ -416,7 +416,7 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       });
     }
 
-    // finally release
+    // finally release and respond
     connection.release();
     res.sendStatus(200);
   })
@@ -590,7 +590,7 @@ app.post('/Action/CreateVenueObject', function(req, res, next) {
     }
     var queryString;
     queryString = "INSERT INTO `venue` (`venueID`, `name`, `phoneNumber`, `email`, `associatedManager`, `latitude`, `longitude`, `radius`, `createdBy`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    connection.query(queryString, [newVenueID, req.body.name.length > 0? req.body.name : null, req.body.phoneNumber.length > 0? req.body.phoneNumber : null, req.body.email.toLowerCase().length > 0? req.body.email.toLowerCase() : null, req.body.associatedManager.toLowerCase() > 0? req.body.associatedManager.toLowerCase() : null, req.body.latitude, req.body.longitude, req.body.radius, req.session.userID], function(err, rows, fields) {
+    connection.query(queryString, [newVenueID, (req.body.name && req.body.name.length > 0)? req.body.name : null, (req.body.phoneNumber && req.body.phoneNumber.length > 0)? req.body.phoneNumber : null, (req.body.email && req.body.email.length > 0)? req.body.email.toLowerCase() : null, (req.body.associatedManager && req.body.associatedManager.length > 0)? req.body.associatedManager.toLowerCase() : null, req.body.latitude, req.body.longitude, req.body.radius, req.session.userID], function(err, rows, fields) {
       connection.release();
       if (err) {
         console.log(err);
@@ -646,7 +646,7 @@ app.post('/Action/CreateRegistrationCode', function(req, res, next) {
     return;
   }
   // if missing really mandatory fields
-  if (!req.query.usermode || req.query.usermode.toLowerCase() !== 'user' || req.query.usermode.toLowerCase() !== 'manager' || req.query.usermode.toLowerCase() !== 'admin') {
+  if (!req.query.usermode || (req.query.usermode.toLowerCase() !== 'user' && req.query.usermode.toLowerCase() !== 'manager' && req.query.usermode.toLowerCase() !== 'admin')) {
     res.sendStatus(400);
     return;
   }
@@ -667,9 +667,9 @@ app.post('/Action/CreateRegistrationCode', function(req, res, next) {
       return;
     }
     var queryString;
-    queryString = "INSERT INTO `registrationCode` (`code`, `createdBy`, `validityStart`, `validityEnd`, `usermode`) VALUES (?, ?, ?, ?, ?);";
+    queryString = "INSERT INTO `registrationCode` (`code`, `createdBy`, `usermode`) VALUES (?, ?, ?);";
     // NEED to check for and insert validity timestamps as well
-    connection.query(queryString, [newCode, req.session.userID, req.body.validityStart.length > 0? req.body.validityStart : null, req.body.validityEnd.length > 0? req.body.validityEnd : null, req.query.usermode.toLowerCase()], function(err, rows, fields) {
+    connection.query(queryString, [newCode, req.session.userID, req.query.usermode.toLowerCase()], function(err, rows, fields) {
       connection.release();
       if (err) {
         console.log(err);
@@ -700,18 +700,32 @@ app.post('/Action/CreateHotspotTimeframe', function(req, res, next) {
       return;
     }
     var queryString;
-    queryString = "INSERT INTO `hotspotTimeframe` (`venue`, `startTime`, `endTime`, `affectedUsers`, `createdBy`) VALUES (?, ?, ?, ?);";
+    queryString = "INSERT INTO `hotspotTimeframe` (`venue`, `affectedUsers`, `createdBy`) VALUES (?, ?, ?);";
     // NEED to check for and insert starting and ending timestamps as well
-    connection.query(queryString, [req.body.venue.toLowerCase(), req.body.startTime.length > 0? req.body.startTime : null, req.body.endTime.length > 0? req.body.endTime : null, (!isNaN(req.body.affectedUsers) && parseInt(req.body.affectedUsers) >= 0)? req.body.affectedUsers : null, req.session.userID], function(err, rows, fields) {
-      connection.release();
+    connection.query(queryString, [req.body.venue.toLowerCase(), (!isNaN(req.body.affectedUsers) && parseInt(req.body.affectedUsers) >= 0)? req.body.affectedUsers : null, req.session.userID], function(err, rows, fields) {
+      // not releasing
       if (err) {
         console.log(err);
         // 520 unknown error; failing at insertion or other errors
         res.sendStatus(520);
         return;
       }
-      res.sendStatus(200);
+      // do nothing for now
     });
+    // TEMPORARY solution, need to get timeframe working
+    var queryString2 = queryString = "UPDATE `venue` SET venue.isHotspot = 'yes' WHERE venue.venueID = ?;";
+    connection.query(queryString, [req.body.venue.toLowerCase()], function(err, rows, fields) {
+      if (err) {
+        console.log(err);
+        // 520 unknown error; failing at insertion or other errors
+        res.sendStatus(520);
+        return;
+      }
+      // do nothing for now
+    });
+    // finally release and respond
+    connection.release();
+    res.sendStatus(200);
   })
 });
 
