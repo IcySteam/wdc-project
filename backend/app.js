@@ -335,6 +335,34 @@ app.get('/Action/GetVenueCheckInHistory', function(req, res) {
     });
   });
 });
+
+//query for listing venues in administration page
+app.get('/Action/GetVenuesDigest', function(req, res) {
+  // insufficient permission
+  if (req.session.usermode !== 'admin') {
+    res.sendStatus(401);
+    return;
+  }
+  //Connect to the database
+  req.pool.getConnection(function(err,connection) {
+    if (err) {
+      console.log(err);     //for error details
+      res.sendStatus(500);
+      return;
+    }
+    //query
+    var query = "SELECT venueID, name, isHotspot, email FROM venue;";
+    connection.query(query, function(err, rows, fields) {
+      connection.release(); // release connection
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+        return;
+      }
+      res.json(rows); //send response
+    });
+  });
+});
 // </Minhaj>
 
 // <Jash>
