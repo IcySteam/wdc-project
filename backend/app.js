@@ -630,7 +630,7 @@ app.post('/Action/CreateVenueObject', function(req, res, next) {
     }
     var queryString;
     queryString = "INSERT INTO `venue` (`venueID`, `name`, `phoneNumber`, `email`, `associatedManager`, `latitude`, `longitude`, `radius`, `createdBy`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    connection.query(queryString, [newVenueID, (req.body.name && req.body.name.length > 0)? req.body.name : null, (req.body.phoneNumber && req.body.phoneNumber.length > 0)? req.body.phoneNumber : null, (req.body.email && req.body.email.length > 0)? req.body.email.toLowerCase() : null, (req.body.associatedManager && req.body.associatedManager.length > 0)? req.body.associatedManager.toLowerCase() : null, req.body.latitude, req.body.longitude, req.body.radius, req.session.userID], function(err, rows, fields) {
+    connection.query(queryString, [newVenueID, (req.body.name && req.body.name.length > 0)? req.body.name : null, (req.body.phoneNumber && !isNaN(req.body.phoneNumber))? req.body.phoneNumber : null, (req.body.email && emailRegExp.test(req.body.email))? req.body.email.toLowerCase() : null, (req.body.associatedManager && req.body.associatedManager.length > 0)? req.body.associatedManager.toLowerCase() : null, req.body.latitude, req.body.longitude, req.body.radius, req.session.userID], function(err, rows, fields) {
       connection.release();
       if (err) {
         console.log(err);
@@ -707,9 +707,9 @@ app.post('/Action/CreateRegistrationCode', function(req, res, next) {
       return;
     }
     var queryString;
-    queryString = "INSERT INTO `registrationCode` (`code`, `createdBy`, `usermode`) VALUES (?, ?, ?);";
+    queryString = "INSERT INTO `registrationCode` (`code`, `createdBy`, `usermode`, `validityStart`, `validityEnd`, `remainingUsage`) VALUES (?, ?, ?, ?, ?, ?);";
     // NEED to check for and insert validity timestamps as well
-    connection.query(queryString, [newCode, req.session.userID, req.query.usermode.toLowerCase()], function(err, rows, fields) {
+    connection.query(queryString, [newCode, req.session.userID, req.query.usermode.toLowerCase(), (req.body.validityStart && req.body.validityStart.length > 0)? req.body.validityStart : null, (req.body.validityEnd && req.body.validityEnd.length > 0)? req.body.validityEnd : null, (req.body.remainingUsage && !isNaN(req.body.remainingUsage) && parseInt(req.body.remainingUsage) > 0)? req.body.remainingUsage : null], function(err, rows, fields) {
       connection.release();
       if (err) {
         console.log(err);
@@ -740,9 +740,9 @@ app.post('/Action/CreateHotspotTimeframe', function(req, res, next) {
       return;
     }
     var queryString;
-    queryString = "INSERT INTO `hotspotTimeframe` (`venue`, `affectedUsers`, `createdBy`) VALUES (?, ?, ?);";
+    queryString = "INSERT INTO `hotspotTimeframe` (`venue`, `affectedUsers`, `createdBy`, `startTime`, `endTime`) VALUES (?, ?, ?, ?, ?);";
     // NEED to check for and insert starting and ending timestamps as well
-    connection.query(queryString, [req.body.venue.toLowerCase(), (!isNaN(req.body.affectedUsers) && parseInt(req.body.affectedUsers) >= 0)? req.body.affectedUsers : null, req.session.userID], function(err, rows, fields) {
+    connection.query(queryString, [req.body.venue.toLowerCase(), (!isNaN(req.body.affectedUsers) && parseInt(req.body.affectedUsers) >= 0)? req.body.affectedUsers : null, req.session.userID, (req.body.startTime && req.body.startTime.length > 0)? req.body.startTime : null, (req.body.endTime && req.body.endTime.length > 0)? req.body.endTime : null], function(err, rows, fields) {
       // not releasing
       if (err) {
         console.log(err);
