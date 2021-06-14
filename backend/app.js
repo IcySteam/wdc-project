@@ -327,8 +327,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
         if (err) {
           console.log(err);
           // 520 unknown error; failing at insertion or other errors
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
         // do nothing else for now
       });
@@ -338,8 +338,18 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.lastName = ? WHERE user.userID = ?;", [req.body.lastName, targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
+        }
+      });
+    }
+    if (req.body.gender && req.body.gender.length > 0) {
+      updated = true;
+      connection.query("UPDATE user SET user.gender = ? WHERE user.userID = ?;", [req.body.gender.toLowerCase(), targetUser], function(err, rows, fields) {
+        if (err) {
+          console.log(err);
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -349,8 +359,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.phoneNumber = ? WHERE user.userID = ?;", [req.body.phoneNumber, targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -360,8 +370,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.email = ? WHERE user.userID = ?;", [req.body.email.toLowerCase(), targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -370,8 +380,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.DOB = ? WHERE user.userID = ?;", [req.body.DOB, targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -380,8 +390,28 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.associatedVenue = ? WHERE user.userID = ?;", [req.body.associatedVenue.toLowerCase(), targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
+        }
+      });
+    }
+    if (req.body.userID && req.body.userID.length >= 6 && req.session.usermode === 'admin') {
+      updated = true;
+      connection.query("UPDATE user SET user.userID = ? WHERE user.userID = ?;", [req.body.userID.toLowerCase(), targetUser], function(err, rows, fields) {
+        if (err) {
+          console.log(err);
+          // res.sendStatus(520);
+          // return;
+        }
+      });
+    }
+    if (req.body.usermode && (req.body.usermode.toLowerCase() === 'user' || req.body.usermode.toLowerCase() === 'manager' || req.body.usermode.toLowerCase() === 'admin') && req.session.usermode === 'admin' && targetUser !== req.session.userID) {
+      updated = true;
+      connection.query("UPDATE user SET user.usermode = ? WHERE user.userID = ?;", [req.body.usermode.toLowerCase(), targetUser], function(err, rows, fields) {
+        if (err) {
+          console.log(err);
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -390,8 +420,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.allowGoogleLogin = ? WHERE user.userID = ?;", [req.body.allowGoogleLogin.toLowerCase(), targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -402,8 +432,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.password = ? WHERE user.userID = ?;", [hashedPassword, targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -411,8 +441,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.updateTimestamp = current_timestamp() WHERE user.userID = ?;", [targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }

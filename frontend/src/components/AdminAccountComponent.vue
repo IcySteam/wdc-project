@@ -490,8 +490,6 @@ export default {
               // got an ok response
               // console.log(res1)
               this.currentUserObject = res1.data
-              this.currentUserObject.fullName = this.currentUserObject.firstName + ' ' + this.currentUserObject.lastName
-              this.currentUserObject.initials = this.currentUserObject.firstName[0] + this.currentUserObject.lastName[0]
               for (const [key, value] of Object.entries(this.currentUserObject)) {
                 // console.log(`${key}: ${value}`)
                 const newEntry = {}
@@ -503,6 +501,9 @@ export default {
                 this.accountDetailItems.push(newEntry)
                 this.editAccountDetailItems.push(newEntry)
               }
+              // extra helper attribs
+              this.currentUserObject.fullName = this.currentUserObject.firstName + ' ' + this.currentUserObject.lastName
+              this.currentUserObject.initials = this.currentUserObject.firstName[0] + this.currentUserObject.lastName[0]
             })
             .catch((err1) => {
               // encountered error making request/error response

@@ -339,6 +339,7 @@ export default {
               // got an ok response
               // console.log(res1)
               this.currentUserObject = res1.data
+              // extra helper attribs
               this.currentUserObject.fullName = this.currentUserObject.firstName + ' ' + this.currentUserObject.lastName
               this.currentUserObject.initials = this.currentUserObject.firstName[0] + this.currentUserObject.lastName[0]
             })

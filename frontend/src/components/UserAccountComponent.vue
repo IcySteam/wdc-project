@@ -73,8 +73,8 @@
                   <v-card-text>
                     <v-container>
                       <v-data-table
-                        :headers="editAccountDetailHeaders"
-                        :items="editAccountDetailItems"
+                        :headers="accountDetailHeaders"
+                        :items="accountDetailItems"
                       >
                         <template v-slot:item.value="props">
                           <v-edit-dialog
@@ -263,25 +263,27 @@ export default {
           value: 'id'
         }
       ],
-      userCheckInItems: [],
-      editAccountDetailHeaders: [
-        {
-          text: 'Detail',
-          align: 'start',
-          value: 'name'
-        },
-        {
-          text: '',
-          value: 'value',
-          sortable: false
-        },
-        {
-          text: 'Last updated',
-          value: 'updated'
-        }
-      ],
+      userCheckInItems: []
 
-      editAccountDetailItems: []
+      // cannot for f's sake figure Vue's prop.item shenanigans so just using one set of values for both showing and editing values
+      // editAccountDetailHeaders: [
+      //   {
+      //     text: 'Detail',
+      //     align: 'start',
+      //     value: 'name'
+      //   },
+      //   {
+      //     text: '',
+      //     value: 'value',
+      //     sortable: false
+      //   },
+      //   {
+      //     text: 'Last updated',
+      //     value: 'updated'
+      //   }
+      // ],
+
+      // editAccountDetailItems: []
       // old placeholder data
       // editAccountDetailItems: [
       //   {
@@ -356,6 +358,33 @@ export default {
     },
 
     usave() {
+      const updateUserPayload = {}
+      for (let i = 0; i < this.accountDetailItems.length; ++i) {
+        updateUserPayload[this.accountDetailItems[i].name] = this.accountDetailItems[i].value
+      }
+      // console.log(updateUserPayload)
+      axios({
+        url: '/Action/UpdateUser',
+        method: 'post',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        params: {
+          'userID': updateUserPayload.userID
+        },
+        data: updateUserPayload
+      })
+        .then((res) => {
+          // got an ok response
+          // console.log(res)
+        })
+        .catch((err) => {
+          // encountered error making request/error response
+          console.log(err)
+          // console.log(err.response)
+        })
+
       this.pop = true
       this.popColor = 'success'
       this.popText = 'Data saved'
@@ -407,8 +436,6 @@ export default {
               // got an ok response
               // console.log(res1)
               this.currentUserObject = res1.data
-              this.currentUserObject.fullName = this.currentUserObject.firstName + ' ' + this.currentUserObject.lastName
-              this.currentUserObject.initials = this.currentUserObject.firstName[0] + this.currentUserObject.lastName[0]
               for (const [key, value] of Object.entries(this.currentUserObject)) {
                 // console.log(`${key}: ${value}`)
                 const newEntry = {}
@@ -418,8 +445,10 @@ export default {
                 // foo to look better
                 newEntry.updated = this.currentUserObject.creationTimestamp
                 this.accountDetailItems.push(newEntry)
-                this.editAccountDetailItems.push(newEntry)
               }
+              // extra helper attribs
+              this.currentUserObject.fullName = this.currentUserObject.firstName + ' ' + this.currentUserObject.lastName
+              this.currentUserObject.initials = this.currentUserObject.firstName[0] + this.currentUserObject.lastName[0]
             })
             .catch((err1) => {
               // encountered error making request/error response
