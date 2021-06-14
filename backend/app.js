@@ -63,12 +63,13 @@ var proxyServer = require('http').createServer((req, res) => {
   // using case-by-case regexp
   var actionRegex = new RegExp("^\\/Action\\/.*");
   var hotUpdateRegex = new RegExp("^\\/(.)*[a-z0-9]{20}\\.hot\\-update\\.js(on){0,1}(\\/){0,1}$"); // Vue.js hot update js
+  var fallbackDest;
   if (actionRegex.test(pathname)) {
-    let fallbackDest = 'http://localhost:' + backend_port;
+    fallbackDest = 'http://localhost:' + backend_port;
     proxy.web(req, res, {target: fallbackDest});
   }
   else if (hotUpdateRegex.test(pathname)) {
-    let fallbackDest = 'http://localhost:' + frontend_port;
+    fallbackDest = 'http://localhost:' + frontend_port;
     proxy.web(req, res, {target: fallbackDest});
   }
 }).listen(parseInt(proxy_port));
@@ -495,7 +496,6 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       });
     }
     // NEED TO add verification for changing email
-    const emailRegExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,24}))$");
     if (req.body.email && emailRegExp.test(req.body.email)) {
       updated = true;
       connection.query("UPDATE venue SET venue.email = ? WHERE venue.venueID = ?;", [req.body.email.toLowerCase(), targetVenue], function(err, rows, fields) {
@@ -607,7 +607,7 @@ app.get('/Action/CheckIn', function(req, res, next) {
   // takes json object with STRING values
   // if not logged in
   if (!req.session.loggedIn) {
-    res.sendStatus(401);
+    res.redirect(401, '/Auth/Login')
     return;
   }
   // if missing really mandatory fields
@@ -632,10 +632,10 @@ app.get('/Action/CheckIn', function(req, res, next) {
       if (err) {
         console.log(err);
         // 520 unknown error; failing at insertion or other errors
-        res.sendStatus(520);
+        res.redirect(520, '/')
         return;
       }
-      res.sendStatus(200);
+      res.redirect(200, '/')
     });
   })
 });
@@ -713,8 +713,8 @@ app.post('/Action/CreateHotspotTimeframe', function(req, res, next) {
       // do nothing for now
     });
     // TEMPORARY solution, need to get timeframe working
-    var queryString2 = queryString = "UPDATE `venue` SET venue.isHotspot = 'yes' WHERE venue.venueID = ?;";
-    connection.query(queryString, [req.body.venue.toLowerCase()], function(err, rows, fields) {
+    var queryString2 = "UPDATE `venue` SET venue.isHotspot = 'yes' WHERE venue.venueID = ?;";
+    connection.query(queryString2, [req.body.venue.toLowerCase()], function(err, rows, fields) {
       if (err) {
         console.log(err);
         // 520 unknown error; failing at insertion or other errors
@@ -892,7 +892,7 @@ app.get('/Action/GoogleAuth',
     passport.authenticate('google', { scope : ['profile', 'email'] }));
 app.get('/Action/GoogleAuth/Failure',
     function(req, res) {
-      res.sendStatus(401);
+      res.redirect(401, '/Auth/Login');
     })
 app.get('/Action/GoogleAuth/Callback',
     // redirect to error on failure
@@ -936,7 +936,7 @@ app.get('/Action/GoogleAuth/Callback',
                 res.redirect('/Admin/Home');
               }
             } else {
-              res.sendStatus(401);
+              res.redirect(401, '/Auth/Login');
             }
           });
         } else {
