@@ -333,7 +333,7 @@ export default {
         }
       ],
 
-      editAccountDetailItems: []
+      editAccountDetailItems: [],
       // editAccountDetailItems: [
       //   {
       //     name: 'First name',
