@@ -6,6 +6,7 @@
         <v-btn
           color="teal accent-3"
           plain
+          @click="manageAdminInfo"
         >
           Edit Details
         </v-btn>
@@ -26,12 +27,144 @@
             :headers="accountDetailHeaders"
             :items="accountDetailItems"
             :search="accountDetailSearch"
-          />
+          >
+            <template v-slot:top>
+              <v-dialog
+                v-model="AMdialog"
+                max-width="800px"
+              >
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Edit Details</span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-data-table
+                        :headers="editAccountDetailHeaders"
+                        :items="editAccountDetailItems"
+                      >
+                        <template v-slot:item.value="props">
+                          <v-edit-dialog
+                            :return-value.sync="props.item.value"
+                            large
+                            persistent
+                            @save="save"
+                            @cancel="cancel"
+                            @open="open"
+                          >
+                            <div>{{ props.item.value }}</div>
+                            <template v-slot:input>
+                              <div class="mt-4 text-h6">
+                                Update Value
+                              </div>
+                              <v-text-field
+                                v-model="props.item.value"
+                                :rules="[max255chars]"
+                                label="Edit"
+                                single-line
+                                counter
+                                autofocus
+                              />
+                            </template>
+                          </v-edit-dialog>
+                        </template>
+                      </v-data-table>
+                      <v-snackbar
+                        v-model="pop"
+                        :timeout="3000"
+                        :color="popColor"
+                      >
+                        {{ popText }}
+                      </v-snackbar>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      color="teal accent-3"
+                      text
+                      @click="close"
+                    >
+                      Close
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+              <v-dialog
+                v-model="RCdialog"
+                max-width="800px"
+              >
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Registration Code</span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                        >
+                          <v-text-field
+                            v-model="regCodeDetails.usermode"
+                            label="User Type (Admin/Manager)"
+                          />
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                        >
+                          <v-text-field
+                            v-model="regCodeDetails.validityStart"
+                            label="Valid From"
+                          />
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                          md="4"
+                        >
+                          <v-text-field
+                            v-model="regCodeDetails.validityEnd"
+                            label="Valid Till"
+                          />
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      color="teal accent-3"
+                      text
+                      @click="close"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      color="teal accent-3"
+                      text
+                      @click="submit"
+                    >
+                      Submit
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </template>
+          </v-data-table>
         </v-card>
         <v-btn
           color="teal accent-3"
           plain
           class="mt-6"
+          @click="generateCode"
         >
           Generate Registration Code
         </v-btn>
@@ -48,6 +181,17 @@ export default {
   components: { ConsistentMP },
   data() {
     return {
+      AMdialog: false,
+      RCdialog: false,
+      regCodeDetails: {
+        usermode: '',
+        validityStart: '',
+        validityEnd: ''
+      },
+      pop: false,
+      popColor: '',
+      popText: '',
+      max255chars: v => v.length <= 255 || 'Input too long!',
       accountDetailSearch: '',
       accountDetailHeaders: [
         {
@@ -126,6 +270,74 @@ export default {
           value: '5000',
           updated: '2021-05-16'
         }
+      ],
+      editAccountDetailHeaders: [
+        {
+          text: 'Detail',
+          align: 'start',
+          value: 'name'
+        },
+        {
+          text: '',
+          value: 'value',
+          sortable: false
+        },
+        {
+          text: 'Last updated',
+          value: 'updated'
+        }
+      ],
+      editAccountDetailItems: [
+        {
+          name: 'First name',
+          value: 'John',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Last name',
+          value: 'Wick',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Gender',
+          value: 'Attack helicopter',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Date of birth',
+          value: '1970-01-01',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Phone number',
+          value: '0456789012',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Email',
+          value: 'user@example.com',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Address #1',
+          value: '1 Nowhere St',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Address #2 (optional)',
+          value: '',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Suburb',
+          value: 'Adelaide',
+          updated: '2021-05-16'
+        },
+        {
+          name: 'Postcode',
+          value: '5000',
+          updated: '2021-05-16'
+        }
       ]
     }
   },
@@ -133,6 +345,36 @@ export default {
   computed: {
   },
   methods: {
+    generateCode() {
+      this.RCdialog = true
+    },
+
+    close() {
+      this.RCdialog = false
+      this.AMdialog = false
+    },
+
+    submit() {
+      this.RCdialog = false
+    },
+
+    manageAdminInfo() {
+      this.AMdialog = true
+    },
+
+    save() {
+      this.pop = true
+      this.popColor = 'success'
+      this.popText = 'Data saved'
+      this.AMdialog = true
+    },
+
+    cancel() {
+      this.pop = true
+      this.popColor = 'error'
+      this.popText = 'Canceled'
+      this.AMdialog = true
+    }
   }
 }
 </script>
