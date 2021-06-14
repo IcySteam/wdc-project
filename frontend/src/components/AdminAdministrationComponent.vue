@@ -190,6 +190,7 @@
                 small
                 color="teal accent-3"
                 class="black--text"
+                style="margin: 8px;"
                 @click="manageHotspot(item)"
               >
                 Manage
@@ -198,6 +199,7 @@
                 small
                 color="teal accent-3"
                 class="black--text"
+                style="margin: 8px;"
                 @click="deleteHotspot(item)"
               >
                 Remove
@@ -334,7 +336,7 @@
                 small
                 color="teal accent-3"
                 class="black--text"
-                style="margin: 20px;"
+                style="margin: 8px;"
                 @click="viewUserInfo(item)"
               >
                 View Check-Ins
@@ -343,7 +345,7 @@
                 small
                 color="teal accent-3"
                 class="black--text"
-                style="margin: 20px;"
+                style="margin: 8px;"
                 @click="manageUserInfo(item)"
               >
                 Manage
@@ -574,7 +576,7 @@
                 small
                 color="teal accent-3"
                 class="black--text"
-                style="margin: 20px;"
+                style="margin: 8px;"
                 @click="viewVenueInfo(item)"
               >
                 View Check-Ins
@@ -583,7 +585,7 @@
                 small
                 color="teal accent-3"
                 class="black--text"
-                style="margin: 20px;"
+                style="margin: 8px;"
                 @click="manageVenueInfo(item)"
               >
                 Manage

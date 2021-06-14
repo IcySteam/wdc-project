@@ -124,8 +124,8 @@ passport.use(new GoogleStrategy({
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
       // Google auth callback url; DEPENDENT ON ENVIRONMENT
-      // callbackURL: 'https://ide-8c045c49c48c4ffb8cbf416d2ea89fd8-8080.cs50.ws/Action/GoogleAuth/Callback'
       callbackURL: 'http://localhost:' + proxy_port + '/Action/GoogleAuth/Callback'
+      // callbackURL: 'https://ide-8c045c49c48c4ffb8cbf416d2ea89fd8-8080.cs50.ws/Action/GoogleAuth/Callback'
     },
     function(accessToken, refreshToken, profile, done) {
       // set last user profile to obtained user profile; potentially unsafe and could break when multiple users try to log in at the same time
@@ -209,7 +209,7 @@ app.post('/Action/SignUp', function(req, res, next) {
 
   var newUserID;
   if (req.body.userID && req.body.userID.length >= 6) {
-    newUserID = req.body.userID;
+    newUserID = req.body.userID.toLowerCase();
   } else {
     // generate userID if not satisfactorily supplied
     // 1 in 2,821,109,907,456 chance of collision; skipping checking
@@ -229,7 +229,7 @@ app.post('/Action/SignUp', function(req, res, next) {
     var queryString;
     // skipping inserting registration code
     queryString = "INSERT INTO `user` (`userID`, `firstName`, `lastName`, `phoneNumber`, `email`, `gender`, `password`, `DOB`, `usermode`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    connection.query(queryString, [newUserID, req.body.firstName.length > 0? req.body.firstName : null, req.body.lastName.length > 0? req.body.lastName : null, req.body.phoneNumber, req.body.email, req.body.gender.length > 0? req.body.gender : null, hashedPassword, req.body.DOB.length > 0? req.body.DOB : null, usermode], function(err, rows, fields) {
+    connection.query(queryString, [newUserID, (req.body.firstName && req.body.firstName.length > 0)? req.body.firstName : null, (req.body.lastName && req.body.lastName.length > 0)? req.body.lastName : null, req.body.phoneNumber, req.body.email, (req.body.gender && req.body.gender.length > 0)? req.body.gender : null, hashedPassword, (req.body.DOB && req.body.DOB.length > 0)? req.body.DOB : null, usermode], function(err, rows, fields) {
       connection.release();
       if (err) {
         console.log(err);
@@ -416,7 +416,7 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       });
     }
 
-    // finally release
+    // finally release and respond
     connection.release();
     res.sendStatus(200);
   })
@@ -563,19 +563,19 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
 });
 app.post('/Action/CreateVenueObject', function(req, res, next) {
   // takes json object with STRING values
+  if (req.session.usermode !== 'admin') {
+    res.sendStatus(401);
+    return;
+  }
   // if missing really mandatory fields
   if (!req.body.latitude || !req.body.longitude || !req.body.radius || isNaN(req.body.latitude) || isNaN(req.body.longitude) || isNaN(req.body.radius) || req.body.radius <= 0) {
     res.sendStatus(400);
     return;
   }
-  if (req.session.usermode !== 'admin') {
-    res.sendStatus(401);
-    return;
-  }
 
   var newVenueID;
   if (req.body.venueID && req.body.venueID.length >= 6) {
-    newVenueID = req.body.venueID;
+    newVenueID = req.body.venueID.toLowerCase();
   } else {
     // generate venueID if not satisfactorily supplied
     // 1 in 2,821,109,907,456 chance of collision; skipping checking
@@ -589,8 +589,8 @@ app.post('/Action/CreateVenueObject', function(req, res, next) {
       return;
     }
     var queryString;
-    queryString = "INSERT INTO `venue` (`venueID`, `name`, `phoneNumber`, `email`, `associatedManager`, `latitude`, `longitude`, `radius`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-    connection.query(queryString, [newVenueID, req.body.name.length > 0? req.body.name : null, req.body.phoneNumber.length > 0? req.body.phoneNumber : null, req.body.email.length > 0? req.body.email : null, req.body.associatedManager.length > 0? req.body.associatedManager : null, req.body.latitude, req.body.longitude, req.body.radius], function(err, rows, fields) {
+    queryString = "INSERT INTO `venue` (`venueID`, `name`, `phoneNumber`, `email`, `associatedManager`, `latitude`, `longitude`, `radius`, `createdBy`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    connection.query(queryString, [newVenueID, (req.body.name && req.body.name.length > 0)? req.body.name : null, (req.body.phoneNumber && req.body.phoneNumber.length > 0)? req.body.phoneNumber : null, (req.body.email && req.body.email.length > 0)? req.body.email.toLowerCase() : null, (req.body.associatedManager && req.body.associatedManager.length > 0)? req.body.associatedManager.toLowerCase() : null, req.body.latitude, req.body.longitude, req.body.radius, req.session.userID], function(err, rows, fields) {
       connection.release();
       if (err) {
         console.log(err);
@@ -600,6 +600,132 @@ app.post('/Action/CreateVenueObject', function(req, res, next) {
       }
       res.sendStatus(200);
     });
+  })
+});
+
+app.get('/Action/CheckIn', function(req, res, next) {
+  // takes json object with STRING values
+  // if not logged in
+  if (!req.session.loggedIn) {
+    res.sendStatus(401);
+    return;
+  }
+  // if missing really mandatory fields
+  if (!req.query.checkInCode) {
+    res.sendStatus(400);
+    return;
+  }
+
+  var checkInCode = req.query.checkInCode.toLowerCase();
+
+  req.pool.getConnection(function(err, connection) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+      return;
+    }
+    var queryString;
+    // should separate venue and codeUsed and check for validity but OUT OF TIME
+    queryString = "INSERT INTO `checkIn` (`user`, `venue`, `codeUsed`) VALUES (?, ?, ?);";
+    connection.query(queryString, [req.session.userID, checkInCode, checkInCode], function(err, rows, fields) {
+      connection.release();
+      if (err) {
+        console.log(err);
+        // 520 unknown error; failing at insertion or other errors
+        res.sendStatus(520);
+        return;
+      }
+      res.sendStatus(200);
+    });
+  })
+});
+app.post('/Action/CreateRegistrationCode', function(req, res, next) {
+  // takes json object with STRING values
+  if (req.session.usermode !== 'admin') {
+    res.sendStatus(401);
+    return;
+  }
+  // if missing really mandatory fields
+  if (!req.query.usermode || (req.query.usermode.toLowerCase() !== 'user' && req.query.usermode.toLowerCase() !== 'manager' && req.query.usermode.toLowerCase() !== 'admin')) {
+    res.sendStatus(400);
+    return;
+  }
+
+  var newCode;
+  // check if code is satisfactorily supplied
+  if (req.body.code && req.body.code.length >= 8) {
+    newCode = req.body.code.toLowerCase();
+  } else {
+    // MySQL is already configured to generate a random code if not supplied
+    newCode = null;
+  }
+
+  req.pool.getConnection(function(err, connection) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+      return;
+    }
+    var queryString;
+    queryString = "INSERT INTO `registrationCode` (`code`, `createdBy`, `usermode`) VALUES (?, ?, ?);";
+    // NEED to check for and insert validity timestamps as well
+    connection.query(queryString, [newCode, req.session.userID, req.query.usermode.toLowerCase()], function(err, rows, fields) {
+      connection.release();
+      if (err) {
+        console.log(err);
+        // 520 unknown error; failing at insertion or other errors
+        res.sendStatus(520);
+        return;
+      }
+      res.sendStatus(200);
+    });
+  })
+});
+app.post('/Action/CreateHotspotTimeframe', function(req, res, next) {
+  // takes json object with STRING values
+  if (req.session.usermode !== 'admin') {
+    res.sendStatus(401);
+    return;
+  }
+  // if missing really mandatory fields
+  if (!req.body.venue || req.body.venue.length < 1) {
+    res.sendStatus(400);
+    return;
+  }
+
+  req.pool.getConnection(function(err, connection) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+      return;
+    }
+    var queryString;
+    queryString = "INSERT INTO `hotspotTimeframe` (`venue`, `affectedUsers`, `createdBy`) VALUES (?, ?, ?);";
+    // NEED to check for and insert starting and ending timestamps as well
+    connection.query(queryString, [req.body.venue.toLowerCase(), (!isNaN(req.body.affectedUsers) && parseInt(req.body.affectedUsers) >= 0)? req.body.affectedUsers : null, req.session.userID], function(err, rows, fields) {
+      // not releasing
+      if (err) {
+        console.log(err);
+        // 520 unknown error; failing at insertion or other errors
+        res.sendStatus(520);
+        return;
+      }
+      // do nothing for now
+    });
+    // TEMPORARY solution, need to get timeframe working
+    var queryString2 = queryString = "UPDATE `venue` SET venue.isHotspot = 'yes' WHERE venue.venueID = ?;";
+    connection.query(queryString, [req.body.venue.toLowerCase()], function(err, rows, fields) {
+      if (err) {
+        console.log(err);
+        // 520 unknown error; failing at insertion or other errors
+        res.sendStatus(520);
+        return;
+      }
+      // do nothing for now
+    });
+    // finally release and respond
+    connection.release();
+    res.sendStatus(200);
   })
 });
 
@@ -619,7 +745,7 @@ app.get('/Action/GetUsersDigest', function(req, res) {
       return;
     }
     //query
-    var query = "SELECT userID, CONCAT(firstName,' ',lastName) AS fullName, recentlyBeenToHotspot, email FROM user WHERE usermode = 'user';";
+    var query = "SELECT userID, CONCAT(firstName,' ',lastName) AS fullName, usermode, recentlyBeenToHotspot FROM user;";
     connection.query(query, function(err, rows, fields) {
       connection.release(); // release connection
       if (err) {
@@ -715,7 +841,7 @@ app.get('/Action/GetVenuesDigest', function(req, res) {
       return;
     }
     //query
-    var query = "SELECT venueID, name, isHotspot, email FROM venue;";
+    var query = "SELECT venueID, name, associatedManager, isHotspot FROM venue;";
     connection.query(query, function(err, rows, fields) {
       connection.release(); // release connection
       if (err) {
@@ -730,7 +856,29 @@ app.get('/Action/GetVenuesDigest', function(req, res) {
 // </Minhaj>
 
 // <Jash>
-
+//query for listing current hotspots
+app.get('/Action/GetCurrentHotspots', function(req, res) {
+  // everyone can query
+  //Connect to the database
+  req.pool.getConnection(function(err,connection) {
+    if (err) {
+      console.log(err);     //for error details
+      res.sendStatus(500);
+      return;
+    }
+    //query
+    var query = "SELECT venue.venueID, venue.name, venue.latitude, venue.longitude, hotspotTimeframe.affectedUsers, hotspotTimeframe.startTime, hotspotTimeframe.endTime FROM venue INNER JOIN hotspotTimeframe ON hotspotTimeframe.venue=venue.venueID WHERE hotspotTimeframe.endTime >= now() OR hotspotTimeframe.endTime = null;";
+    connection.query(query, function(err, rows, fields) {
+      connection.release(); // release connection
+      if (err) {
+        console.log(err);
+        res.sendStatus(500);
+        return;
+      }
+      res.json(rows); //send response
+    });
+  });
+});
 // </Jash>
 
 // <Zac>

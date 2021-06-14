@@ -7,6 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     loremIpsum: 'Lorem Ipsum',
+    // BAD idea to keep track of user attrs here; terrible maintainability
+    // but anyways
     usermode: 'none',
     userID: null,
     loggedIn: false,
@@ -19,6 +21,12 @@ export default new Vuex.Store({
     },
     setUsermode(state, _usermode) {
       state.usermode = _usermode
+    },
+    setUserID(state, _userID) {
+      state.userID = _userID
+    },
+    setLoggedIn(state, _loggedIn) {
+      state.loggedIn = _loggedIn
     },
     updateSessionStatus(state, payload) {
       state.loggedIn = payload.loggedIn

@@ -215,11 +215,13 @@
 
 <script>
 import ConsistentMP from './UX/ConsistentMP'
+import axios from 'axios'
 export default {
   name: 'AdminAccountComponent',
   components: { ConsistentMP },
   data() {
     return {
+      currentUserObject: {},
       AMdialog: false,
       RCdialog: false,
       VCdialog: false,
@@ -249,68 +251,71 @@ export default {
           value: 'updated'
         }
       ],
-      accountDetailItems: [
-        {
-          name: 'User ID',
-          value: 'UID#ABYZ0189',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Role',
-          value: 'admin',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Phone number',
-          value: '0456789012',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Email',
-          value: 'user@example.com',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'First name',
-          value: 'John',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Last name',
-          value: 'Wick',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Gender',
-          value: 'Attack helicopter',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Date of birth',
-          value: '1970-01-01',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Address #1',
-          value: '1 Nowhere St',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Address #2 (optional)',
-          value: '',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Suburb',
-          value: 'Adelaide',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Postcode',
-          value: '5000',
-          updated: '2021-05-16'
-        }
-      ],
+
+      accountDetailItems: [],
+      // accountDetailItems: [
+      //   {
+      //     name: 'User ID',
+      //     value: 'UID#ABYZ0189',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Role',
+      //     value: 'admin',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Phone number',
+      //     value: '0456789012',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Email',
+      //     value: 'user@example.com',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'First name',
+      //     value: 'John',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Last name',
+      //     value: 'Wick',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Gender',
+      //     value: 'Attack helicopter',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Date of birth',
+      //     value: '1970-01-01',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Address #1',
+      //     value: '1 Nowhere St',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Address #2 (optional)',
+      //     value: '',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Suburb',
+      //     value: 'Adelaide',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Postcode',
+      //     value: '5000',
+      //     updated: '2021-05-16'
+      //   }
+      // ],
+
       editAccountDetailHeaders: [
         {
           text: 'Detail',
@@ -327,58 +332,61 @@ export default {
           value: 'updated'
         }
       ],
-      editAccountDetailItems: [
-        {
-          name: 'First name',
-          value: 'John',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Last name',
-          value: 'Wick',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Gender',
-          value: 'Attack helicopter',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Date of birth',
-          value: '1970-01-01',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Phone number',
-          value: '0456789012',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Email',
-          value: 'user@example.com',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Address #1',
-          value: '1 Nowhere St',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Address #2 (optional)',
-          value: '',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Suburb',
-          value: 'Adelaide',
-          updated: '2021-05-16'
-        },
-        {
-          name: 'Postcode',
-          value: '5000',
-          updated: '2021-05-16'
-        }
-      ],
+
+      editAccountDetailItems: []
+      // editAccountDetailItems: [
+      //   {
+      //     name: 'First name',
+      //     value: 'John',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Last name',
+      //     value: 'Wick',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Gender',
+      //     value: 'Attack helicopter',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Date of birth',
+      //     value: '1970-01-01',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Phone number',
+      //     value: '0456789012',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Email',
+      //     value: 'user@example.com',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Address #1',
+      //     value: '1 Nowhere St',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Address #2 (optional)',
+      //     value: '',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Suburb',
+      //     value: 'Adelaide',
+      //     updated: '2021-05-16'
+      //   },
+      //   {
+      //     name: 'Postcode',
+      //     value: '5000',
+      //     updated: '2021-05-16'
+      //   }
+      // ]
+
       codeHeaders: [
         {
           text: 'Code',
@@ -405,8 +413,12 @@ export default {
       codeItems: []
     }
   },
-
   computed: {
+  },
+  created() {
+    this.currentUserAxios()
+  },
+  destroyed() {
   },
   methods: {
     viewCode() {
@@ -443,6 +455,70 @@ export default {
       this.popColor = 'error'
       this.popText = 'Canceled'
       this.AMdialog = true
+    },
+
+    currentUserAxios() {
+      // get session status first
+      var currentUserID
+      axios({
+        url: '/Action/GetSessionStatus',
+        method: 'get',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        params: {
+        }
+      })
+        .then((res) => {
+          // got an ok response
+          // console.log(res)
+          currentUserID = res.data.userID
+          // get user object, NESTED axios request
+          axios({
+            url: '/Action/GetUser',
+            method: 'get',
+            timeout: 8000,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            params: {
+              'userID': currentUserID
+            }
+          })
+            .then((res1) => {
+              // got an ok response
+              // console.log(res1)
+              this.currentUserObject = res1.data
+              this.currentUserObject.fullName = this.currentUserObject.firstName + ' ' + this.currentUserObject.lastName
+              this.currentUserObject.initials = this.currentUserObject.firstName[0] + this.currentUserObject.lastName[0]
+              for (const [key, value] of Object.entries(this.currentUserObject)) {
+                // console.log(`${key}: ${value}`)
+                const newEntry = {}
+                newEntry.name = key
+                newEntry.value = value
+                // newEntry.updated = this.currentUserObject.updatedTimestamp
+                // foo to look better
+                newEntry.updated = this.currentUserObject.creationTimestamp
+                this.accountDetailItems.push(newEntry)
+                this.editAccountDetailItems.push(newEntry)
+              }
+            })
+            .catch((err1) => {
+              // encountered error making request/error response
+              console.log(err1)
+              if (err1.response) {
+                console.log(err1.response)
+              }
+            })
+        })
+        .catch((err) => {
+          // encountered error making request/error response
+          console.log(err)
+          if (err.response) {
+            console.log(err.response)
+          }
+        })
     }
   }
 }

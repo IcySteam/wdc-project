@@ -286,6 +286,7 @@ export default {
               case 400:
                 this.submitPopupTitle = 'Error'
                 this.submitPopupText = 'Please enter a valid login and password.'
+                break
             }
           }
         })
