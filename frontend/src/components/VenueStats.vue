@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1 id="h1ID" class="h1Class pb-10">{{ venueName }}</h1>
+    <h1 id="h1ID" class="h1Class pb-10">{{ associatedVenueObject.name }}</h1>
     <v-row>
       <Gmap id="Gmap" />
     </v-row>
@@ -84,8 +84,8 @@ export default {
   components: { Gmap, ConsistentMP },
   data() {
     return {
+      associatedVenueObject: {},
       currentUserObject: {},
-      venueName: 'The University of Adelaide',
       checkInHistorySearch: '',
       checkInHistoryHeaders: [
         {
@@ -161,7 +161,8 @@ export default {
   created() {
     this.currentUserAxios()
     // timeout quick and dirty solution to async
-    setTimeout(this.checkInTimelineAxios, 3000)
+    setTimeout(this.checkInTimelineAxios, 2500)
+    setTimeout(this.getVenueAxios, 2500)
   },
   destroyed() {
   },
@@ -219,6 +220,46 @@ export default {
           }
         })
     },
+
+    getVenueAxios() {
+      const targetVenue = this.currentUserObject.associatedVenue
+      // get venue object
+      axios({
+        url: '/Action/GetVenueObject',
+        method: 'get',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        params: {
+          'venueID': targetVenue
+        }
+      })
+        .then((res1) => {
+          // got an ok response
+          // console.log(res1)
+          this.associatedVenueObject = res1.data
+          for (const [key, value] of Object.entries(res1.data)) {
+            // console.log(`${key}: ${value}`)
+            const newEntry = {}
+            newEntry.name = key
+            newEntry.value = value
+            // newEntry.updated = res1.data.updatedTimestamp
+            // foo to look better
+            newEntry.updated = res1.data.creationTimestamp
+            this.venueDetailItems.push(newEntry)
+            this.editVenueDetailItems.push(newEntry)
+          }
+        })
+        .catch((err1) => {
+          // encountered error making request/error response
+          console.log(err1)
+          if (err1.response) {
+            console.log(err1.response)
+          }
+        })
+    },
+
     checkInTimelineAxios() {
       const targetVenue = this.currentUserObject.associatedVenue
       // get venue check-in timeline

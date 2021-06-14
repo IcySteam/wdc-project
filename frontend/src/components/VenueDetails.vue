@@ -41,8 +41,8 @@
                   <v-card-text>
                     <v-container>
                       <v-data-table
-                        :headers="editAccountDetailHeaders"
-                        :items="editAccountDetailItems"
+                        :headers="accountDetailHeaders"
+                        :items="accountDetailItems"
                       >
                         <template v-slot:item.value="props">
                           <v-edit-dialog
@@ -137,8 +137,8 @@
                   <v-card-text>
                     <v-container>
                       <v-data-table
-                        :headers="editVenueDetailHeaders"
-                        :items="editVenueDetailItems"
+                        :headers="venueDetailHeaders"
+                        :items="venueDetailItems"
                       >
                         <template v-slot:item.value="props">
                           <v-edit-dialog
@@ -368,6 +368,7 @@ export default {
   components: { ConsistentMP },
   data() {
     return {
+      associatedVenueObject: {},
       currentUserObject: {},
       UMdialog: false,
       VMdialog: false,
@@ -513,117 +514,6 @@ export default {
       //     updated: '2021-05-16'
       //   }
       // ],
-      editAccountDetailHeaders: [
-        {
-          text: 'Detail',
-          align: 'start',
-          value: 'name'
-        },
-        {
-          text: '',
-          value: 'value',
-          sortable: false
-        },
-        {
-          text: 'Last updated',
-          value: 'updated'
-        }
-      ],
-
-      editAccountDetailItems: [],
-      // editAccountDetailItems: [
-      //   {
-      //     name: 'First name',
-      //     value: 'Jon',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Last name',
-      //     value: 'Doe',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Gender',
-      //     value: 'Attack helicopter',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Date of birth',
-      //     value: '1970-01-01',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Phone number',
-      //     value: '0456789012',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Email',
-      //     value: 'user@example.com',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Address #1',
-      //     value: '1 Nowhere St',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Address #2 (optional)',
-      //     value: '',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Suburb',
-      //     value: 'Adelaide',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Postcode',
-      //     value: '5000',
-      //     updated: '2021-05-16'
-      //   }
-      // ],
-
-      editVenueDetailHeaders: [
-        {
-          text: 'Detail',
-          align: 'start',
-          value: 'name'
-        },
-        {
-          text: '',
-          value: 'value',
-          sortable: false
-        },
-        {
-          text: 'Last updated',
-          value: 'updated'
-        }
-      ],
-
-      editVenueDetailItems: [],
-      // editVenueDetailItems: [
-      //   {
-      //     name: 'Venue name',
-      //     value: 'The University of Adelaide',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Latitude',
-      //     value: '-34.9206',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Longitude',
-      //     value: '138.6062',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Radius',
-      //     value: '500',
-      //     updated: '2021-05-16'
-      //   }
-      // ],
 
       dialog: false,
       dialogDelete: false,
@@ -676,7 +566,7 @@ export default {
     this.initialize()
     this.currentUserAxios()
     // timeout quick and dirty solution to async
-    setTimeout(this.getVenueAxios, 3000)
+    setTimeout(this.getVenueAxios, 2500)
   },
   destroyed() {
   },
@@ -690,6 +580,33 @@ export default {
     },
 
     usave() {
+      const updateUserPayload = {}
+      for (let i = 0; i < this.accountDetailItems.length; ++i) {
+        updateUserPayload[this.accountDetailItems[i].name] = this.accountDetailItems[i].value
+      }
+      // console.log(updateUserPayload)
+      axios({
+        url: '/Action/UpdateUser',
+        method: 'post',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        params: {
+          'userID': updateUserPayload.userID
+        },
+        data: updateUserPayload
+      })
+        .then((res) => {
+          // got an ok response
+          // console.log(res)
+        })
+        .catch((err) => {
+          // encountered error making request/error response
+          console.log(err)
+          // console.log(err.response)
+        })
+
       this.pop = true
       this.popColor = 'success'
       this.popText = 'Data saved'
@@ -704,6 +621,33 @@ export default {
     },
 
     vsave() {
+      const updateVenuePayload = {}
+      for (let i = 0; i < this.venueDetailItems.length; ++i) {
+        updateVenuePayload[this.venueDetailItems[i].name] = this.venueDetailItems[i].value
+      }
+      // console.log(updateVenuePayload)
+      axios({
+        url: '/Action/UpdateVenueObject',
+        method: 'post',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        params: {
+          'venueID': updateVenuePayload.venueID
+        },
+        data: updateVenuePayload
+      })
+        .then((res) => {
+          // got an ok response
+          // console.log(res)
+        })
+        .catch((err) => {
+          // encountered error making request/error response
+          console.log(err)
+          // console.log(err.response)
+        })
+
       this.pop = true
       this.popColor = 'success'
       this.popText = 'Data saved'
@@ -875,7 +819,6 @@ export default {
                 // foo to look better
                 newEntry.updated = this.currentUserObject.creationTimestamp
                 this.accountDetailItems.push(newEntry)
-                this.editAccountDetailItems.push(newEntry)
               }
               // extra helper attribs
               this.currentUserObject.fullName = this.currentUserObject.firstName + ' ' + this.currentUserObject.lastName
@@ -915,6 +858,7 @@ export default {
         .then((res1) => {
           // got an ok response
           // console.log(res1)
+          this.associatedVenueObject = res1.data
           for (const [key, value] of Object.entries(res1.data)) {
             // console.log(`${key}: ${value}`)
             const newEntry = {}
@@ -924,7 +868,6 @@ export default {
             // foo to look better
             newEntry.updated = res1.data.creationTimestamp
             this.venueDetailItems.push(newEntry)
-            this.editVenueDetailItems.push(newEntry)
           }
         })
         .catch((err1) => {

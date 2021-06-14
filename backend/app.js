@@ -508,8 +508,8 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
         if (err) {
           console.log(err);
           // 520 unknown error; failing at insertion or other errors
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
         // do nothing else for now
       });
@@ -520,8 +520,8 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.phoneNumber = ? WHERE venue.venueID = ?;", [req.body.phoneNumber, targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -531,8 +531,8 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.email = ? WHERE venue.venueID = ?;", [req.body.email.toLowerCase(), targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -541,8 +541,18 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.associatedManager = ? WHERE venue.venueID = ?;", [req.body.associatedManager.toLowerCase(), targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
+        }
+      });
+    }
+    if (req.body.venueID && req.body.venueID.length >= 6 && req.session.usermode === 'admin') {
+      updated = true;
+      connection.query("UPDATE venue SET venue.venueID = ? WHERE venue.venueID = ?;", [req.body.venueID.toLowerCase(), targetVenue], function(err, rows, fields) {
+        if (err) {
+          console.log(err);
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -551,8 +561,8 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.latitude = ? WHERE venue.venueID = ?;", [req.body.latitude, targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -561,8 +571,8 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.longitude = ? WHERE venue.venueID = ?;", [req.body.longitude, targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -571,8 +581,8 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.radius = ? WHERE venue.venueID = ?;", [req.body.radius, targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -580,8 +590,8 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.updateTimestamp = current_timestamp() WHERE venue.venueID = ?;", [targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
