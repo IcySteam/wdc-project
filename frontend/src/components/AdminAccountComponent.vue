@@ -157,9 +157,48 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
+              <v-dialog
+                v-model="VCdialog"
+                max-width="800px"
+              >
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Registration Codes</span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-data-table
+                        :headers="codeHeaders"
+                        :items="codeItems"
+                        sort-desc
+                      />
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      color="teal accent-3"
+                      text
+                      @click="close"
+                    >
+                      Close
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             </template>
           </v-data-table>
         </v-card>
+        <v-btn
+          color="teal accent-3"
+          plain
+          class="mt-6"
+          @click="viewCode"
+        >
+          View Registration Codes
+        </v-btn>
         <v-btn
           color="teal accent-3"
           plain
@@ -183,6 +222,7 @@ export default {
     return {
       AMdialog: false,
       RCdialog: false,
+      VCdialog: false,
       regCodeDetails: {
         usermode: '',
         validityStart: '',
@@ -338,13 +378,41 @@ export default {
           value: '5000',
           updated: '2021-05-16'
         }
-      ]
+      ],
+      codeHeaders: [
+        {
+          text: 'Code',
+          align: 'start',
+          value: 'code'
+        },
+        {
+          text: 'User Type',
+          value: 'usermode'
+        },
+        {
+          text: 'Valid From',
+          value: 'validityStart'
+        },
+        {
+          text: 'Valid Till',
+          value: 'validityEnd'
+        },
+        {
+          text: 'Created By',
+          value: 'createdBy'
+        }
+      ],
+      codeItems: []
     }
   },
 
   computed: {
   },
   methods: {
+    viewCode() {
+      this.VCdialog = true
+    },
+
     generateCode() {
       this.RCdialog = true
     },
@@ -352,6 +420,7 @@ export default {
     close() {
       this.RCdialog = false
       this.AMdialog = false
+      this.VCdialog = false
     },
 
     submit() {
