@@ -7,6 +7,45 @@
     <v-row>
       <ConsistentMP id="checkInHistory">
         <template>
+          <div>
+            <v-dialog
+              v-model="QRcode"
+              width="310"
+            >
+              <template v-slot:activator="{ on, cardHolder }">
+                <v-btn
+                  color="teal accent-3"
+                  v-bind="cardHolder"
+                  class="black--text ml-4"
+                  v-on="on"
+                >
+                  Show Check-In QR Code
+                </v-btn>
+              </template>
+
+              <v-card>
+                <v-card-title class="my-2">
+                  Check-In QR Code
+                </v-card-title>
+
+                <v-card-text>
+                  <div v-if="text" v-qr="text" />
+                </v-card-text>
+
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    color="teal accent-3"
+                    class="black--text mb-2 mt-n2"
+                    @click="QRcode = false"
+                  >
+                    OK
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </div>
+
           <v-card>
             <v-card-title>
               Check-In History
@@ -105,7 +144,10 @@ export default {
           time: '13:57:12',
           timestamp: 1621147078
         }
-      ]
+      ],
+      text: 'sizdoesmatter',
+      QRcode: false
+
     }
   }
 }

@@ -334,6 +334,7 @@
                 small
                 color="teal accent-3"
                 class="black--text"
+                style="margin: 20px;"
                 @click="viewUserInfo(item)"
               >
                 View Check-Ins
@@ -342,6 +343,7 @@
                 small
                 color="teal accent-3"
                 class="black--text"
+                style="margin: 20px;"
                 @click="manageUserInfo(item)"
               >
                 Manage
@@ -572,6 +574,7 @@
                 small
                 color="teal accent-3"
                 class="black--text"
+                style="margin: 20px;"
                 @click="viewVenueInfo(item)"
               >
                 View Check-Ins
@@ -580,6 +583,7 @@
                 small
                 color="teal accent-3"
                 class="black--text"
+                style="margin: 20px;"
                 @click="manageVenueInfo(item)"
               >
                 Manage

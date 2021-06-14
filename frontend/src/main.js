@@ -6,6 +6,9 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import GSignInButton from 'vue-google-signin-button'
+import qrcode from 'vue-qrcode-directive'
+
+Vue.use(qrcode)
 
 Vue.use(GSignInButton)
 
