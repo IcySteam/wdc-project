@@ -41,8 +41,8 @@
                   <v-card-text>
                     <v-container>
                       <v-data-table
-                        :headers="editAccountDetailHeaders"
-                        :items="editAccountDetailItems"
+                        :headers="accountDetailHeaders"
+                        :items="accountDetailItems"
                       >
                         <template v-slot:item.value="props">
                           <v-edit-dialog
@@ -316,77 +316,6 @@ export default {
       //   }
       // ],
 
-      editAccountDetailHeaders: [
-        {
-          text: 'Detail',
-          align: 'start',
-          value: 'name'
-        },
-        {
-          text: '',
-          value: 'value',
-          sortable: false
-        },
-        {
-          text: 'Last updated',
-          value: 'updated'
-        }
-      ],
-
-      editAccountDetailItems: [],
-      // editAccountDetailItems: [
-      //   {
-      //     name: 'First name',
-      //     value: 'John',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Last name',
-      //     value: 'Wick',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Gender',
-      //     value: 'Attack helicopter',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Date of birth',
-      //     value: '1970-01-01',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Phone number',
-      //     value: '0456789012',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Email',
-      //     value: 'user@example.com',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Address #1',
-      //     value: '1 Nowhere St',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Address #2 (optional)',
-      //     value: '',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Suburb',
-      //     value: 'Adelaide',
-      //     updated: '2021-05-16'
-      //   },
-      //   {
-      //     name: 'Postcode',
-      //     value: '5000',
-      //     updated: '2021-05-16'
-      //   }
-      // ]
-
       codeHeaders: [
         {
           text: 'Code',
@@ -444,6 +373,33 @@ export default {
     },
 
     save() {
+      const updateUserPayload = {}
+      for (let i = 0; i < this.accountDetailItems.length; ++i) {
+        updateUserPayload[this.accountDetailItems[i].name] = this.accountDetailItems[i].value
+      }
+      // console.log(updateUserPayload)
+      axios({
+        url: '/Action/UpdateUser',
+        method: 'post',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        params: {
+          'userID': updateUserPayload.userID
+        },
+        data: updateUserPayload
+      })
+        .then((res) => {
+          // got an ok response
+          // console.log(res)
+        })
+        .catch((err) => {
+          // encountered error making request/error response
+          console.log(err)
+          // console.log(err.response)
+        })
+
       this.pop = true
       this.popColor = 'success'
       this.popText = 'Data saved'
@@ -490,19 +446,20 @@ export default {
               // got an ok response
               // console.log(res1)
               this.currentUserObject = res1.data
-              this.currentUserObject.fullName = this.currentUserObject.firstName + ' ' + this.currentUserObject.lastName
-              this.currentUserObject.initials = this.currentUserObject.firstName[0] + this.currentUserObject.lastName[0]
               for (const [key, value] of Object.entries(this.currentUserObject)) {
                 // console.log(`${key}: ${value}`)
                 const newEntry = {}
                 newEntry.name = key
+                // updating numeric values in POST doesn't work because js and its no type shit
                 newEntry.value = value
-                // newEntry.updated = this.currentUserObject.updatedTimestamp
+                newEntry.updated = this.currentUserObject.updateTimestamp
                 // foo to look better
-                newEntry.updated = this.currentUserObject.creationTimestamp
+                // newEntry.updated = this.currentUserObject.creationTimestamp
                 this.accountDetailItems.push(newEntry)
-                this.editAccountDetailItems.push(newEntry)
               }
+              // extra helper attribs
+              this.currentUserObject.fullName = this.currentUserObject.firstName + ' ' + this.currentUserObject.lastName
+              this.currentUserObject.initials = this.currentUserObject.firstName[0] + this.currentUserObject.lastName[0]
             })
             .catch((err1) => {
               // encountered error making request/error response

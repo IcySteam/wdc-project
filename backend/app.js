@@ -63,12 +63,13 @@ var proxyServer = require('http').createServer((req, res) => {
   // using case-by-case regexp
   var actionRegex = new RegExp("^\\/Action\\/.*");
   var hotUpdateRegex = new RegExp("^\\/(.)*[a-z0-9]{20}\\.hot\\-update\\.js(on){0,1}(\\/){0,1}$"); // Vue.js hot update js
+  var fallbackDest;
   if (actionRegex.test(pathname)) {
-    let fallbackDest = 'http://localhost:' + backend_port;
+    fallbackDest = 'http://localhost:' + backend_port;
     proxy.web(req, res, {target: fallbackDest});
   }
   else if (hotUpdateRegex.test(pathname)) {
-    let fallbackDest = 'http://localhost:' + frontend_port;
+    fallbackDest = 'http://localhost:' + frontend_port;
     proxy.web(req, res, {target: fallbackDest});
   }
 }).listen(parseInt(proxy_port));
@@ -326,8 +327,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
         if (err) {
           console.log(err);
           // 520 unknown error; failing at insertion or other errors
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
         // do nothing else for now
       });
@@ -337,8 +338,18 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.lastName = ? WHERE user.userID = ?;", [req.body.lastName, targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
+        }
+      });
+    }
+    if (req.body.gender && req.body.gender.length > 0) {
+      updated = true;
+      connection.query("UPDATE user SET user.gender = ? WHERE user.userID = ?;", [req.body.gender.toLowerCase(), targetUser], function(err, rows, fields) {
+        if (err) {
+          console.log(err);
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -348,8 +359,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.phoneNumber = ? WHERE user.userID = ?;", [req.body.phoneNumber, targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -359,8 +370,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.email = ? WHERE user.userID = ?;", [req.body.email.toLowerCase(), targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -369,8 +380,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.DOB = ? WHERE user.userID = ?;", [req.body.DOB, targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -379,8 +390,28 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.associatedVenue = ? WHERE user.userID = ?;", [req.body.associatedVenue.toLowerCase(), targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
+        }
+      });
+    }
+    if (req.body.userID && req.body.userID.length >= 6 && req.session.usermode === 'admin') {
+      updated = true;
+      connection.query("UPDATE user SET user.userID = ? WHERE user.userID = ?;", [req.body.userID.toLowerCase(), targetUser], function(err, rows, fields) {
+        if (err) {
+          console.log(err);
+          // res.sendStatus(520);
+          // return;
+        }
+      });
+    }
+    if (req.body.usermode && (req.body.usermode.toLowerCase() === 'user' || req.body.usermode.toLowerCase() === 'manager' || req.body.usermode.toLowerCase() === 'admin') && req.session.usermode === 'admin' && targetUser !== req.session.userID) {
+      updated = true;
+      connection.query("UPDATE user SET user.usermode = ? WHERE user.userID = ?;", [req.body.usermode.toLowerCase(), targetUser], function(err, rows, fields) {
+        if (err) {
+          console.log(err);
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -389,8 +420,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.allowGoogleLogin = ? WHERE user.userID = ?;", [req.body.allowGoogleLogin.toLowerCase(), targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -401,8 +432,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.password = ? WHERE user.userID = ?;", [hashedPassword, targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -410,8 +441,8 @@ app.post('/Action/UpdateUser', function(req, res, next) {
       connection.query("UPDATE user SET user.updateTimestamp = current_timestamp() WHERE user.userID = ?;", [targetUser], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -477,8 +508,8 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
         if (err) {
           console.log(err);
           // 520 unknown error; failing at insertion or other errors
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
         // do nothing else for now
       });
@@ -489,20 +520,19 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.phoneNumber = ? WHERE venue.venueID = ?;", [req.body.phoneNumber, targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
     // NEED TO add verification for changing email
-    const emailRegExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,24}))$");
     if (req.body.email && emailRegExp.test(req.body.email)) {
       updated = true;
       connection.query("UPDATE venue SET venue.email = ? WHERE venue.venueID = ?;", [req.body.email.toLowerCase(), targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -511,8 +541,18 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.associatedManager = ? WHERE venue.venueID = ?;", [req.body.associatedManager.toLowerCase(), targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
+        }
+      });
+    }
+    if (req.body.venueID && req.body.venueID.length >= 6 && req.session.usermode === 'admin') {
+      updated = true;
+      connection.query("UPDATE venue SET venue.venueID = ? WHERE venue.venueID = ?;", [req.body.venueID.toLowerCase(), targetVenue], function(err, rows, fields) {
+        if (err) {
+          console.log(err);
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -521,8 +561,8 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.latitude = ? WHERE venue.venueID = ?;", [req.body.latitude, targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -531,8 +571,8 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.longitude = ? WHERE venue.venueID = ?;", [req.body.longitude, targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -541,8 +581,8 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.radius = ? WHERE venue.venueID = ?;", [req.body.radius, targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -550,8 +590,8 @@ app.post('/Action/UpdateVenueObject', function(req, res, next) {
       connection.query("UPDATE venue SET venue.updateTimestamp = current_timestamp() WHERE venue.venueID = ?;", [targetVenue], function(err, rows, fields) {
         if (err) {
           console.log(err);
-          res.sendStatus(520);
-          return;
+          // res.sendStatus(520);
+          // return;
         }
       });
     }
@@ -590,7 +630,7 @@ app.post('/Action/CreateVenueObject', function(req, res, next) {
     }
     var queryString;
     queryString = "INSERT INTO `venue` (`venueID`, `name`, `phoneNumber`, `email`, `associatedManager`, `latitude`, `longitude`, `radius`, `createdBy`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    connection.query(queryString, [newVenueID, (req.body.name && req.body.name.length > 0)? req.body.name : null, (req.body.phoneNumber && req.body.phoneNumber.length > 0)? req.body.phoneNumber : null, (req.body.email && req.body.email.length > 0)? req.body.email.toLowerCase() : null, (req.body.associatedManager && req.body.associatedManager.length > 0)? req.body.associatedManager.toLowerCase() : null, req.body.latitude, req.body.longitude, req.body.radius, req.session.userID], function(err, rows, fields) {
+    connection.query(queryString, [newVenueID, (req.body.name && req.body.name.length > 0)? req.body.name : null, (req.body.phoneNumber && !isNaN(req.body.phoneNumber))? req.body.phoneNumber : null, (req.body.email && emailRegExp.test(req.body.email))? req.body.email.toLowerCase() : null, (req.body.associatedManager && req.body.associatedManager.length > 0)? req.body.associatedManager.toLowerCase() : null, req.body.latitude, req.body.longitude, req.body.radius, req.session.userID], function(err, rows, fields) {
       connection.release();
       if (err) {
         console.log(err);
@@ -607,7 +647,7 @@ app.get('/Action/CheckIn', function(req, res, next) {
   // takes json object with STRING values
   // if not logged in
   if (!req.session.loggedIn) {
-    res.sendStatus(401);
+    res.redirect(401, '/Auth/Login')
     return;
   }
   // if missing really mandatory fields
@@ -632,10 +672,10 @@ app.get('/Action/CheckIn', function(req, res, next) {
       if (err) {
         console.log(err);
         // 520 unknown error; failing at insertion or other errors
-        res.sendStatus(520);
+        res.redirect(520, '/')
         return;
       }
-      res.sendStatus(200);
+      res.redirect(200, '/')
     });
   })
 });
@@ -667,9 +707,9 @@ app.post('/Action/CreateRegistrationCode', function(req, res, next) {
       return;
     }
     var queryString;
-    queryString = "INSERT INTO `registrationCode` (`code`, `createdBy`, `usermode`) VALUES (?, ?, ?);";
+    queryString = "INSERT INTO `registrationCode` (`code`, `createdBy`, `usermode`, `validityStart`, `validityEnd`, `remainingUsage`) VALUES (?, ?, ?, ?, ?, ?);";
     // NEED to check for and insert validity timestamps as well
-    connection.query(queryString, [newCode, req.session.userID, req.query.usermode.toLowerCase()], function(err, rows, fields) {
+    connection.query(queryString, [newCode, req.session.userID, req.query.usermode.toLowerCase(), (req.body.validityStart && req.body.validityStart.length > 0)? req.body.validityStart : null, (req.body.validityEnd && req.body.validityEnd.length > 0)? req.body.validityEnd : null, (req.body.remainingUsage && !isNaN(req.body.remainingUsage) && parseInt(req.body.remainingUsage) > 0)? req.body.remainingUsage : null], function(err, rows, fields) {
       connection.release();
       if (err) {
         console.log(err);
@@ -700,9 +740,9 @@ app.post('/Action/CreateHotspotTimeframe', function(req, res, next) {
       return;
     }
     var queryString;
-    queryString = "INSERT INTO `hotspotTimeframe` (`venue`, `affectedUsers`, `createdBy`) VALUES (?, ?, ?);";
+    queryString = "INSERT INTO `hotspotTimeframe` (`venue`, `affectedUsers`, `createdBy`, `startTime`, `endTime`) VALUES (?, ?, ?, ?, ?);";
     // NEED to check for and insert starting and ending timestamps as well
-    connection.query(queryString, [req.body.venue.toLowerCase(), (!isNaN(req.body.affectedUsers) && parseInt(req.body.affectedUsers) >= 0)? req.body.affectedUsers : null, req.session.userID], function(err, rows, fields) {
+    connection.query(queryString, [req.body.venue.toLowerCase(), (!isNaN(req.body.affectedUsers) && parseInt(req.body.affectedUsers) >= 0)? req.body.affectedUsers : null, req.session.userID, (req.body.startTime && req.body.startTime.length > 0)? req.body.startTime : null, (req.body.endTime && req.body.endTime.length > 0)? req.body.endTime : null], function(err, rows, fields) {
       // not releasing
       if (err) {
         console.log(err);
@@ -713,8 +753,8 @@ app.post('/Action/CreateHotspotTimeframe', function(req, res, next) {
       // do nothing for now
     });
     // TEMPORARY solution, need to get timeframe working
-    var queryString2 = queryString = "UPDATE `venue` SET venue.isHotspot = 'yes' WHERE venue.venueID = ?;";
-    connection.query(queryString, [req.body.venue.toLowerCase()], function(err, rows, fields) {
+    var queryString2 = "UPDATE `venue` SET venue.isHotspot = 'yes' WHERE venue.venueID = ?;";
+    connection.query(queryString2, [req.body.venue.toLowerCase()], function(err, rows, fields) {
       if (err) {
         console.log(err);
         // 520 unknown error; failing at insertion or other errors
@@ -892,7 +932,7 @@ app.get('/Action/GoogleAuth',
     passport.authenticate('google', { scope : ['profile', 'email'] }));
 app.get('/Action/GoogleAuth/Failure',
     function(req, res) {
-      res.sendStatus(401);
+      res.redirect(401, '/Auth/Login');
     })
 app.get('/Action/GoogleAuth/Callback',
     // redirect to error on failure
@@ -936,7 +976,7 @@ app.get('/Action/GoogleAuth/Callback',
                 res.redirect('/Admin/Home');
               }
             } else {
-              res.sendStatus(401);
+              res.redirect(401, '/Auth/Login');
             }
           });
         } else {

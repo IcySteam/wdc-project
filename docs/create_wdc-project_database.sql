@@ -38,7 +38,7 @@ CREATE TABLE `user` (
   `updateTimestamp` timestamp, -- need to manually update with queries
   `usermode` varchar(255) NOT NULL,
   `associatedVenue` varchar(255),  -- null for not associated
-  `recentlyBeenToHotspot` varchar(255) DEFAULT 'no',
+  `recentlyBeenToHotspot` varchar(255) DEFAULT 'no', -- periodically updated by backend
   `allowGoogleLogin` varchar(255) NOT NULL DEFAULT 'no'
 );
 
@@ -71,7 +71,7 @@ CREATE TABLE `venue` (
   `creationTimestamp` timestamp DEFAULT current_timestamp(),
   `updateTimestamp` timestamp,
   `associatedManager` varchar(255), -- null for not associated
-  `isHotspot` varchar(255) DEFAULT 'no',
+  `isHotspot` varchar(255) DEFAULT 'no', -- periodically updated by backend
   `latitude` float NOT NULL,
   `longitude` float NOT NULL,
   `radius` float NOT NULL
@@ -107,7 +107,7 @@ CREATE TABLE `hotspotTimeframe` (
   -- `endTime` timestamp,
   `startTime` timestamp,
   `endTime` timestamp,
-  `affectedUsers` int DEFAULT 0
+  `affectedUsers` int DEFAULT 0 -- very hairy query to calculate this
 );
 
 CREATE TABLE `registrationCode` (
@@ -120,6 +120,7 @@ CREATE TABLE `registrationCode` (
   -- `validityEnd` timestamp NOT NULL,
   `validityStart` timestamp,
   `validityEnd` timestamp,
+  `remainingUsage` int DEFAULT 1,
   `usermode` varchar(255) NOT NULL
 );
 
@@ -166,6 +167,7 @@ ALTER TABLE `user` ADD CHECK ((`allowGoogleLogin`) = (lower(`allowGoogleLogin`))
 
 ALTER TABLE `registrationCode` ADD CHECK ((`usermode`) = (lower(`usermode`)));
 ALTER TABLE `registrationCode` ADD CHECK (`validityEnd` >= `validityStart`);
+ALTER TABLE `registrationCode` ADD CHECK (`remainingUsage` >= 0);
 
 ALTER TABLE `venue` ADD CHECK ((`venueID`) = (lower(`venueID`)));
 ALTER TABLE `venue` ADD CHECK ((`email`) = (lower(`email`)));

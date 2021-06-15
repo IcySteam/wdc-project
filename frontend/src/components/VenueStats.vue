@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1 id="h1ID" class="h1Class pb-10">{{ venueName }}</h1>
+    <h1 id="h1ID" class="h1Class pb-10">{{ associatedVenueObject.name }}</h1>
     <v-row>
       <Gmap id="Gmap" />
     </v-row>
@@ -84,8 +84,8 @@ export default {
   components: { Gmap, ConsistentMP },
   data() {
     return {
+      associatedVenueObject: {},
       currentUserObject: {},
-      venueName: 'The University of Adelaide',
       checkInHistorySearch: '',
       checkInHistoryHeaders: [
         {
@@ -160,8 +160,8 @@ export default {
   },
   created() {
     this.currentUserAxios()
-    // timeout quick and dirty solution to async
-    setTimeout(this.checkInTimelineAxios, 3000)
+    this.getVenueAxios()
+    this.checkInTimelineAxios()
   },
   destroyed() {
   },
@@ -199,6 +199,7 @@ export default {
               // got an ok response
               // console.log(res1)
               this.currentUserObject = res1.data
+              // extra helper attribs
               this.currentUserObject.fullName = this.currentUserObject.firstName + ' ' + this.currentUserObject.lastName
               this.currentUserObject.initials = this.currentUserObject.firstName[0] + this.currentUserObject.lastName[0]
             })
@@ -218,38 +219,123 @@ export default {
           }
         })
     },
-    checkInTimelineAxios() {
-      const targetVenue = this.currentUserObject.associatedVenue
-      // get venue check-in timeline
+
+    getVenueAxios() {
+      // get session status first
+      var currentSessionStatus
       axios({
-        url: '/Action/GetVenueCheckInHistory',
+        url: '/Action/GetSessionStatus',
         method: 'get',
         timeout: 8000,
         headers: {
           'Content-Type': 'application/json'
         },
         params: {
-          'venueID': targetVenue
         }
       })
-        .then((res1) => {
+        .then((res) => {
           // got an ok response
-          // console.log(res1)
-          for (let i = 0; i < res1.data.length; ++i) {
-            this.checkInHistoryItems.push({
-              userID: res1.data[i].userID,
-              fullName: res1.data[i].fullName,
-              recentlyBeenToHotspot: res1.data[i].recentlyBeenToHotspot,
-              id: res1.data[i].id,
-              timestamp: res1.data[i].time
+          // console.log(res)
+          currentSessionStatus = res.data
+          // get venue object, NESTED axios request
+          axios({
+            url: '/Action/GetVenueObject',
+            method: 'get',
+            timeout: 8000,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            params: {
+              'venueID': currentSessionStatus.associatedVenue
+            }
+          })
+            .then((res1) => {
+              // got an ok response
+              // console.log(res1)
+              this.associatedVenueObject = res1.data
+              for (const [key, value] of Object.entries(res1.data)) {
+                // console.log(`${key}: ${value}`)
+                const newEntry = {}
+                newEntry.name = key
+                newEntry.value = value
+                newEntry.updated = res1.data.updateTimestamp
+                // foo to look better
+                // newEntry.updated = res1.data.creationTimestamp
+                this.venueDetailItems.push(newEntry)
+              }
             })
+            .catch((err1) => {
+              // encountered error making request/error response
+              console.log(err1)
+              if (err1.response) {
+                console.log(err1.response)
+              }
+            })
+        })
+        .catch((err) => {
+          // encountered error making request/error response
+          console.log(err)
+          if (err.response) {
+            console.log(err.response)
           }
         })
-        .catch((err1) => {
+    },
+
+    checkInTimelineAxios() {
+      // get session status first
+      var currentSessionStatus
+      axios({
+        url: '/Action/GetSessionStatus',
+        method: 'get',
+        timeout: 8000,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        params: {
+        }
+      })
+        .then((res) => {
+          // got an ok response
+          // console.log(res)
+          currentSessionStatus = res.data
+          // get venue object, NESTED axios request
+          axios({
+            url: '/Action/GetVenueCheckInHistory',
+            method: 'get',
+            timeout: 8000,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            params: {
+              'venueID': currentSessionStatus.associatedVenue
+            }
+          })
+            .then((res1) => {
+              // got an ok response
+              // console.log(res1)
+              for (let i = 0; i < res1.data.length; ++i) {
+                this.checkInHistoryItems.push({
+                  userID: res1.data[i].userID,
+                  fullName: res1.data[i].fullName,
+                  recentlyBeenToHotspot: res1.data[i].recentlyBeenToHotspot,
+                  id: res1.data[i].id,
+                  timestamp: res1.data[i].time
+                })
+              }
+            })
+            .catch((err1) => {
+              // encountered error making request/error response
+              console.log(err1)
+              if (err1.response) {
+                console.log(err1.response)
+              }
+            })
+        })
+        .catch((err) => {
           // encountered error making request/error response
-          console.log(err1)
-          if (err1.response) {
-            console.log(err1.response)
+          console.log(err)
+          if (err.response) {
+            console.log(err.response)
           }
         })
     }
