@@ -175,8 +175,8 @@
               </v-dialog>
               <v-dialog v-model="DelDialog" max-width="500px">
                 <v-card>
-                  <v-card-title class="text-h5">Confirm Action</v-card-title>
-                  <v-card-text>Remove this venue from hotspots?</v-card-text>
+                  <v-card-title class="text-h5">Confirm action</v-card-title>
+                  <v-card-text>Remove this hotspot timeline?</v-card-text>
                   <v-card-actions>
                     <v-spacer />
                     <v-btn color="teal accent-3" text @click="close">Cancel</v-btn>

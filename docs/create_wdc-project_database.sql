@@ -107,7 +107,7 @@ CREATE TABLE `hotspotTimeframe` (
   -- `endTime` timestamp,
   `startTime` timestamp,
   `endTime` timestamp,
-  `affectedUsers` int DEFAULT 0
+  `affectedUsers` int DEFAULT 0 -- very hairy query to calculate this
 );
 
 CREATE TABLE `registrationCode` (

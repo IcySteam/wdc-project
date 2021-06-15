@@ -441,9 +441,9 @@ export default {
                 const newEntry = {}
                 newEntry.name = key
                 newEntry.value = value
-                // newEntry.updated = this.currentUserObject.updatedTimestamp
+                newEntry.updated = this.currentUserObject.updateTimestamp
                 // foo to look better
-                newEntry.updated = this.currentUserObject.creationTimestamp
+                // newEntry.updated = this.currentUserObject.creationTimestamp
                 this.accountDetailItems.push(newEntry)
               }
               // extra helper attribs

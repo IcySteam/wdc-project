@@ -450,10 +450,11 @@ export default {
                 // console.log(`${key}: ${value}`)
                 const newEntry = {}
                 newEntry.name = key
+                // updating numeric values in POST doesn't work because js and its no type shit
                 newEntry.value = value
-                // newEntry.updated = this.currentUserObject.updatedTimestamp
+                newEntry.updated = this.currentUserObject.updateTimestamp
                 // foo to look better
-                newEntry.updated = this.currentUserObject.creationTimestamp
+                // newEntry.updated = this.currentUserObject.creationTimestamp
                 this.accountDetailItems.push(newEntry)
               }
               // extra helper attribs

@@ -565,8 +565,7 @@ export default {
   created() {
     this.initialize()
     this.currentUserAxios()
-    // timeout quick and dirty solution to async
-    setTimeout(this.getVenueAxios, 2500)
+    this.getVenueAxios()
   },
   destroyed() {
   },
@@ -815,9 +814,9 @@ export default {
                 const newEntry = {}
                 newEntry.name = key
                 newEntry.value = value
-                // newEntry.updated = this.currentUserObject.updatedTimestamp
+                newEntry.updated = this.currentUserObject.updateTimestamp
                 // foo to look better
-                newEntry.updated = this.currentUserObject.creationTimestamp
+                // newEntry.updated = this.currentUserObject.creationTimestamp
                 this.accountDetailItems.push(newEntry)
               }
               // extra helper attribs
@@ -842,39 +841,63 @@ export default {
     },
 
     getVenueAxios() {
-      const targetVenue = this.currentUserObject.associatedVenue
-      // get venue object
+      // get session status first
+      var currentSessionStatus
       axios({
-        url: '/Action/GetVenueObject',
+        url: '/Action/GetSessionStatus',
         method: 'get',
         timeout: 8000,
         headers: {
           'Content-Type': 'application/json'
         },
         params: {
-          'venueID': targetVenue
         }
       })
-        .then((res1) => {
+        .then((res) => {
           // got an ok response
-          // console.log(res1)
-          this.associatedVenueObject = res1.data
-          for (const [key, value] of Object.entries(res1.data)) {
-            // console.log(`${key}: ${value}`)
-            const newEntry = {}
-            newEntry.name = key
-            newEntry.value = value
-            // newEntry.updated = res1.data.updatedTimestamp
-            // foo to look better
-            newEntry.updated = res1.data.creationTimestamp
-            this.venueDetailItems.push(newEntry)
-          }
+          // console.log(res)
+          currentSessionStatus = res.data
+          // get venue object, NESTED axios request
+          axios({
+            url: '/Action/GetVenueObject',
+            method: 'get',
+            timeout: 8000,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            params: {
+              'venueID': currentSessionStatus.associatedVenue
+            }
+          })
+            .then((res1) => {
+              // got an ok response
+              // console.log(res1)
+              this.associatedVenueObject = res1.data
+              for (const [key, value] of Object.entries(res1.data)) {
+                // console.log(`${key}: ${value}`)
+                const newEntry = {}
+                newEntry.name = key
+                // updating numeric values in POST doesn't work because js and its no type shit
+                newEntry.value = value
+                newEntry.updated = res1.data.updateTimestamp
+                // foo to look better
+                // newEntry.updated = res1.data.creationTimestamp
+                this.venueDetailItems.push(newEntry)
+              }
+            })
+            .catch((err1) => {
+              // encountered error making request/error response
+              console.log(err1)
+              if (err1.response) {
+                console.log(err1.response)
+              }
+            })
         })
-        .catch((err1) => {
+        .catch((err) => {
           // encountered error making request/error response
-          console.log(err1)
-          if (err1.response) {
-            console.log(err1.response)
+          console.log(err)
+          if (err.response) {
+            console.log(err.response)
           }
         })
     }
