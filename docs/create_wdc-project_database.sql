@@ -93,7 +93,9 @@ CREATE TABLE `checkIn` (
   `user` varchar(255) NOT NULL,
   `venue` varchar(255) NOT NULL,
   `time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `codeUsed` varchar(255)
+  `codeUsed` varchar(255),
+  `latitude` float NOT NULL,
+  `longitude` float NOT NULL
 );
 
 CREATE TABLE `hotspotTimeframe` (
