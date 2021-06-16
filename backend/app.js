@@ -655,8 +655,9 @@ app.get('/Action/CheckIn', function(req, res, next) {
     res.sendStatus(400);
     return;
   }
-
   var checkInCode = req.query.checkInCode.toLowerCase();
+  var checkInLatitude;
+  var checkInLongitude;
 
   req.pool.getConnection(function(err, connection) {
     if (err) {
@@ -665,17 +666,33 @@ app.get('/Action/CheckIn', function(req, res, next) {
       return;
     }
     var queryString;
-    // should separate venue and codeUsed and check for validity but OUT OF TIME
-    queryString = "INSERT INTO `checkIn` (`user`, `venue`, `codeUsed`) VALUES (?, ?, ?);";
-    connection.query(queryString, [req.session.userID, checkInCode, checkInCode], function(err, rows, fields) {
-      connection.release();
+    // check-in code same as venueID; temporary solution
+    queryString = "SELECT venue.latitude, venue.longitude FROM venue WHERE venue.venueID = ?;";
+    connection.query(queryString, [checkInCode], function(err, rows, fields) {
+      // do not release
       if (err) {
         console.log(err);
-        // 520 unknown error; failing at insertion or other errors
-        res.redirect(520, '/')
+        res.sendStatus(500);
         return;
       }
-      res.redirect(200, '/')
+
+      // if ok, proceed to next nested query
+      checkInLatitude = rows[0].latitude;
+      checkInLongitude = rows[0].longitude;
+      var queryString1;
+      // should separate venue and codeUsed and check for validity but OUT OF TIME
+      queryString1 = "INSERT INTO `checkIn` (`user`, `venue`, `codeUsed`, `latitude`, `longitude`) VALUES (?, ?, ?, ?, ?);";
+      connection.query(queryString1, [req.session.userID, checkInCode, checkInCode, checkInLatitude, checkInLongitude], function(err1, rows1, fields1) {
+        // finally release
+        connection.release();
+        if (err1) {
+          console.log(err1);
+          // 520 unknown error; failing at insertion or other errors
+          res.redirect(520, '/')
+          return;
+        }
+        res.redirect(200, '/')
+      });
     });
   })
 });
@@ -818,7 +835,7 @@ app.get('/Action/GetUserCheckInHistory', function(req, res) {
       return;
     }
     //query
-    var query = "SELECT venue.venueID, venue.name, checkIn.time, checkIn.id FROM venue INNER JOIN checkIn ON venue.venueID = checkIn.venue WHERE checkIn.user = ?;";
+    var query = "SELECT venue.venueID, venue.name, checkIn.time, checkIn.id, venue.latitude, venue.longitude FROM venue INNER JOIN checkIn ON venue.venueID = checkIn.venue WHERE checkIn.user = ?;";
     connection.query(query, [targetUser], function(err, rows, fields) {
       connection.release(); // release connection
       if (err) {
@@ -907,7 +924,7 @@ app.get('/Action/GetCurrentHotspots', function(req, res) {
       return;
     }
     //query
-    var query = "SELECT venue.venueID, venue.name, venue.latitude, venue.longitude, hotspotTimeframe.affectedUsers, hotspotTimeframe.startTime, hotspotTimeframe.endTime FROM venue INNER JOIN hotspotTimeframe ON hotspotTimeframe.venue=venue.venueID WHERE hotspotTimeframe.endTime >= now() OR hotspotTimeframe.endTime = null;";
+    var query = "SELECT venue.venueID, venue.name, venue.latitude, venue.longitude, venue.radius, hotspotTimeframe.affectedUsers, hotspotTimeframe.startTime, hotspotTimeframe.endTime FROM venue INNER JOIN hotspotTimeframe ON hotspotTimeframe.venue=venue.venueID WHERE hotspotTimeframe.endTime >= now() OR hotspotTimeframe.endTime = null;";
     connection.query(query, function(err, rows, fields) {
       connection.release(); // release connection
       if (err) {

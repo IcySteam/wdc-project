@@ -25,10 +25,10 @@ UPDATE `venue` SET venue.associatedManager = 'test02' WHERE venue.venueID = 'ven
 UPDATE `venue` SET venue.associatedManager = 'manager01' WHERE venue.venueID = 'venue02';
 UPDATE `venue` SET venue.associatedManager = 'manager02' WHERE venue.venueID = 'venue03';
 
-INSERT INTO `checkIn` (`user`, `venue`, `time`) VALUES ('user01', 'venue01', timestamp("2020-07-23",  "13:10:11"));
-INSERT INTO `checkIn` (`user`, `venue`, `time`) VALUES ('user01', 'venue02', timestamp("2020-07-24",  "14:10:11"));
-INSERT INTO `checkIn` (`user`, `venue`, `time`) VALUES ('user02', 'venue01', timestamp("2020-07-25",  "15:10:11"));
-INSERT INTO `checkIn` (`user`, `venue`, `time`) VALUES ('user02', 'venue02', timestamp("2020-07-26",  "16:10:11"));
+INSERT INTO `checkIn` (`user`, `venue`, `time`, `latitude`, `longitude`) VALUES ('user01', 'venue01', timestamp("2020-07-23",  "13:10:11"), -34.9295, 138.5973);
+INSERT INTO `checkIn` (`user`, `venue`, `time`, `latitude`, `longitude`) VALUES ('user01', 'venue02', timestamp("2020-07-24",  "14:10:11"), -34.9174, 138.6100);
+INSERT INTO `checkIn` (`user`, `venue`, `time`, `latitude`, `longitude`) VALUES ('user02', 'venue01', timestamp("2020-07-25",  "15:10:11"), -34.9295, 138.5973);
+INSERT INTO `checkIn` (`user`, `venue`, `time`, `latitude`, `longitude`) VALUES ('user02', 'venue02', timestamp("2020-07-26",  "16:10:11"), -34.9174, 138.6100);
 
 INSERT INTO `hotspotTimeframe` (`venue`, `startTime`, `endTime`, `affectedUsers`) VALUES ('venue01', timestamp("2019-12-03",  "16:10:11"), timestamp("2029-07-28",  "17:30:22"), 10);
 INSERT INTO `hotspotTimeframe` (`venue`, `startTime`, `endTime`, `affectedUsers`) VALUES ('venue02', timestamp("2020-01-03",  "16:10:12"), timestamp("2030-08-28",  "17:30:23"), 12);
